@@ -4,6 +4,8 @@ if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	end
 end">
 	<children>
+<ActorFrame InitCommand="%EvaluationInit" FirstUpdateCommand="%Evaluation" />
+
 <Layer Type="Quad"
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation'); end"
 />
@@ -98,29 +100,25 @@ GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:drawor
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
-				GoCommand="%function(self)
-				self:x(-112);
-				self:y(248);
-				self:zoom(0.6);
-				self:shadowlength(0);
-				self:horizalign('Right');
-					self:settext('Total PlayTime');
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Go');
+				InitCommand="@'diffuse,'..LabelColor()"
+				OnCommand="%function(self)
+					self:x(-112);
+					self:y(248);
+					self:zoom(0.6);
+					self:shadowlength(0);
+					self:horizalign('Right');
+					self:settext('Total PlayTime');	
+					self:queuecommand('Blink');
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
 			/>
 	<!--Total PlayTime Variables-->
 			<BitmapText
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
-				UpdateCommand="%function(self)
-				self:stoptweening();
+				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				OnCommand="%function(self)
 				if gnPlaySec == nil then
 					gnPlaySec = 0;
 					gnPlayMin = 0;
@@ -152,22 +150,18 @@ GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:drawor
 					end
 					
 				self:settext(gnPlayHourText..':'..gnPlayMinText..':'..gnPlaySecText);
-
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Update');
+				self:queuecommand('Blink');
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
+				
 			/>
 	<!--Song Count-->
 			<BitmapText
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
-				UpdateCommand="%function(self)
-				self:stoptweening();
+				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				OnCommand="%function(self)
 				if gnSongCount == nil then
 					gnSongCount = 0;
 					end
@@ -176,14 +170,10 @@ GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:drawor
 					self:settext('('..gnSongCount..' Song)');
 					else
 					self:settext('('..gnSongCount..' Songs)');
-					end
-
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Update');
+					end	
+				self:queuecommand('Blink');
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
 			/>
 			</children>
 		</ActorFrame>
@@ -206,18 +196,14 @@ GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:drawor
 	if gnStamina ~= '' then
 		gnStamina = ', '..gnStamina..' Stamina'
 		end
-	gnFGmod = '';
-	if FGmod > 0.05 and FGmod < 0.15 then gnFGmod = ', Shake FG' end
-	if FGmod > 0.15 and FGmod < 0.25 then gnFGmod = ', Phase FG' end
-	if FGmod > 0.25 and FGmod < 0.35 then gnFGmod = ', Misty FG' end
-	if FGmod > 0.35 and FGmod < 0.45 then gnFGmod = ', Nyan Cat FG' end
-	if FGmod > 0.45 and FGmod < 0.55 then gnFGmod = ', Popcorn FG' end
+	FGmod = '';
+	if gnFGMod ~= 'Off' then FGmod = ', '..gnFGMod..' FG' end
 	if hideBGp1 == 0 then
 		hideBGp1 = '';
 		else
 		hideBGp1 = ', '..hideBGp1..'% Hide BG'
 		end
-	gnModTrim = gnModTrim..gnStamina..gnFGmod..hideBGp1
+	gnModTrim = gnModTrim..gnStamina..FGmod..hideBGp1
 	gnStamina = string.gsub(gnStamina,', ','')
 	gnStamina = string.gsub(gnStamina,'Stamina','')
 	self:settext(gnModTrim);
@@ -242,18 +228,14 @@ GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:drawor
 	if gnStamina ~= '' then
 		gnStamina = ', '..gnStamina..' Stamina'
 		end
-	gnFGmod = '';
-	if FGmod > 0.05 and FGmod < 0.15 then gnFGmod = ', Shake FG' end
-	if FGmod > 0.15 and FGmod < 0.25 then gnFGmod = ', Phase FG' end
-	if FGmod > 0.25 and FGmod < 0.35 then gnFGmod = ', Misty FG' end
-	if FGmod > 0.35 and FGmod < 0.45 then gnFGmod = ', Nyan Cat FG' end
-	if FGmod > 0.45 and FGmod < 0.55 then gnFGmod = ', Popcorn FG' end
+	FGmod = '';
+	if gnFGMod ~= 'Off' then FGmod = ', '..gnFGMod..' FG' end
 	if hideBGp2 == 0 then
 		hideBGp2 = '';
 		else
 		hideBGp2 = ', '..hideBGp2..'% Hide BG'
 		end
-	gnModTrim = gnModTrim..gnStamina..gnFGmod..hideBGp2
+	gnModTrim = gnModTrim..gnStamina..FGmod..hideBGp2
 	gnStamina = string.gsub(gnStamina,', ','')
 	gnStamina = string.gsub(gnStamina,'Stamina','')
 	self:settext(gnModTrim);
@@ -705,7 +687,7 @@ end"><children>
 	/>
 
 <!--EXP Bars-->
-<ActorFrame InitCommand="zoomx,1.385;x,-43;y,0;"><children>	
+<ActorFrame InitCommand="%function(self) self:zoomx(1.385); self:x(-75+ScreenEvaluationDoubleShift(PLAYER_1)); self:y(0) end"><children>	
 <Layer File="../Graphics/expBar"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 	InitCommand="%function(self)
@@ -718,9 +700,6 @@ end"><children>
 	self:shadowlength(0);
 	if gnLevelP1 == '[Disabled]' then
 		self:hidden(1);
-		else
-		self:sleep(0.1);
-		self:queuecommand('Init');
 		end
 	end"
 	/>
@@ -1563,9 +1542,12 @@ end"><children>
 	end"
 	/>
 </children></ActorFrame>	
-	
+
+
 	</children>
-</ActorFrame>
+</ActorFrame>	
+	<Layer File="OffsetPlot" />	
+
 <!--Screen Transition-->
 	<Layer Type="Quad" InitCommand="diffusealpha,0;" ScreenTransitionMessageCommand="%function(self) ScreenTransitionWhoosh('in'); end" />
 	
@@ -1600,6 +1582,8 @@ end"><children>
 	ScreenTransitionMessageCommand="accelerate,0.2;diffusealpha,1;y,SCREEN_CENTER_Y+65;"
 	MenuBackMessageCommand="hidden,1;"
 	/>
-	
+
+
+
 	</children>
 </ActorFrame>

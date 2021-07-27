@@ -1,15 +1,15 @@
-<ActorFrame InitCommand="%function(self)
+F<ActorFrame InitCommand="%function(self)
 			if GAMESTATE:GetEnv('Vibrate') == 'On' then
 				self:vibrate();
 				end
 			end"> <children>
 <Layer Type="Quad"
-OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions'); end"
+	OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions'); gnWasInOptions = gnWasInOptions + 1; end"
 />
 
 	
 
-		<ActorFrame InitCommand="x,409;y,222;">
+		<ActorFrame InitCommand="x,SCREEN_CENTER_X+89;y,SCREEN_CENTER_Y-18;">
 			<children>
 	<!--Total PlayTime-->
 			<BitmapText
@@ -193,7 +193,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions
 		
 		
 		
-<ActorFrame InitCommand="x,444;y,222;"><children>		
+<ActorFrame InitCommand="x,SCREEN_CENTER_X+124;y,SCREEN_CENTER_Y-18;"><children>		
 <ActorFrame InitCommand="x,-219;y,128;">
 <children>
 	<Layer File="../../Graphics/PaneDisplay p1 B.png"

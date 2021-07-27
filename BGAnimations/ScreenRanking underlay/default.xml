@@ -1,0 +1,12 @@
+<ActorFrame><children>
+    <Layer
+        Type="Quad"
+        InitCommand="@'zoomto,SCREEN_WIDTH,2;diffuse,'..FrameColor()..''"
+        OnCommand=x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-186
+    />
+    <Layer
+        Type="Quad"
+        InitCommand="@'zoomto,SCREEN_WIDTH,2;diffuse,'..FrameColor()..''"
+        OnCommand=x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+190
+    />    
+</children><ActorFrame>

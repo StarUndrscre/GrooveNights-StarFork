@@ -1,9 +1,6 @@
 -- For tracking applied mods
 local AppliedModsTable = {}
 
--- For resetting mods
-local WasInOptions = {}
-
 -- Holds the mods
 local ModsTable = {}
 local ModGroups = {}
@@ -15,9 +12,7 @@ function RegisterCustomMod(Name, fn, Params, Choices)
 
     if not AppliedModsTable[PLAYER_1] then AppliedModsTable[PLAYER_1] = {} end
     if not AppliedModsTable[PLAYER_2] then AppliedModsTable[PLAYER_2] = {} end
-    
-	WasInOptions[Name] = false
-	
+
     NullMod(Name)
 end
 
@@ -53,10 +48,8 @@ function CustomModOptionRow(Name)
     local Params = ModsTable[Name].Params
 
     Params.LoadCallback = function(List, Value, pn)
-                           WasInOptions[Name] = true
-
                            -- If this is the first round, reset the skin as it may still be set from earlier
-                           if GAMESTATE:StageIndex() == 0 then NullMod(Name) end
+                           if GAMESTATE:StageIndex() == 0 and gnWasInOptions <= 1 then NullMod(Name) end
                            if Params.SelectType ~= "SelectMultiple" then return AppliedModsTable[pn][Name] == Value  end
                            if Params.SelectType == "SelectMultiple" then return AppliedModsTable[pn][Name][Value] end
                           end
@@ -71,8 +64,7 @@ end
 
 function DoCustomMod(Name, pn, Params)
     --if this is the first stage and the user was NOT in the options, reset the mod to default
-    if GAMESTATE:StageIndex() == 0 and not WasInOptions[Name] then NullMod(Name) end
-    WasInOptions[Name] = false
+    if GAMESTATE:StageIndex() == 0 and gnWasInOptions == 0 then NullMod(Name) end
 
     Params.Value = AppliedModsTable[pn][Name]
     ModsTable[Name].Callback(Params)

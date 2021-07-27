@@ -1,11 +1,15 @@
-<ActorFrame InitCommand="%function(self) 
-self:queuecommand('KillBPM');
-if GAMESTATE:GetEnv('Vibrate') == 'On' then
-	self:vibrate();
+<ActorFrame InitCommand="%function(self)
+	if GAMESTATE:IsHumanPlayer(PLAYER_1) then
+ 		DoCustomMod('Foreground', PLAYER_1, {} )
+	else
+		DoCustomMod('Foreground', PLAYER_2, {} )
 	end
+	if GAMESTATE:GetEnv('Vibrate') == 'On' then
+		self:vibrate();
+	end
+	self:queuecommand('Ready')
 end"
-KillBPMCommand="%function(self)
-SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):addy(-10000);
+ReadyCommand="%function(self)
 			if gnZoomRatio > 1 then
 				if GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides() then
 					SCREENMAN:GetTopScreen():GetChild('PlayerP1'):addx(0-CourseHorizontal()/1.5);
@@ -68,8 +72,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
-				GoCommand="%function(self)
+				InitCommand="@'diffuse,'..LabelColor()"
+				OnCommand="%function(self)
 				self:x(-112);
 				self:y(248);
 				self:zoom(0.6);
@@ -83,16 +87,15 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
+				OnCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
 				UpdateCommand="%function(self)
-				self:stoptweening();
 				gnPlaySec = gnPlaySec + 1;
 				if gnPlaySec >= 60 then
-					gnPlaySec = gnPlaySec - 60;
+					gnPlaySec = 0;
 					gnPlayMin = gnPlayMin + 1;
 					end
 				if gnPlayMin >= 60 then
-					gnPlayMin = gnPlayMin - 60;
+					gnPlayMin = 0;
 					gnPlayHour = gnPlayHour + 1;
 					end
 					
@@ -122,8 +125,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
-				UpdateCommand="%function(self)
+				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				OnCommand="%function(self)
 				self:stoptweening();
 				if gnSongCount == nil then
 					gnSongCount = 0;
@@ -134,37 +137,28 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 					else
 					self:settext('('..gnSongCount..' Songs)');
 					end
-
-				self:sleep(1);
-				self:queuecommand('Update');
 				end"
 			/>
 			</children>
 		</ActorFrame>
 		
 <!-- Crowns -->
-<ActorFrame Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2)"
->
-<children>
+<ActorFrame Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2)"><children>
 <Layer File="winning"
-InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,-30;queuecommand,Go"
-GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
-StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
-StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
-UpdateCommand="%function(self) if gnScoreP1 >= gnScoreP2 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
-
+	InitCommand="diffusealpha,0;x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,-30"
+	OnCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
+	StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+	StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+	UpdateCommand="%function(self) if gnScoreP1 >= gnScoreP2 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
 />
 <Layer File="winning"
-InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,30;queuecommand,Go"
-GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
-StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
-StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
-UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
+	InitCommand="diffusealpha,0;x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,30"
+	OnCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
+	StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+	StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+	UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
 />
-</children>
-</ActorFrame>
+</children></ActorFrame>
 
 <!--Custom BPM Display-->
 <ActorFrame><children>
@@ -172,35 +166,24 @@ UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); 
 		Font="Journey"
 		Text="@GetRateMod()"
 		Condition="not GAMESTATE:IsDemonstration()"
-		InitCommand="x,-1000;shadowlength,0;sleep,0.01;queuecommand,Start;"
-		StartCommand="%function(self) 
+		InitCommand="x,-1000;shadowlength,0;sleep,0.01;queuecommand,Ready"
+		ReadyCommand="%function(self) 
 			SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):addy(-10000);
 			FinalBPM = tonumber(SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText());
-			if OPENITG then 
-				if FinalBPM <= math.ceil(highBPM*curRate) then
-
-				else
-					if FinalBPM >= math.floor(lowBPM*curRate) then
-					
-					else
-						FinalBPM = math.ceil(highBPM*curRate)
-					end
-				end
-			else
-				FinalBPM = math.ceil(FinalBPM*curRate)
-			end
 			self:settext(FinalBPM);
 			self:x(SCREEN_CENTER_X-1);
 			self:y(SCREEN_TOP-44);
 			self:zoom(1.1);
 			self:horizalign('center');
 			self:addy(100);
-			self:queuecommand('Update'); 
+			if OPENITG then 
+				self:queuecommand('OITGUpdate'); 
+			else
+				self:queuecommand('OtherUpdate')
+			end
 		end"
-		UpdateCommand="%function(self)
-		self:stoptweening();
-		FinalBPM = tonumber(SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText());
-		if OPENITG then 
+		OITGUpdateCommand="%function(self)
+			FinalBPM = tonumber(SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText());
 			if FinalBPM <= math.ceil(highBPM*curRate) then
 
 			else
@@ -210,16 +193,20 @@ UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); 
 					FinalBPM = math.ceil(highBPM*curRate)
 				end
 			end
-		else
+			self:settext(FinalBPM);
+			self:sleep(0.1);
+			self:queuecommand('OITGUpdate');
+		end"
+		OtherUpdateCommand="%function(self)
+			FinalBPM = tonumber(SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText());
 			FinalBPM = math.ceil(FinalBPM*curRate)
-		end
-		self:settext(FinalBPM);
-		self:x(SCREEN_CENTER_X-1);
-		self:sleep(0.08);
-		self:queuecommand('Update');
+			self:settext(FinalBPM);
+			self:sleep(0.1);
+			self:queuecommand('OtherUpdate');		
 		end"
 		OffCommand="accelerate,0.8;addy,-100"
 	/>
+
 </children></ActorFrame>
 
 
@@ -239,15 +226,12 @@ UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); 
 			Type="SongMeterDisplay"
 			StreamWidth="390"
 			StreamPath="meter stream"
-			OnCommand="@'diffuse,'..LifeMeterColor(2)..';diffusealpha,0.75;blend,add;sleep,0.1;queuecommand,Check;'"
+			OnCommand="@'diffuse,'..LifeMeterColor(2)..';diffusealpha,0.75;blend,add;sleep,0.1'"
 			CheckCommand="%function(self) self:stoptweening(); MESSAGEMAN:Broadcast('TipX'); self:sleep(0.1); self:queuecommand('Check'); end"
 		>
 			<Tip
 				File="tip"
-				OnCommand="@'diffuse,'..SongMeterColor()..';'"
-				TipXMessageCommand="%function(self) gnSongElapsedPercent = self:GetX(); gnSongElapsedPercent = math.floor((1-((195-gnSongElapsedPercent)/389))*100)
-				gnSongTimeline[gnSongElapsedPercent+1] = 1;
-				end"
+				OnCommand="@'diffuse,'..SongMeterColor()"
 			/>
 		</Layer>
 
@@ -829,10 +813,6 @@ UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); 
 		/>
 	</children> </ActorFrame>
 
-
-
-
-
 <!--Snowflake: Credit to Puurokulho and his Napolese Chart-->
 <ActorFrame Condition="EasterEggBlizzard()"> <children>
 
@@ -918,82 +898,16 @@ UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); 
 	</children> </ActorFrame>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
 	<!-- Foreground Mods -->
 	<!-- Shake -->
 	<ActorFrame> <children>
-<BitmapText
-			File="_eurostile normal"
-			Text=""
-			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
-			InitCommand="x,320;y,240;playcommand,Update;"
-			UpdateCommand="%function(self)
-					self:stoptweening();
-					getMod = 0;
-					FGmod = 0;
-					for getMod=0, 1, 0.1 do
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..getMod..'% tornado') then 
-								FGmod = getMod;
-								break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'no tornado') then 
-							break
-							end
-						end
-				self:sleep(0.5);
-				self:queuecommand('Update')
-			end"
-			/>
-<BitmapText
-			File="_eurostile normal"
-			Text=""
-			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
-			InitCommand="x,320;y,280;playcommand,Update;"
-			UpdateCommand="%function(self)
-					self:stoptweening();
-					getMod = 0;
-					FGmod = 0;
-					for getMod=0, 1, 0.1 do
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..getMod..'% tornado') then 
-								FGmod = getMod;
-								break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'no tornado') then 
-							break
-							end
-						end
-				self:sleep(0.5);
-				self:queuecommand('Update')
-			end"
-			/>
-<ActorFrame InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-2000;sleep,20000;">
-	<children>
+<ActorFrame InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-2000;sleep,20000;"
+	Condition="gnFGMod == 'Shake'"
+><children>
 	
 	<layer
 	Type="Quad"
-	InitCommand="%function(self)
-	
-	end"
 	StepP1MessageCommand="%function(self)
-		if FGmod > 0 and FGmod < 0.2 then
 		SCREENMAN:GetTopScreen():finishtweening();
 		Mover = math.random(8,10);
 		Guesser = math.random(1,3);
@@ -1029,15 +943,12 @@ UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); 
 		
 		SCREENMAN:GetTopScreen():x(0);
 		SCREENMAN:GetTopScreen():y(0);
-
-		end	
 	end"
 	
 
 	
 	
 StepP2MessageCommand="%function(self)
-		if FGmod > 0 and FGmod < 0.2 then
 		SCREENMAN:GetTopScreen():finishtweening();
 		Mover = math.random(8,10);
 		Guesser = math.random(1,3);
@@ -1074,8 +985,7 @@ StepP2MessageCommand="%function(self)
 		SCREENMAN:GetTopScreen():GetChild('PlayerP2'):decelerate(0.05);
 
 		SCREENMAN:GetTopScreen():GetChild('PlayerP2'):rotationz(0);
-
-		end	
+	
 	end"
 	/>
 
@@ -1083,17 +993,13 @@ StepP2MessageCommand="%function(self)
 </ActorFrame>
 
 	<!-- Phase -->
-<ActorFrame InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-2000;sleep,20000;">
+<ActorFrame Condition="gnFGMod == 'Phase'" InitCommand="%function(self) P1Mods = -1; P2Mods = -1; end" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-2000;sleep,20000;">
 	<children>
 	
-	<layer
+	<Layer
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	Type="Quad"
-	InitCommand="%function(self)
-	P1Mods = -1;
-	end"
 	StepP1MessageCommand="%function(self)
-	if FGmod > 0.1 and FGmod < 0.3 then
 	SCREENMAN:GetTopScreen():GetChild('PlayerP1'):wag();
 	SCREENMAN:GetTopScreen():GetChild('PlayerP1'):effectmagnitude(1,1,1);
 	if GAMESTATE:GetSongBeat() > 0 then
@@ -1111,18 +1017,13 @@ StepP2MessageCommand="%function(self)
 			P1Mods = 1;
 			end
 		end
-	end
 	end"
 	/>
 	
 	<layer
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 	Type="Quad"
-	InitCommand="%function(self)
-	P2Mods = -1;
-	end"
 	StepP2MessageCommand="%function(self)
-	if FGmod > 0.1 and FGmod < 0.3 then
 	SCREENMAN:GetTopScreen():GetChild('PlayerP2'):wag();
 	SCREENMAN:GetTopScreen():GetChild('PlayerP2'):effectmagnitude(1,1,1);
 	if GAMESTATE:GetSongBeat() > 0 then
@@ -1140,7 +1041,6 @@ StepP2MessageCommand="%function(self)
 			P2Mods = 1;
 			end
 		end
-	end
 	end"
 
 	/>	
@@ -1150,63 +1050,54 @@ StepP2MessageCommand="%function(self)
 	</children> </ActorFrame>
 	
 	<!-- Misty -->
-<ActorFrame InitCommand="%function(self) MistAlpha = 0; self:sleep(0.1); self:queuecommand('Start'); end" StartCommand="%function(self)
-	if FGmod <= 0.29 or FGmod >= 0.39 then
-		self:hidden(1); self:hibernate(200000);
-		end
-	end">
-	<children>
+<ActorFrame InitCommand="%function(self) MistAlpha = 0; self:sleep(0.1); end" 
+	Condition="gnFGMod == 'Misty'"
+><children>
+	<ActorFrame><children>
 
-	<ActorFrame>
-	<children>
-				<BitmapText
-			File="_eurostile normal"
-			Text=" "
-			InitCommand="x,320;y,240;playcommand,StartTimer;"
-			StartTimerCommand="%function(self)
+	<BitmapText
+		File="_eurostile normal"
+		Text=" "
+		InitCommand="x,320;y,240;playcommand,StartTimer;"
+		StartTimerCommand="%function(self)
 			MistAlpha = MistAlpha + 0.01;
 			if MistAlpha >= 0.9 then
 				MistAlpha = 0.9
-				end
+			end
 			self:sleep(0.09);
 			self:queuecommand('StartTimer');
-			end"
-			/>
-			
-						<BitmapText
-			File="_eurostile normal"
-			Text=" "
-			InitCommand="x,200;y,200;"
-			StepP1MessageCommand="%function(self)
+		end"
+	/>
+		
+	<BitmapText
+		File="_eurostile normal"
+		Text=" "
+		InitCommand="x,200;y,200;"
+		StepP1MessageCommand="%function(self)
 			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
-			MistAlpha = MistAlpha - 0.01;
+				MistAlpha = MistAlpha - 0.01;
 			else
-			MistAlpha = MistAlpha - 0.02;
+				MistAlpha = MistAlpha - 0.02;
 			end
 			if MistAlpha <= 0 then
-			MistAlpha = 0;
+				MistAlpha = 0;
 			end
-			end"
-			StepP2MessageCommand="%function(self)
+		end"
+		StepP2MessageCommand="%function(self)
 			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-			MistAlpha = MistAlpha - 0.01;
+				MistAlpha = MistAlpha - 0.01;
 			else
-			MistAlpha = MistAlpha - 0.02;
+				MistAlpha = MistAlpha - 0.02;
 			end
 			if MistAlpha <= 0 then
-			MistAlpha = 0;
+				MistAlpha = 0;
 			end
-			end"
-			/>		
+		end"
+	/>		
 
-	</children>	
-	</ActorFrame>	
-	<ActorFrame InitCommand="sleep,0.1;x,CourseHorizontal();queuecommand,Start;" StartCommand="%function(self)
-	if FGmod <= 0.29 or FGmod >= 0.39 then
-		self:hidden(1); self:hibernate(200000);
-		end
-	end"><children>		
-<ActorFrame InitCommand="%function(self)
+	</children></ActorFrame>	
+	<ActorFrame Condition="gnFGMod == 'Misty'" InitCommand="sleep,0.1;x,CourseHorizontal()" ><children>		
+<ActorFrame	InitCommand="%function(self)
 			self:diffusealpha(0);
 			self:linear(0.2);
 			self:diffusealpha(1);
@@ -1228,83 +1119,80 @@ StepP2MessageCommand="%function(self)
 			/>
 			
 			<layer
-			File="Mist.png"
-			InitCommand="diffusealpha,0;queuecommand,Alpha;"
-			AlphaCommand="%function(self)
-			if FGmod > 0.2 and FGmod < 0.35 then
-				self:linear(0.5);
-				self:diffusealpha(MistAlpha);
-				self:queuecommand('Alpha');
-				else
-				self:stoptweening();
-				self:sleep(0.01);
-				self:queuecommand('Alpha');
-				end
-			end
-			"
+				File="Mist.png"
+				InitCommand="diffusealpha,0;queuecommand,Alpha;"
+				AlphaCommand="%function(self)
+					if gnFGMod == 'Misty' then
+						self:linear(0.5);
+						self:diffusealpha(MistAlpha);
+						self:queuecommand('Alpha');
+					else
+						self:stoptweening();
+						self:sleep(0.01);
+						self:queuecommand('Alpha');
+					end
+				end"
 			/>
 			
 			<layer
-			File="Mist.png"
-			InitCommand="diffusealpha,0;x,1280;queuecommand,Alpha;"
-			AlphaCommand="%function(self)
-			if FGmod > 0.2 and FGmod < 0.35 then
-				self:linear(0.5);
-				self:diffusealpha(MistAlpha);
-				self:queuecommand('Alpha');
-				else
-				self:stoptweening();
-				self:sleep(0.01);
-				self:queuecommand('Alpha');
-				end
-			end
-			"
+				File="Mist.png"
+				InitCommand="diffusealpha,0;x,1280;queuecommand,Alpha;"
+				AlphaCommand="%function(self)
+					if gnFGMod == 'Misty' then
+						self:linear(0.5);
+						self:diffusealpha(MistAlpha);
+						self:queuecommand('Alpha');
+					else
+						self:stoptweening();
+						self:sleep(0.01);
+						self:queuecommand('Alpha');
+					end
+				end"
 			/>	
 
-	</children>
-</ActorFrame>
+	</children></ActorFrame>
 
-<ActorFrame InitCommand="%function(self)
-			MistAlpha = 0;
-			self:zoom(1*gnZoomRatio);
-			self:queuecommand('Shifter');
+<ActorFrame Condition="gnFGMod == 'Misty'"
+			InitCommand="%function(self)
+				MistAlpha = 0;
+				self:zoom(1*gnZoomRatio);
+				self:queuecommand('Shifter');
 			end"
 			ShifterCommand="%function(self)
-			self:x(0);
-			self:y(240);
-			self:linear(30);
-			self:addx(1280);
-			self:queuecommand('Shifter');
-			end">
-	<children>
+				self:x(0);
+				self:y(240);
+				self:linear(30);
+				self:addx(1280);
+				self:queuecommand('Shifter');
+			end"
+><children>
 			<BitmapText
-			File="_eurostile normal"
-			Text=" "
-			InitCommand="sleep,2000;"
+				File="_eurostile normal"
+				Text=" "
+				InitCommand="sleep,2000;"
 			/>
 			
 			<layer
-			File="Mist.png"
-			InitCommand="diffusealpha,0;queuecommand,Alpha;"
-			AlphaCommand="%function(self)
-			if FGmod > 0.2 and FGmod < 0.35 then
-				self:linear(0.5);
-				self:diffusealpha(MistAlpha);
-				self:queuecommand('Alpha');
-				else
-				self:stoptweening();
-				self:sleep(0.01);
-				self:queuecommand('Alpha');
-				end
-			end
-			"
+				File="Mist.png"
+				InitCommand="diffusealpha,0;queuecommand,Alpha;"
+				AlphaCommand="%function(self)
+					if gnFGMod == 'Misty' then
+						self:linear(0.5);
+						self:diffusealpha(MistAlpha);
+						self:queuecommand('Alpha');
+					else
+						self:stoptweening();
+						self:sleep(0.01);
+						self:queuecommand('Alpha');
+					end
+				end"
 			/>
 			
 			<layer
 			File="Mist.png"
 			InitCommand="diffusealpha,0;x,-1280;queuecommand,Alpha;"
 			AlphaCommand="%function(self)
-			if FGmod > 0.2 and FGmod < 0.35 then
+			if gnFGMod == 'Misty' then
 				self:linear(0.5);
 				self:diffusealpha(MistAlpha);
 				self:queuecommand('Alpha');
@@ -1323,90 +1211,71 @@ StepP2MessageCommand="%function(self)
 </children>
 </ActorFrame>
 
-	<ActorFrame InitCommand="sleep,0.1;queuecommand,Start;" StartCommand="%function(self)
-	if FGmod <= 0.29 or FGmod >= 0.39 then
-		self:hidden(1); self:hibernate(200000);
-		end
-	end">
-	<children>
+	<ActorFrame
+		Condition="gnFGMod == 'Misty'"
+	><children>
 	
-				<layer
+		<layer
 			File="clear.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 			InitCommand="diffusealpha,0;sleep,1;x,160+(CourseHorizontal()/3);y,240;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
-			/>
-			
-				<layer
+		/>
+		<layer
 			File="clear.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 			InitCommand="diffusealpha,0;sleep,1;x,480+(CourseHorizontal()/0.6);y,240;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
-			/>
-			
-			<layer
+		/>
+		<layer
 			File="step.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 			InitCommand="diffusealpha,0;sleep,1;x,160+(CourseHorizontal()/3);y,240;playcommand,Checker;"
 
 			CheckerCommand="%function(self)
-			if MistAlpha >= 0.65 then
-			self:linear(0.5);
-			self:diffusealpha(1)
-			else
-			self:linear(0.5);
-			self:diffusealpha(0);
-			end
-			self:queuecommand('Checker');
-			end
-			"
+				if MistAlpha >= 0.65 then
+					self:linear(0.5);
+					self:diffusealpha(1)
+				else
+					self:linear(0.5);
+					self:diffusealpha(0);
+				end
+					self:queuecommand('Checker');
+				end"
 			/>
-			
-			<layer
+		<layer
 			File="step.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 			InitCommand="diffusealpha,0;x,480+(CourseHorizontal()/0.6);y,240;playcommand,Checker;"
-
 			CheckerCommand="%function(self)
-			if MistAlpha >= 0.65 then
-			self:linear(0.5);
-			self:diffusealpha(1)
-			else
-			self:linear(0.5);
-			self:diffusealpha(0);
-			end
-			self:queuecommand('Checker');
-			end
-			"
-			/>
+				if MistAlpha >= 0.65 then
+					self:linear(0.5);
+					self:diffusealpha(1)
+				else
+					self:linear(0.5);
+					self:diffusealpha(0);
+				end
+					self:queuecommand('Checker');
+			end"
+		/>
 	
-	</children>
-</ActorFrame>
-
-	</children>
-</ActorFrame>
+	</children></ActorFrame>
+	</children></ActorFrame>
 
 <!-- Nyan Cat -->
 
-<ActorFrame InitCommand="sleep,0.1;queuecommand,Start;" StartCommand="%function(self)
-	if FGmod <= 0.38 or FGmod > 0.49 then
-		self:hidden(1); self:hibernate(200000);
-		end
-	end">
-	<children>
-	
-	
-			
+<ActorFrame 
+	Condition="gnFGMod == 'Nyan Cat'"
+><children>		
 		<layer
 			File="nyancat.sprite"
 			InitCommand="hibernate,3;playcommand,Start;"
 			StartCommand="%function(self)
-			catsX = 0;
-			catsY = 0;
-			self:x(0);
-			self:y(0);
-			self:diffusealpha(0.3);
-			catsDir = math.random(1,2);
-			
-			self:playcommand('Runcats');
+				catsX = 0;
+				catsY = 0;
+				self:x(0);
+				self:y(0);
+				self:diffusealpha(0.3);
+				catsDir = math.random(1,2);		
+				self:playcommand('Runcats');
 			end"
 			
 			RuncatsCommand="%function(self)
@@ -1719,7 +1588,7 @@ StepP2MessageCommand="%function(self)
 			InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,640*gnZoomRatio;diffusealpha,0;rainbow;"
 			
 			StepP1MessageCommand="%function(self)
-					if FGmod >= 0.4 and FGmod < 0.5 then
+					if gnFGMod == 'Nyan Cat' then
 					SCREENMAN:GetTopScreen():GetChild('PlayerP1'):wag();
 					SCREENMAN:GetTopScreen():GetChild('PlayerP1'):effectmagnitude(1,1,1);
 					GAMESTATE:ApplyGameCommand('mod, 10% tipsy',1);
@@ -1734,7 +1603,7 @@ StepP2MessageCommand="%function(self)
 			end"
 			
 			StepP2MessageCommand="%function(self)
-					if FGmod >= 0.4 and FGmod < 0.5 then
+					if gnFGMod == 'Nyan Cat' then
 					SCREENMAN:GetTopScreen():GetChild('PlayerP2'):wag();
 					SCREENMAN:GetTopScreen():GetChild('PlayerP2'):effectmagnitude(1,1,1);
 					GAMESTATE:ApplyGameCommand('mod, -10% tipsy',2);
@@ -1754,28 +1623,24 @@ StepP2MessageCommand="%function(self)
 </ActorFrame>
 	
 <!-- Popcorn -->
-<ActorFrame InitCommand="x,CourseHorizontal()*1;queuecommand,Start;" StartCommand="%function(self)
-	if FGmod <= 0.48 or FGmod > 0.59 then
-		self:hidden(1); self:hibernate(200000);
-		end
-	end"><children>
-		<ActorFrame> <children>
+<ActorFrame Condition="gnFGMod == 'Popcorn'" InitCommand="x,CourseHorizontal()*1" 
+><children>
+		<ActorFrame><children>
 			<Layer
 				File="blank.png"
 				InitCommand="sleep,20000;"
 				StepP1MessageCommand="%function(self)
-				popTimer = popTimer + 1;
-				if popTimer > 6 then
-				popTimer = 1;
-				end
+					popTimer = popTimer + 1;
+					if popTimer > 6 then
+						popTimer = 1;
+					end
 				end"
 				StepP2MessageCommand="%function(self)
-				popTimer2 = popTimer2 + 1;
-				if popTimer2 > 6 then
-				popTimer2 = 1;
-				end
+					popTimer2 = popTimer2 + 1;
+					if popTimer2 > 6 then
+						popTimer2 = 1;
+					end
 				end"
-
 			/>
 
 			<ActorFrame InitCommand="%function(self)
@@ -2972,6 +2837,7 @@ StepP2MessageCommand="%function(self)
 
 </children></ActorFrame>
 
+	
 <!--Screen Transition-->
 	<Layer Type="Quad" InitCommand="diffusealpha,0;" ScreenTransitionMessageCommand="%function(self) ScreenTransitionWhoosh('in'); end" />
 	

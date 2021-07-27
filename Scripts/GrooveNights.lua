@@ -120,7 +120,7 @@ gnHighestRestartPercent = 99.8;
 if gnSongElapsedPercent == nil then gnSongElapsedPercent = 0; end
 
 -- Set to true to enable this feature
-return true
+return false
 end
 
 
@@ -216,16 +216,19 @@ gnZoomRatio = (SCREEN_WIDTH/640);
 gnAspectRatio = (SCREEN_WIDTH/SCREEN_HEIGHT);
 
 function VideoReduction()
-if gnZoomRatio > 1 then
-	if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
-		return 0.95
-		end
-	if gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-		return 0.97
+	if gnZoomRatio > 1 then
+		if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
+			return 0.95	
+		elseif gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+			return 0.93
+		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+			return 0.97
+		elseif gnAspectRatio == 1.5 then
+			return 0.97
 		end
 	end
-return 1
-end
+	return 1
+	end
 
 function VideoVertical()
 if gnZoomRatio > 1 then
@@ -242,40 +245,45 @@ return 0
 end
 
 function CourseHorizontal()
-if gnZoomRatio > 1 then
-	if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
-		return 80 * gnZoomRatio
+	if gnZoomRatio > 1 then
+		if gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+			return 137.1 * gnZoomRatio
+		elseif gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
+			return 80 * gnZoomRatio
+		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+			return 53 * gnZoomRatio
+		elseif gnAspectRatio ==1.5 then
+			return 36 * gnZoomRatio
+			end
 		end
-	if gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-		return 53 * gnZoomRatio
-		end
+	return 0
 	end
-return 0
-end
-
-function HorizontalRecovery()
-if gnZoomRatio > 1 then
-	if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
-		return 1
+	
+	function HorizontalRecovery()
+	if gnZoomRatio > 1 then
+		if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 or gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+			return 1
+		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+			return 1.2
+			end
 		end
-	if gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-		return 1.2
-		end
+	return 0
 	end
-return 0
-end
-
-function PixelCorrection()
-if gnZoomRatio > 1 then
-	if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
-		return 0
+	
+	function PixelCorrection()
+	if gnZoomRatio > 1 then
+		if gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+			return -2.91
+		elseif gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
+			return 0
+		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+			return 1
+		elseif gnAspectRatio == 1.5 then
+			return 1.65
+			end
 		end
-	if gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-		return 1
-		end
+	return 0
 	end
-return 0
-end
 
 
 -- ===MENU AND SYSTEM NAMES===
@@ -1053,7 +1061,7 @@ return "#FFFFFF"
 end
 -- Step Artist P1
 function GetStepsDescriptionText1( actor )
-	Trace( "GetStepsDescriptionText1" )
+	-- Trace( "GetStepsDescriptionText1" )
 	gnStepArtist = GAMESTATE:GetCurrentSteps(PLAYER_1)
 	if gnStepArtist then
 	gnStepArtist = GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription()
@@ -1079,7 +1087,7 @@ end
 
 -- Step Artist P2
 function GetStepsDescriptionText2( actor )
-	Trace( "GetStepsDescriptionText2" )
+	-- Trace( "GetStepsDescriptionText2" )
 	gnStepArtist = GAMESTATE:GetCurrentSteps(PLAYER_2)
 	if gnStepArtist then
 	gnStepArtist = gnStepArtist:GetDescription()

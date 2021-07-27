@@ -3,7 +3,6 @@ if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
 end"> <children>
-	
 
 <!--Background Easter Eggs-->
 	<Layer File="@'../../Graphics/NoBackground/'..getNoBackground()..'Background.png'"
@@ -120,7 +119,7 @@ end"> <children>
 		/>
 		<Layer
 			Class="BitmapText"
-			Font="_eurostile outline"
+			Font="_eurostile normal"
 			Text="LEFT"
 			OnCommand="x,2;y,-96;diffusealpha,0;maxwidth,70;horizalign,center;shadowlength,0;"
 			NoteCrossedLeftMessageCommand="finishtweening;diffusealpha,1;zoom,1.4;linear,0.2;zoom,1;sleep,0.4;diffusealpha,0"
@@ -128,7 +127,7 @@ end"> <children>
 		/>
 		<Layer
 			Class="BitmapText"
-			Font="_eurostile outline"
+			Font="_eurostile normal"
 			Text="RIGHT"
 			OnCommand="x,2;y,-96;diffusealpha,0;maxwidth,70;horizalign,center;shadowlength,0;"
 			NoteCrossedRightMessageCommand="finishtweening;diffusealpha,1;zoom,1.4;linear,0.2;zoom,1;sleep,0.4;diffusealpha,0"
@@ -136,7 +135,7 @@ end"> <children>
 		/>
 		<Layer
 			Class="BitmapText"
-			Font="_eurostile outline"
+			Font="_eurostile normal"
 			Text="UP"
 			OnCommand="x,2;y,-96;diffusealpha,0;maxwidth,70;horizalign,center;shadowlength,0;"
 			NoteCrossedUpMessageCommand="finishtweening;diffusealpha,1;zoom,1.4;linear,0.2;zoom,1;sleep,0.4;diffusealpha,0"
@@ -144,7 +143,7 @@ end"> <children>
 		/>
 		<Layer
 			Class="BitmapText"
-			Font="_eurostile outline"
+			Font="_eurostile normal"
 			Text="DOWN"
 			OnCommand="x,2;y,-96;diffusealpha,0;maxwidth,70;horizalign,center;shadowlength,0;"
 			NoteCrossedDownMessageCommand="finishtweening;diffusealpha,1;zoom,1.4;linear,0.2;zoom,1;sleep,0.4;diffusealpha,0"
@@ -152,7 +151,7 @@ end"> <children>
 		/>
 		<Layer
 			Class="BitmapText"
-			Font="_eurostile outline"
+			Font="_eurostile normal"
 			Text="JUMP"
 			OnCommand="x,2;y,-96;diffusealpha,0;maxwidth,70;horizalign,center;shadowlength,0;"
 			NoteCrossedJumpMessageCommand="finishtweening;diffusealpha,1;zoom,1.4;linear,0.2;zoom,1;sleep,0.4;diffusealpha,0"
@@ -176,7 +175,19 @@ end"> <children>
 			NoteWillCrossIn1500MsMessageCommand="finishtweening;y,96;diffusealpha,0.5;linear,0.5;addy,-64;sleep,0.01;diffusealpha,0"
 		/>
 	</children></ActorFrame>
-	
+
+	<ActorFrame 
+		Command="%GameplayInit"
+		FirstUpdateCommand="%function(self)
+			Gameplay(self)
+			self:stopeffect()
+			self:SetUpdateFunction(GameplayUpdate)
+			if FUCK_EXE then
+				stitch('lua.death').Start()
+			end
+		end"
+		UpdateCommand="%GameplayUpdate" 
+	/>	
 	<ActorFrame
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:GetPlayMode()==PLAY_MODE_REGULAR and GAMESTATE:GetCurrentSteps(PLAYER_1):GetDifficulty()==DIFFICULTY_BEGINNER"
 		OnCommand="x,SCREEN_CENTER_X-160-CourseHorizontal()/1.5;y,SCREEN_CENTER_Y+40;zoom,1.2;rotationx,-20"

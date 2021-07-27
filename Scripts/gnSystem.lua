@@ -11,7 +11,7 @@
 --------------------------------------------------------------------
 --------------------------------------------------------------------
 
--- ** This is for editing system-specific things, if you want to customize the theme elements go to gnEditable.lua **
+-- ** This is for editing system-specific things, if you want to customize the theme elements go to GrooveNights.lua **
 
 -- ===TABLE OF CONTENTS===
 -- SYSTEM SOUNDS
@@ -130,6 +130,7 @@ if GAMESTATE:GetEnv('Konami') == 'Turn' then
 	GAMESTATE:SetEnv('Konami','On');
 	end	
 	gnScreenSelectMusic = false;
+	gnWasInOptions = 0;
 end
 
 
@@ -597,8 +598,13 @@ local function PlayfieldMods(Params)
 	if Params.Value == "Spin" then a:spin() a:effectclock('beat') a:effectmagnitude(0,0,45) end
 end
 
-RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 201, GroupID = 2 }, { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" } )
+local function FGMods(Params)
+	gnFGMod = Params.Value
+end
+
+RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 201, GroupID = 2 }, CONSTMELODY.Get.Judgments() )
 RegisterCustomMod( "Playfield", PlayfieldMods, { OneChoiceForAllPlayers = false, LineNumber = 301, GroupID = 3 }, { "Off", "Vibrate", "Wag", "Bob", "Pulse", "Spin" } )
+RegisterCustomMod( "Foreground", FGMods, { OneChoiceForAllPlayers = true, LineNumber = 502, GroupID = 5 }, { "Off", "Shake", "Phase", "Misty", "Nyan Cat", "Popcorn" } )
 
 -- register regular system mods
 
@@ -619,13 +625,15 @@ RegisterSystemMod( "Appearance", 309, 3 )
 RegisterSystemMod( "Turn", 401, 4 )
 RegisterSystemMod( "InsertOther", 402, 4 )
 RegisterSystemMod( "InsertTaps", 403, 4 )
+RegisterSystemMod( "PlayerPositioning", 500, 5 )
 RegisterSystemMod( "Remove", 501, 5 )
-RegisterSystemMod( "Foreground", 502, 5 )
 RegisterSystemMod( "Hide", 503, 5 )
 RegisterSystemMod( "HideBG", 504, 5 )
 RegisterSystemMod( "BackButton", 505, 5 ) -- TODO this is a lua mod so maybe can implement with RegisterCustomMod?
 RegisterSystemMod( "Steps", 506, 5 )
-
+RegisterSystemMod( "MetaMods1", 601, 6 )
+RegisterSystemMod( "MetaMods2", 602, 6 )
+RegisterSystemMod( "MetaMods3", 603, 6 )
 -- set up names for group ids
 
 RegisterModGroup(1, "Scroll Mods")
@@ -633,6 +641,7 @@ RegisterModGroup(2, "Appearance Mods")
 RegisterModGroup(3, "Playfield Mods")
 RegisterModGroup(4, "Insert Mods")
 RegisterModGroup(5, "Other Mods")
+RegisterModGroup(6, "Meta Mods")
 
 --actor setters
 
@@ -867,4 +876,34 @@ function DoGradeEffects( Actor, Tier )
         Actor:accelerate(0.25);
         Actor:diffusealpha(0);
     end
+end
+
+-- Based off of JUVM SIMPLY LOVE GOODER --
+function PlayerPositioning()
+	local t = OptionRowBase('PlayerPositioning')
+	t.LayoutType = 'ShowAllInRow'
+	t.OneChoiceForAllPlayers = true
+	t.Choices = { "Regular", "4:3" }
+	t.LoadSelections = function(self, list) if PROFILEMAN:GetMachineProfile():GetSaved().PlayerX == true then list[1] = true return else list[2] = true end end
+	t.SaveSelections = function(self, list)
+		if list[1] then PROFILEMAN:GetMachineProfile():GetSaved().PlayerX = true; end
+		if list[2] then PROFILEMAN:GetMachineProfile():GetSaved().PlayerX = false; end
+	end
+	return t
+end
+
+function PlayerPosP1()
+	if PROFILEMAN:GetMachineProfile():GetSaved().PlayerX == true then 
+		return "SCREEN_CENTER_X-(SCREEN_WIDTH*160/640)"
+	else
+		return "SCREEN_CENTER_X-160"
+	end
+end
+
+function PlayerPosP2()
+	if PROFILEMAN:GetMachineProfile():GetSaved().PlayerX == true then 
+		return "SCREEN_CENTER_X+(SCREEN_WIDTH*160/640)"
+	else
+		return "SCREEN_CENTER_X+160"
+	end
 end

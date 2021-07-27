@@ -1,8 +1,11 @@
 <ActorFrame InitCommand="%function(self)
+FileReset=0
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
 end"> <children>
+
+<ActorFrame InitCommand="%SelectMusicInit" FirstUpdateCommand="%SelectMusic" CaptureCommand="%SongInfo" CurrentSongChangedMessageCommand="queuecommand,Capture" CurrentStepsP1ChangedMessageCommand="queuecommand,Capture" CurrentStepsP2ChangedMessageCommand="queuecommand,Capture" />
 
 <ActorFrame OnCommand="y,SCREEN_BOTTOM-17-18"> <children>
 		<Layer

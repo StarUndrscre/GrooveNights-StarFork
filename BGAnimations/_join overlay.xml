@@ -1,6 +1,6 @@
 <ActorFrame><children>
 	<BitmapText
-		Font="_eurostile outline"
+		Font="_eurostile normal"
 		Text="???"
 		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_BOTTOM-56;zoom,0.9;shadowlength,0;PlayCommand,Refresh"
 		RefreshCommand="%function(self) self:settext('') end"

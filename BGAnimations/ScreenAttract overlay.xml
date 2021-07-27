@@ -1,6 +1,6 @@
 <ActorFrame><children>
 	<BitmapText
-		Font="_eurostile outline"
+		Font="_eurostile normal"
 		Text="???"
 		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_BOTTOM-80;zoom,1;PlayCommand,Refresh"
 		CoinModeChangedMessageCommand="PlayCommand,Refresh"		
@@ -27,7 +27,7 @@
 			end"
 	/>
 	<BitmapText
-		Font="_eurostile outline"
+		Font="_eurostile normal"
 		Text="???"
 		OnCommand="@'x,SCREEN_CENTER_X;y,SCREEN_BOTTOM-56;zoom,1;diffuse,'..LabelColor()..';shadowlength,0;PlayCommand,Refresh;'"
 		RefreshCommand="%

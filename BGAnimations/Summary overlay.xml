@@ -1,0 +1,40 @@
+<ActorFrame><children>
+	<ActorFrame InitCommand="%function(self) scoreRow = {} scoreRowY = 90 end" />
+	<Layer Type="ActorFrame" InitCommand="%function(self) self:x(SCREEN_CENTER_X) self:y(65+math.max(4+scoreIndex - table.getn(AllScores),0)*scoreRowY/2) end" ><children>
+		<Layer File="@ThemeFile('ScoreRow.xml')" InitCommand="%function(self) k = scoreIndex scoreIndex = k + 1 table.insert(scoreRow,self) self:y(scoreRowY*(table.getn(scoreRow)-1)) if AllScores[k] then self:playcommand('Set') else self:zoom(0) end end" />
+		<Layer File="@ThemeFile('ScoreRow.xml')" InitCommand="%function(self) k = scoreIndex scoreIndex = k + 1 table.insert(scoreRow,self) self:y(scoreRowY*(table.getn(scoreRow)-1)) if AllScores[k] then self:playcommand('Set') else self:zoom(0) end end" />
+		<Layer File="@ThemeFile('ScoreRow.xml')" InitCommand="%function(self) k = scoreIndex scoreIndex = k + 1 table.insert(scoreRow,self) self:y(scoreRowY*(table.getn(scoreRow)-1)) if AllScores[k] then self:playcommand('Set') else self:zoom(0) end end" />
+		<Layer File="@ThemeFile('ScoreRow.xml')" InitCommand="%function(self) k = scoreIndex scoreIndex = k + 1 table.insert(scoreRow,self) self:y(scoreRowY*(table.getn(scoreRow)-1)) if AllScores[k] then self:playcommand('Set') else self:zoom(0) end end" />
+		<Layer File="@ThemeFile('ScoreRow.xml')" InitCommand="%function(self) k = scoreIndex scoreIndex = k + 1 table.insert(scoreRow,self) self:y(scoreRowY*(table.getn(scoreRow)-1)) if AllScores[k] then self:playcommand('Set') else self:zoom(0) end end" />
+	</children></Layer>
+
+<!--Screen Transition-->
+	<Layer Type="Quad" InitCommand="diffusealpha,0;" ScreenTransitionMessageCommand="%function(self) ScreenTransitionWhoosh('in'); end" />
+	
+	<Layer Type="Quad"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,1,1,1,0;"
+	ScreenTransitionMessageCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT*2;diffuse,1,1,1,1;diffusealpha,0.05;linear,0.1;diffusealpha,0;'"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
+	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,30000;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,30000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,30000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,30000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	/>
+	
+	<Layer File="../Graphics/TransitionArrow"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,30000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,30000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	MenuBackMessageCommand="hidden,1;"
+	/>
+	
+</children></ActorFrame>
