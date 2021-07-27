@@ -173,107 +173,91 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				Condition="PlayTimeEnabled()"
 				InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
 				GoCommand="%function(self)
-				self:x(-112);
-				self:y(248);
-				self:zoom(0.6);
-				self:shadowlength(0);
-				self:horizalign('Right');
+					self:x(-112);
+					self:y(248);
+					self:zoom(0.6);
+					self:shadowlength(0);
+					self:horizalign('Right');
 					self:settext('Total PlayTime');
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Go');
+					self:queuecommand('Blink');
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
 			/>
 	<!--Total PlayTime Variables-->
 			<BitmapText
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
-				UpdateCommand="%function(self)
-				self:stoptweening();
-				if gnPlaySec == nil then
-					gnPlaySec = 0;
-					gnPlayMin = 0;
-					gnPlayHour = 0;
-					gnSongCount = 0;
-					gnOldPlaySec = 0;
-					gnOldPlayMin = 0;
-					gnOldPlayHour = 0;
-					gnOldSongCount = 0;
-					end
-					
-				if gnOldSongCount ~= gnSongCount then
-					gnOldSongCount = gnSongCount;
-					gnOldPlaySec = gnPlaySec;
-					gnOldPlayMin = gnPlayMin;
-					gnOldPlayHour = gnPlayHour;
+				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				OnCommand="%function(self)
+					self:stoptweening();
+					if gnPlaySec == nil then
+						gnPlaySec = 0;
+						gnPlayMin = 0;
+						gnPlayHour = 0;
+						gnSongCount = 0;
+						gnOldPlaySec = 0;
+						gnOldPlayMin = 0;
+						gnOldPlayHour = 0;
+						gnOldSongCount = 0;
+					end			
+					if gnOldSongCount ~= gnSongCount then
+						gnOldSongCount = gnSongCount;
+						gnOldPlaySec = gnPlaySec;
+						gnOldPlayMin = gnPlayMin;
+						gnOldPlayHour = gnPlayHour;
 					else
-					gnPlaySec = gnOldPlaySec;
-					gnPlayMin = gnOldPlayMin;
-					gnPlayHour = gnOldPlayHour;
+						gnPlaySec = gnOldPlaySec;
+						gnPlayMin = gnOldPlayMin;
+						gnPlayHour = gnOldPlayHour;
+					end					
+					if gnPlaySec >= 60 then
+						gnPlaySec = gnPlaySec - 60;
+						gnPlayMin = gnPlayMin + 1;
 					end
-					
-				if gnPlaySec >= 60 then
-					gnPlaySec = gnPlaySec - 60;
-					gnPlayMin = gnPlayMin + 1;
+					if gnPlayMin >= 60 then
+						gnPlayMin = gnPlayMin - 60;
+						gnPlayHour = gnPlayHour + 1;
 					end
-				if gnPlayMin >= 60 then
-					gnPlayMin = gnPlayMin - 60;
-					gnPlayHour = gnPlayHour + 1;
-					end
-
-				if gnPlaySec < 10 then
-					gnPlaySecText = '0'..gnPlaySec
+					if gnPlaySec < 10 then
+						gnPlaySecText = '0'..gnPlaySec
 					else
-					gnPlaySecText = ''..gnPlaySec
+						gnPlaySecText = ''..gnPlaySec
 					end
-				if gnPlayMin < 10 then
-					gnPlayMinText = '0'..gnPlayMin
+					if gnPlayMin < 10 then
+						gnPlayMinText = '0'..gnPlayMin
 					else
-					gnPlayMinText = ''..gnPlayMin
+						gnPlayMinText = ''..gnPlayMin
 					end
-				if gnPlayHour < 10 then
-					gnPlayHourText = '0'..gnPlayHour
+					if gnPlayHour < 10 then
+						gnPlayHourText = '0'..gnPlayHour
 					else
-					gnPlayHourText = ''..gnPlayHour
-					end
-					
-				self:settext(gnPlayHourText..':'..gnPlayMinText..':'..gnPlaySecText);
-
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Update');
+						gnPlayHourText = ''..gnPlayHour
+					end		
+					self:settext(gnPlayHourText..':'..gnPlayMinText..':'..gnPlaySecText);
+					self:queuecommand('Blink');
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
 			/>
 	<!--Song Count-->
 			<BitmapText
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
-				UpdateCommand="%function(self)
-				self:stoptweening();
-				if gnSongCount == nil then
-					gnSongCount = 0;
-					end
-	
-				if gnSongCount == 1 then
-					self:settext('('..gnSongCount..' Song)');
+				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				OnCommand="%function(self)
+					self:stoptweening();
+					if gnSongCount == nil then
+						gnSongCount = 0;
+					end	
+					if gnSongCount == 1 then
+						self:settext('('..gnSongCount..' Song)');
 					else
-					self:settext('('..gnSongCount..' Songs)');
+						self:settext('('..gnSongCount..' Songs)');
 					end
-					
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Update');
+					self:queuecommand('Blink');
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
 			/>
 			</children>
 		</ActorFrame>
@@ -282,47 +266,40 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 		<BitmapText
 			Text=""
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:x(100) self:shadowlength(0) self:draworder(10000); self:addy(21); self:queuecommand('Update'); end"
+			InitCommand="%function(self)  self:x(100) self:shadowlength(0) self:draworder(10000); self:addy(21) end"
 		/>
 <!--Timer Recorder-->
 	<Layer Type="Quad"
-	InitCommand="hibernate,0.1;queuecommand,CountDown;"
-	CountDownCommand="%function(self)
-	self:stoptweening();
-	self:diffusealpha(0);
-	gnScreenSelectMusicTimer = gnScreenSelectMusicTimer - 0.1;
-	GAMESTATE:SetEnv('BackScreen','NO')
-	if gnScreenSelectMusicTimer <= 0 then
-		gnScreenSelectMusicTimer = 0;
-		end
-	self:sleep(0.1);
-	MESSAGEMAN:Broadcast('UpdateArtist');
-	self:queuecommand('CountDown');
-	end"
+		InitCommand="%function(self) self:diffusealpha(0); GAMESTATE:SetEnv('BackScreen','NO'); if gnScreenSelectMusicTimer <= 0 then gnScreenSelectMusicTimer = 0; end self:hibernate(0.1); self:queuecommand('CountDown') end"
+		CountDownCommand="%function(self)
+			gnScreenSelectMusicTimer = gnScreenSelectMusicTimer - 0.1;
+			self:sleep(0.1);
+			self:queuecommand('CountDown');
+		end"
 	/>
 
-				<Layer 
-					File="../ScreenSelectMusic divider B"
-					InitCommand="@'x,-120;y,18;diffuse,'..BackgroundColor()..';draworder,-1000;'"
-				/>
-				<Layer 
-					File="../ScreenSelectMusic divider F"
-					InitCommand="@'x,-120;y,18;diffuse,'..FrameColor()..';draworder,-1000;'"
-				/>
-		<ActorFrame InitCommand="x,51;y,189;"><children>
+	<Layer 
+		File="../ScreenSelectMusic divider B"
+		InitCommand="@'x,-120;y,18;diffuse,'..BackgroundColor()..';draworder,-1000;'"
+	/>
+	<Layer 
+		File="../ScreenSelectMusic divider F"
+		InitCommand="@'x,-120;y,18;diffuse,'..FrameColor()..';draworder,-1000;'"
+	/>
+	<ActorFrame InitCommand="x,51;y,189;"><children>
 		<Layer Type="Quad"
 			Condition="GAMESTATE:IsCourseMode()"
 			InitCommand="@'diffuse,'..BackgroundColor()..';diffusealpha,0.7;x,SCREEN_CENTER_X-542-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,312;zoomy,109;draworder,1000;horizalign,left;vertalign,top;'"
+		/>
+		<Layer Type="Quad"
+			Condition="GAMESTATE:IsCourseMode()"
+			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-541-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top'"
+			OnCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_1) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
 			/>
 		<Layer Type="Quad"
 			Condition="GAMESTATE:IsCourseMode()"
-			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-541-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top;queuecommand,Go;'"
-			GoCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_1) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
-			/>
-		<Layer Type="Quad"
-			Condition="GAMESTATE:IsCourseMode()"
-			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-249-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top;queuecommand,Go;'"
-			GoCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_2) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
+			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-249-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top'"
+			OnCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_2) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
 			/>
 		</children></ActorFrame>	
 
@@ -336,8 +313,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				<BitmapText
 					Text="ARTIST:"
 					Font="_eurostile normal"
-					InitCommand="@'horizalign,left;zoom,0.55;x,-214;y,-37;shadowlength,0;diffuse,'..LabelColor()..';queuecommand,Grandpa;'"
-					GrandpaCommand="%function(self)
+					InitCommand="@'horizalign,left;zoom,0.55;x,-214;y,-37;shadowlength,0;diffuse,'..LabelColor()"
+					OnCommand="%function(self)
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('music:');
 						end
@@ -349,8 +326,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				<BitmapText
 					Text="BPM:"
 					File="_eurostile normal"
-					InitCommand="@'horizalign,left;zoom,0.55;x,-196;y,-22;shadowlength,0;diffuse,'..LabelColor()..';queuecommand,Grandpa;'"
-					GrandpaCommand="%function(self)
+					InitCommand="@'horizalign,left;zoom,0.55;x,-196;y,-22;shadowlength,0;diffuse,'..LabelColor()"
+					OnCommand="%function(self)
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('GO!');
 						end
@@ -363,8 +340,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 					Text="FOLDER:"
 					File="_eurostile normal"
 					Condition="not GAMESTATE:IsCourseMode()"
-					InitCommand="@'horizalign,left;zoom,0.55;x,-214;y,-7;shadowlength,0;diffuse,'..LabelColor()..';queuecommand,Grandpa;'"
-					GrandpaCommand="%function(self)
+					InitCommand="@'horizalign,left;zoom,0.55;x,-214;y,-7;shadowlength,0;diffuse,'..LabelColor()"
+					OnCommand="%function(self)
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('where:');
 						end
@@ -376,8 +353,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				<BitmapText
 					Text="RANK:"
 					File="_eurostile normal"
-					InitCommand="@'horizalign,left;zoom,0.55;x,24+97;y,-37;shadowlength,0;diffuse,'..LabelColor()..';queuecommand,Grandpa;'"
-					GrandpaCommand="%function(self)
+					InitCommand="@'horizalign,left;zoom,0.55;x,24+97;y,-37;shadowlength,0;diffuse,'..LabelColor()"
+					OnCommand="%function(self)
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('like:');
 						end
@@ -389,8 +366,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				<BitmapText
 					Text="LENGTH:"
 					File="_eurostile normal"
-					InitCommand="@'horizalign,left;zoom,0.55;x,12+97;y,-22;shadowlength,0;diffuse,'..LabelColor()..';queuecommand,Grandpa;'"
-					GrandpaCommand="%function(self)
+					InitCommand="@'horizalign,left;zoom,0.55;x,12+97;y,-22;shadowlength,0;diffuse,'..LabelColor()"
+					OnCommand="%function(self)
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('longer:');
 						end
@@ -404,25 +381,24 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 		<Layer
 			Type="BitmapText"
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:horizalign('right'); self:maxwidth(67); self:shadowlength(0); self:zoom(0.55); self:x(93+97); self:y(-22); self:draworder(10000); self:queuecommand('Update'); end"
-			CurrentStepsP1ChangedMessageCommand="queuecommand,Update"
-			CurrentStepsP2ChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%SetFromDisplaySongLength"			
+			InitCommand="%function(self)  self:horizalign('right'); self:maxwidth(67); self:shadowlength(0); self:zoom(0.55); self:x(93+97); self:y(-22); self:draworder(10000); end"
+			CurrentStepsP1ChangedMessageCommand="%SetFromDisplaySongLength"
+			CurrentStepsP2ChangedMessageCommand="%SetFromDisplaySongLength"
+			OnCommand="%SetFromDisplaySongLength"		
 		/>
 <!-- Determine Song Location-->
 		<BitmapText
 			Text=""
 			File="_eurostile blue glow"
 			InitCommand="%function(self)
-			self:x(-164);
-			self:y(-7);
-			self:zoom(0.55);
-			self:maxwidth(645);
-			self:shadowlength(0);
-			self:horizalign('left');
+				self:x(-164);
+				self:y(-7);
+				self:zoom(0.55);
+				self:maxwidth(645);
+				self:shadowlength(0);
+				self:horizalign('left');
 			end"
-			CurrentSongChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%SSMSongLocText"
+			CurrentSongChangedMessageCommand="%SSMSongLocText"
 		/>
 				</children></ActorFrame>
 		
@@ -430,58 +406,58 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 <ActorFrame InitCommand="x,-219;y,128;">
 <children>
 	<Layer File="../PaneDisplay p1 B.png"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-	OnCommand="@'diffuse,'..BackgroundColor()..';'"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+		OnCommand="@'diffuse,'..BackgroundColor()..';'"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
 			self:y(SCREEN_CENTER_Y-194); 
 			self:diffusealpha(1); 
 			self:draworder(1000);
-			end"	
+		end"	
 	/>
 	
 	<Layer File="../PaneDisplay p1 F.png"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-	OnCommand="@'diffuse,'..FrameColor()..';'"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+		OnCommand="@'diffuse,'..FrameColor()..';'"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
 			self:y(SCREEN_CENTER_Y-194); 
 			self:diffusealpha(1); 
 			self:draworder(1000);
-			end"	
+		end"	
 	/>
 	
 	<Layer File="../PaneDisplay under.png"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-	OnCommand="@'diffuse,'..BackgroundColor()..';'"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+		OnCommand="@'diffuse,'..BackgroundColor()..';'"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
 			self:y(SCREEN_CENTER_Y-194); 
 			self:diffusealpha(1); 
 			self:draworder(-1000);
-			end"	
+		end"	
 	/>
 	
 	<Layer File="../PaneDisplay under under.png"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode()"
-	OnCommand="@'diffuse,'..FrameColor()..';'"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode()"
+		OnCommand="@'diffuse,'..FrameColor()..';'"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
 			self:y(SCREEN_CENTER_Y-194); 
 			self:diffusealpha(1); 
 			self:draworder(-1000);
-			end"	
+		end"	
 	/>
 	
 	<Layer File="../PaneDisplay under under course.png"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsCourseMode()"
-	OnCommand="@'diffuse,'..FrameColor()..';'"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsCourseMode()"
+		OnCommand="@'diffuse,'..FrameColor()..';'"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
 			self:y(SCREEN_CENTER_Y-194); 
 			self:diffusealpha(1); 
 			self:draworder(-1000);
-			end"	
+		end"	
 	/>
 	
 </children>
@@ -558,46 +534,38 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 					Text=""
 					File="_eurostile normal"
 					InitCommand="%function(self) self:shadowlength(0);self:stoptweening(); 
-					gnGetDifficulty = GetCurrentSongDifficulty(PLAYER_1); 
-					self:settext(gnGetDifficulty);
-					self:maxwidth(78);
-					self:queuecommand('ColourEdit');
-					if gnDifficulty == 0 then
-						self:settext(getTextNovice());
-						self:queuecommand('ColourNovice');
+						self:maxwidth(78);
+					end"
+					CurrentStepsP1ChangedMessageCommand="%function(self)
+						local gnGetDifficultyP1 = GetCurrentSongDifficulty(PLAYER_1)
+						if gnGetDifficultyP1 == 'Novice' then
+							self:settext(getTextNovice());
+							self:queuecommand('ColourNovice');
+						elseif gnGetDifficultyP1 == 'Easy' then
+							self:settext(getTextEasy());
+							self:queuecommand('ColourEasy');
+						elseif gnGetDifficultyP1 == 'Medium' then
+							self:settext(getTextMedium());
+							self:queuecommand('ColourMedium');
+						elseif gnGetDifficultyP1 == 'Hard' then
+							self:settext(getTextHard());
+							self:queuecommand('ColourHard');
+						elseif gnGetDifficultyP1 == 'Expert' then
+							self:settext(getTextExpert());
+							self:queuecommand('ColourExpert');
+						elseif gnGetDifficultyP1 ~= '' then
+							self:settext('Edit');
+							self:queuecommand('ColourEdit');
+						else
+							self:settext('')
 						end
-					if gnDifficulty == 1 then
-						self:settext(getTextEasy());
-						self:queuecommand('ColourEasy');
-						end
-					if gnDifficulty == 2 then
-						self:settext(getTextMedium());
-						self:queuecommand('ColourMedium');
-						end
-					if gnDifficulty == 3 then
-						self:settext(getTextHard());
-						self:queuecommand('ColourHard');
-						end
-					if gnDifficulty == 4 then
-						self:settext(getTextExpert());
-						self:queuecommand('ColourExpert');
-						end
-					if gnDifficulty == 5 then
-						self:settext('Edit');
-						self:queuecommand('ColourEdit');
-						end
-					if tonumber(gnDifficulty) == nil then
-						self:queuecommand('ColourEdit');
-						end
-					self:sleep(0.05);
-					self:queuecommand('Init');
 					 end"
-					 ColourNoviceCommand="diffuseshift;EffectColor1,#7300C0;EffectColor2,#7300C0;sleep,0.05;queuecommand,Init;"
-					 ColourEasyCommand="diffuseshift;EffectColor1,#007300;EffectColor2,#007300;sleep,0.05;queuecommand,Init;"
-					 ColourMediumCommand="diffuseshift;EffectColor1,#C0C000;EffectColor2,#C0C000;sleep,0.05;queuecommand,Init;"
-					 ColourHardCommand="diffuseshift;EffectColor1,#C01D1D;EffectColor2,#C01D1D;sleep,0.05;queuecommand,Init;"
-					 ColourExpertCommand="diffuseshift;EffectColor1,#1868C0;EffectColor2,#1868C0;sleep,0.05;queuecommand,Init;"
-					 ColourEditCommand="diffuseshift;EffectColor1,#797979;EffectColor2,#797979;sleep,0.05;queuecommand,Init;"
+					 ColourNoviceCommand="diffuseshift;EffectColor1,#7300C0;EffectColor2,#7300C0"
+					 ColourEasyCommand="diffuseshift;EffectColor1,#007300;EffectColor2,#007300"
+					 ColourMediumCommand="diffuseshift;EffectColor1,#C0C000;EffectColor2,#C0C000"
+					 ColourHardCommand="diffuseshift;EffectColor1,#C01D1D;EffectColor2,#C01D1D"
+					 ColourExpertCommand="diffuseshift;EffectColor1,#1868C0;EffectColor2,#1868C0"
+					 ColourEditCommand="diffuseshift;EffectColor1,#797979;EffectColor2,#797979"
 					 
 				/>
 		</children></ActorFrame>
@@ -606,18 +574,18 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
-			InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
-			GoCommand="%function(self)
-			self:x(53);
-			self:y(22);
-			self:zoom(0.5);
-			self:maxwidth(116);
-			self:shadowlength(0);
-			self:horizalign('center');
-			if GAMESTATE:IsCourseMode() then
-				self:settext('Difficulty');
+			InitCommand="@'diffuse,'..LabelColor()"
+			OnCommand="%function(self)
+				self:x(53);
+				self:y(22);
+				self:zoom(0.5);
+				self:maxwidth(116);
+				self:shadowlength(0);
+				self:horizalign('center');
+				if GAMESTATE:IsCourseMode() then
+					self:settext('Difficulty');
 				else
-				self:settext('Step Artist');
+					self:settext('Step Artist');
 				end
 			end"
 		/>
@@ -626,17 +594,14 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)
-			self:x(53);
-			self:y(36);
-			self:zoom(0.5);
-			self:maxwidth(116);
-			self:shadowlength(0);
-			self:horizalign('center');
+				self:x(53);
+				self:y(36);
+				self:zoom(0.5);
+				self:maxwidth(116);
+				self:shadowlength(0);
+				self:horizalign('center');
 			end"
-			CurrentSongChangedMessageCommand="queuecommand,Update"
-			UpdateArtistMessageCommand="queuecommand,Update"
-			UpdateCommand="%GetStepsDescriptionText1"
-
+			CurrentStepsP1ChangedMessageCommand="%GetStepsDescriptionText1"
 		/>
 <!--Avatar-->
 	<Layer File="../avatars/p1avatar"
@@ -661,57 +626,55 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 	
 	<!-- Card Name-->
 	<BitmapText
-	Font="_eurostile normal"
-	Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-	Text="@ScreenEndingGetDisplayName(PLAYER_1)"
-	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-177;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_1)..';diffusealpha,0;queuecommand,fadecheck;'"
-	fadecheckcommand="%function(self)
-		if gnP1ShowName == nil then
-		gnP1ShowName = 0;
-		end
-		
-		if gnP1ShowName == 1 then
-		self:queuecommand('fadeokay');
-		end
-	end"
-	fadeokaycommand="sleep,0.4;linear,0.3;diffusealpha,0.8;"
+		Font="_eurostile normal"
+		Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+		Text="@ScreenEndingGetDisplayName(PLAYER_1)"
+		InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-177;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_1)..';diffusealpha,0'"
+		OnCommand="%function(self)
+			if gnP1ShowName == nil then
+				gnP1ShowName = 0;
+			end
+			if gnP1ShowName == 1 then
+				self:sleep(0.4); self:linear(0.3); self:diffusealpha(0.8)
+			end
+		end"
 	/>
 	
 	<Layer File="@'../NoAvatar/'..getNoAvatar(PLAYER_1)"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-	NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+		NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_1)"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-198); self:diffusealpha(1); self:zoom(0);
 			a1Width = self:GetWidth(); 
 			a1Height = self:GetHeight(); 
 			if a1Width >= a1Height then 
 				self:zoomtowidth(68); 
 				self:zoomtoheight(68-1/68); 
-				else  
+			else  
 				self:scaletoclipped(68,68); 
-				end
+			end
 			self:diffusealpha(0);
 			self:sleep(0.1);
 			self:diffusealpha(1);
 			self:draworder(3);
 			if getNoAvatar(PLAYER_1) == 'p1noavatar.png' then
-				self:queuecommand('NoAvatar');
-				end
-			end"	
+				self:queuecommand('NoAvatar')
+			end
+		end"	
 	/>
 	<Layer File="../../BGAnimations/AvatarFrame B.png"
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
-	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
-	end"
-	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+		OnCommand="%function(self)
+			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
+		end"
+		InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
 	/>
 	<Layer File="../../BGAnimations/AvatarFrame.png"
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
-	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
-	end"
-	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+		OnCommand="%function(self)
+			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
+		end"
+		InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
 	/>
 	
 	
@@ -720,155 +683,125 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 	<!--Player Achievements-->
 <!--Singles Level-->
 	<BitmapText
-	Font="_eurostile normal"
-	Text="@GetPlayerStatsAndAwards(PLAYER_1)"
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
-	InitCommand="%function(self)
-	self:x(SCREEN_CENTER_X-219+7); self:y(SCREEN_CENTER_Y-219+277); self:diffusealpha(1); 
-	self:zoom(0);
-	self:decelerate(0.3);
-	self:zoom(0.55);
-	self:shadowlength(0);
-	self:horizalign('left');
-	self:hidden(1);
-	if gnLevelP1 == '[Disabled]' then
-		self:hidden(1);
-		end
-		noEXP1 = 0;
-		if gnLevelP1 == nil then
-			gnLevelP1 = '[Disabled]';
+		Font="_eurostile normal"
+		Text="@GetPlayerStatsAndAwards(PLAYER_1)"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+		InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-219+7); self:y(SCREEN_CENTER_Y-219+277); self:diffusealpha(1); 
+			self:zoom(0);
+			self:decelerate(0.3);
+			self:zoom(0.55);
+			self:shadowlength(0);
+			self:horizalign('left');
 			self:hidden(1);
+			if gnLevelP1 == '[Disabled]' then
+				self:hidden(1);
 			end
-		self:settext('Level '..gnLevelP1);
-	end"
+			noEXP1 = 0;
+			if gnLevelP1 == nil then
+				gnLevelP1 = '[Disabled]';
+				self:hidden(1);
+			end
+			self:settext('Level '..gnLevelP1);
+		end"
 	/>
 
 <!--Doubles Level-->
 	<BitmapText
-	Font="_eurostile normal"
-	Text=""
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
-	InitCommand="%function(self)
-	self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
-	self:zoom(0);
-	self:decelerate(0.3);
-	self:zoom(0.5);
-	self:shadowlength(0);
-	self:horizalign('center');
-	self:hidden(1);
-	if gnLevelP1 == '[Disabled]' then
-		self:hidden(1);
-		end
-		noEXP1 = 0;
-		if gnLevelP1 == nil then
-			gnLevelP1 = '[Disabled]';
+		Font="_eurostile normal"
+		Text=""
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+		InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
+			self:zoom(0);
+			self:decelerate(0.3);
+			self:zoom(0.5);
+			self:shadowlength(0);
+			self:horizalign('center');
 			self:hidden(1);
+			if gnLevelP1 == '[Disabled]' then
+				self:hidden(1);
 			end
-		self:settext('Level '..gnLevelP1);
-	end"
+			noEXP1 = 0;
+			if gnLevelP1 == nil then
+				gnLevelP1 = '[Disabled]';
+				self:hidden(1);
+			end
+			self:settext('Level '..gnLevelP1);
+		end"
 	/>
 	<!--Songs Played Count-->
 		<Layer File="../../Graphics/achievements/achievement0005"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-92);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnSongsP1Total == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnSongsP1Total >= 100 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-92);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+				if gnSongsP1Total >= 100 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0006"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-92);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnSongsP1Total == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnSongsP1Total >= 500 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-92);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnSongsP1Total >= 500 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0007"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)	
-			self:x(16);
-			self:y(-92);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnSongsP1Total == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnSongsP1Total >= 1000 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)	
+				self:x(16);
+				self:y(-92);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnSongsP1Total >= 1000 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 
 		<!--Total Percentages Count-->
 		<Layer File="../../Graphics/achievements/achievement0008"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-66);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnTotalP1 >= 500 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-66);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
+				if gnTotalP1 >= 500 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0009"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-66);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnTotalP1 >= 1000 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-66);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnTotalP1 >= 1000 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0010"
 		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
@@ -877,197 +810,142 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			self:y(-66);
 			self:zoom(0.85);
 			self:diffusealpha(0);
-		if gnTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
 			if gnTotalP1 >= 1500 then
 				self:linear(0.1); self:diffusealpha(1);
-				else
+			else
 				self:diffusealpha(0.05);
-				end
-			end	
+			end
 		end"
 		/>
 		<!--Total Death Count-->
 		<Layer File="../../Graphics/achievements/achievement0011"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-40);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnDeathsP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnDeathsP1 >= 25 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-40);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+				if gnDeathsP1 >= 25 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0012"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-40);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnDeathsP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnDeathsP1 >= 50 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-40);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnDeathsP1 >= 50 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0013"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-40);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnDeathsP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnDeathsP1 >= 100 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-40);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnDeathsP1 >= 100 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<!--Star Count-->
 		<Layer File="../../Graphics/achievements/achievement0014"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-14);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnStarsTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnStarsTotalP1 >= 100 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-14);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+				if gnStarsTotalP1 >= 100 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0015"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-14);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnStarsTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnStarsTotalP1 >= 500 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-14);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnStarsTotalP1 >= 500 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0016"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-14);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnStarsTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnStarsTotalP1 >= 1000 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-14);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnStarsTotalP1 >= 1000 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
-	</children>
-	</ActorFrame>
-	
-	
-</children>
-</ActorFrame>
+	</children></ActorFrame>
+</children></ActorFrame>
 
 <!--Player 2's Pane-->
-<ActorFrame InitCommand="x,100;y,29;">
-<children>
+<ActorFrame InitCommand="x,100;y,29;"><children>
 <!--Difficulty-->
 		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode()" InitCommand="x,SCREEN_CENTER_X-267-CourseHorizontal()+(1*HorizontalRecovery());y,SCREEN_CENTER_Y-84;zoom,0.75;"><children>
 				<BitmapText
 					Text=""
 					File="_eurostile normal"
 					InitCommand="%function(self) self:shadowlength(0);self:stoptweening(); 
-					gnGetDifficulty = GetCurrentSongDifficulty(PLAYER_2); 
-					self:settext(gnGetDifficulty);
-					self:maxwidth(78);
-					self:queuecommand('ColourEdit');
-					if gnDifficulty == 0 then
-						self:settext(getTextNovice());
-						self:queuecommand('ColourNovice');
+						self:maxwidth(78);
+					end"
+					CurrentStepsP2ChangedMessageCommand="%function(self)
+						local gnGetDifficultyP2 = GetCurrentSongDifficulty(PLAYER_2)
+						if gnGetDifficultyP2 == 'Novice' then
+							self:settext(getTextNovice());
+							self:queuecommand('ColourNovice');
+						elseif gnGetDifficultyP2 == 'Easy' then
+							self:settext(getTextEasy());
+							self:queuecommand('ColourEasy');
+						elseif gnGetDifficultyP2 == 'Medium' then
+							self:settext(getTextMedium());
+							self:queuecommand('ColourMedium');
+						elseif gnGetDifficultyP2 == 'Hard' then
+							self:settext(getTextHard());
+							self:queuecommand('ColourHard');
+						elseif gnGetDifficultyP2 == 'Expert' then
+							self:settext(getTextExpert());
+							self:queuecommand('ColourExpert');
+						elseif gnGetDifficultyP2 ~= '' then
+							self:settext('Edit');
+							self:queuecommand('ColourEdit');
+						else
+							self:settext('')
 						end
-					if gnDifficulty == 1 then
-						self:settext(getTextEasy());
-						self:queuecommand('ColourEasy');
-						end
-					if gnDifficulty == 2 then
-						self:settext(getTextMedium());
-						self:queuecommand('ColourMedium');
-						end
-					if gnDifficulty == 3 then
-						self:settext(getTextHard());
-						self:queuecommand('ColourHard');
-						end
-					if gnDifficulty == 4 then
-						self:settext(getTextExpert());
-						self:queuecommand('ColourExpert');
-						end
-					if gnDifficulty == 5 then
-						self:settext('Edit');
-						self:queuecommand('ColourEdit');
-						end
-					if tonumber(gnDifficulty) == nil then
-						self:queuecommand('ColourEdit');
-						end
-					self:sleep(0.05);
-					self:queuecommand('Init');
 					 end"
-					 ColourNoviceCommand="diffuseshift;EffectColor1,#7300C0;EffectColor2,#7300C0;sleep,0.05;queuecommand,Init;"
-					 ColourEasyCommand="diffuseshift;EffectColor1,#007300;EffectColor2,#007300;sleep,0.05;queuecommand,Init;"
-					 ColourMediumCommand="diffuseshift;EffectColor1,#C0C000;EffectColor2,#C0C000;sleep,0.05;queuecommand,Init;"
-					 ColourHardCommand="diffuseshift;EffectColor1,#C01D1D;EffectColor2,#C01D1D;sleep,0.05;queuecommand,Init;"
-					 ColourExpertCommand="diffuseshift;EffectColor1,#1868C0;EffectColor2,#1868C0;sleep,0.05;queuecommand,Init;"
-					 ColourEditCommand="diffuseshift;EffectColor1,#797979;EffectColor2,#797979;sleep,0.05;queuecommand,Init;"
+					 ColourNoviceCommand="diffuseshift;EffectColor1,#7300C0;EffectColor2,#7300C0"
+					 ColourEasyCommand="diffuseshift;EffectColor1,#007300;EffectColor2,#007300"
+					 ColourMediumCommand="diffuseshift;EffectColor1,#C0C000;EffectColor2,#C0C000"
+					 ColourHardCommand="diffuseshift;EffectColor1,#C01D1D;EffectColor2,#C01D1D"
+					 ColourExpertCommand="diffuseshift;EffectColor1,#1868C0;EffectColor2,#1868C0"
+					 ColourEditCommand="diffuseshift;EffectColor1,#797979;EffectColor2,#797979"
 					 
 				/>
 		</children></ActorFrame>
@@ -1076,18 +954,18 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
-			GoCommand="%function(self)
-			self:x(53);
-			self:y(122);
-			self:zoom(0.5);
-			self:maxwidth(116);
-			self:shadowlength(0);
-			self:horizalign('center');
-			if GAMESTATE:IsCourseMode() then
-				self:settext('Difficulty');
+			InitCommand="@'diffuse,'..LabelColor()"
+			OnCommand="%function(self)
+				self:x(53);
+				self:y(122);
+				self:zoom(0.5);
+				self:maxwidth(116);
+				self:shadowlength(0);
+				self:horizalign('center');
+				if GAMESTATE:IsCourseMode() then
+					self:settext('Difficulty');
 				else
-				self:settext('Step Artist');
+					self:settext('Step Artist');
 				end
 			end"
 		/>
@@ -1096,393 +974,309 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)
-			self:x(53);
-			self:y(135);
-			self:zoom(0.5);
-			self:maxwidth(116);
-			self:shadowlength(0);
-			self:horizalign('center');
+				self:x(53);
+				self:y(135);
+				self:zoom(0.5);
+				self:maxwidth(116);
+				self:shadowlength(0);
+				self:horizalign('center');
 			end"
-			CurrentSongChangedMessageCommand="queuecommand,Update"
-			UpdateArtistMessageCommand="queuecommand,Update"
-			UpdateCommand="%GetStepsDescriptionText2"
+			CurrentStepsP2ChangedMessageCommand="%GetStepsDescriptionText2"
 		/>
 	<Layer File="../avatars/p2avatar"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98); self:diffusealpha(1); self:zoom(0);
 			a2Width = self:GetWidth(); 
 			a2Height = self:GetHeight();
 			if a2Width >= a2Height then 
 				self:zoomtowidth(68); 
 				self:zoomtoheight(68-1/68); 
-				else  
+			else  
 				self:scaletoclipped(68,68); 
-				end 
+			end 
 			self:diffusealpha(0);
 			self:sleep(0.4);
 			self:decelerate(0.4);
 			self:diffusealpha(1);
 			self:draworder(5); 
-			end"	
+		end"	
 	/>
 	
 	
 	<!-- Card Name-->
 	<BitmapText
-	Font="_eurostile normal"
-	Condition="PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-	Text="@ScreenEndingGetDisplayName(PLAYER_2)"
-	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-77;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_2)..';diffusealpha,0;queuecommand,fadecheck;'"
-	fadecheckcommand="%function(self)
-		if gnP2ShowName == nil then
-		gnP2ShowName = 0;
-		end
-		
-		if gnP2ShowName == 1 then
-		self:queuecommand('fadeokay');
-		end
-	end"
-	fadeokaycommand="sleep,0.4;linear,0.3;diffusealpha,0.8;"
+		Font="_eurostile normal"
+		Condition="PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+		Text="@ScreenEndingGetDisplayName(PLAYER_2)"
+		InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-77;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_2)..';diffusealpha,0'"
+		OnCommand="%function(self)
+			if gnP2ShowName == nil then
+				gnP2ShowName = 0;
+			end
+			if gnP2ShowName == 1 then
+				self:sleep(0.4); self:linear(0.3); self:diffusealpha(0.8)
+			end
+		end"
 	/>
 	<Layer File="@'../NoAvatar/'..getNoAvatar(PLAYER_2)"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-	NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
-	InitCommand="%function(self)
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+		NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_2)"
+		InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98); self:diffusealpha(1); self:zoom(0);
 			a2Width = self:GetWidth(); 
 			a2Height = self:GetHeight();
 			if a2Width >= a2Height then 
 				self:zoomtowidth(68); 
 				self:zoomtoheight(68-1/68); 
-				else  
+			else  
 				self:scaletoclipped(68,68); 
-				end
+			end
 			self:diffusealpha(0);
 			self:sleep(0.1);
 			self:diffusealpha(1);
 			self:draworder(3);
 			if getNoAvatar(PLAYER_2) == 'p2noavatar.png' then
-				self:queuecommand('NoAvatar');
-				end
-			end"	
+				self:queuecommand('NoAvatar')
+			end
+		end"	
 	/>
 	<Layer File="../../BGAnimations/AvatarFrame B.png"
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
-	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
-	end"
-	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+		OnCommand="%function(self)
+			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
+		end"
+		InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
 	/>
 	<Layer File="../../BGAnimations/AvatarFrame.png"
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
-	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
-	end"
-	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+		OnCommand="%function(self)
+			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
+		end"
+		InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
 	/>
-</children>
-</ActorFrame>
+</children></ActorFrame>
 
-	<ActorFrame InitCommand="x,156;y,128;"><children>
+<ActorFrame InitCommand="x,156;y,128;"><children>
 	<!--Player Achievements-->
 <!--Singles Level-->
 	<BitmapText
-	Font="_eurostile normal"
-	Text="@GetPlayerStatsAndAwards(PLAYER_2)"
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
-	InitCommand="%function(self)
-	self:x(SCREEN_CENTER_X-129); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
-	self:zoom(0.5);
-	self:shadowlength(0);
-	self:horizalign('right');
-	self:hidden(1);
-	if gnLevelP2 == '[Disabled]' then
-		self:hidden(1);
-		end
-		noEXP2 = 0;
-		if gnLevelP2 == nil then
-			gnLevelP2 = '[Disabled]';
+		Font="_eurostile normal"
+		Text="@GetPlayerStatsAndAwards(PLAYER_2)"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+		InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-129); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
+			self:zoom(0.5);
+			self:shadowlength(0);
+			self:horizalign('right');
 			self:hidden(1);
+			if gnLevelP2 == '[Disabled]' then
+				self:hidden(1);
 			end
-		self:settext('Level '..gnLevelP2);
-	end"
+			noEXP2 = 0;
+			if gnLevelP2 == nil then
+				gnLevelP2 = '[Disabled]';
+				self:hidden(1);
+			end
+			self:settext('Level '..gnLevelP2);
+		end"
 	/>
 
 <!--Doubles Level-->
 	<BitmapText
-	Font="_eurostile normal"
-	Text=""
-	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
-	InitCommand="%function(self)
-	self:x(SCREEN_CENTER_X-129); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
-	self:zoom(0.5);
-	self:shadowlength(0);
-	self:horizalign('right');
-	self:hidden(1);
-	if gnLevelP2 == '[Disabled]' then
-		self:hidden(1);
-		end
-		noEXP2 = 0;
-		if gnLevelP2 == nil then
-			gnLevelP2 = '[Disabled]';
+		Font="_eurostile normal"
+		Text=""
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+		InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-129); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
+			self:zoom(0.5);
+			self:shadowlength(0);
+			self:horizalign('right');
 			self:hidden(1);
+			if gnLevelP2 == '[Disabled]' then
+				self:hidden(1);
 			end
-		self:settext('Level '..gnLevelP2);
-	end"
+			noEXP2 = 0;
+			if gnLevelP2 == nil then
+				gnLevelP2 = '[Disabled]';
+				self:hidden(1);
+			end
+			self:settext('Level '..gnLevelP2);
+		end"
 	/>
 	<!--Songs Played Count-->
 		<Layer File="../../Graphics/achievements/achievement0005"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-92);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnSongsP1Total == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnSongsP1Total >= 100 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-92);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
+				if gnSongsP1Total >= 100 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0006"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-92);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnSongsP1Total == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnSongsP1Total >= 500 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+					self:x(16);
+					self:y(-92);
+					self:zoom(0.85);
+					self:diffusealpha(0);
+				if gnSongsP1Total >= 500 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0007"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)	
-			self:x(16);
-			self:y(-92);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnSongsP1Total == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnSongsP1Total >= 1000 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)	
+				self:x(16);
+				self:y(-92);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnSongsP1Total >= 1000 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 
 		<!--Total Percentages Count-->
 		<Layer File="../../Graphics/achievements/achievement0008"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-66);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnTotalP1 >= 500 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-66);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+				if gnTotalP1 >= 500 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0009"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-66);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnTotalP1 >= 1000 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-66);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnTotalP1 >= 1000 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0010"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-66);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnTotalP1 >= 1500 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-66);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnTotalP1 >= 1500 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
-				end
-			end	
-		end"
+					self:diffusealpha(0.05);
+				end	
+			end"
 		/>
 		<!--Total Death Count-->
 		<Layer File="../../Graphics/achievements/achievement0011"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-40);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnDeathsP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnDeathsP1 >= 25 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-40);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
+				if gnDeathsP1 >= 25 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0012"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-40);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnDeathsP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnDeathsP1 >= 50 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-40);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnDeathsP1 >= 50 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0013"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-40);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnDeathsP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnDeathsP1 >= 100 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-40);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnDeathsP1 >= 100 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<!--Star Count-->
 		<Layer File="../../Graphics/achievements/achievement0014"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-14);
-			self:zoom(0.85);
-			self:diffusealpha(0.05);
-		if gnStarsTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnStarsTotalP1 >= 100 then
-				self:linear(0.1); self:diffusealpha(1);
-				else
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-14);
+				self:zoom(0.85);
 				self:diffusealpha(0.05);
+				if gnStarsTotalP1 >= 100 then
+					self:linear(0.1); self:diffusealpha(1);
+				else
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0015"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-14);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnStarsTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnStarsTotalP1 >= 500 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-14);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnStarsTotalP1 >= 500 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
-		end"
+			end"
 		/>
 		<Layer File="../../Graphics/achievements/achievement0016"
-		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-		InitCommand="%function(self)
-			self:x(16);
-			self:y(-14);
-			self:zoom(0.85);
-			self:diffusealpha(0);
-		if gnStarsTotalP1 == nil then
-			self:stoptweening();
-			self:sleep(0.05);
-			self:queuecommand('Init');
-			else
-			if gnStarsTotalP1 >= 1000 then
-				self:linear(0.1); self:diffusealpha(1);
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+				self:x(16);
+				self:y(-14);
+				self:zoom(0.85);
+				self:diffusealpha(0);
+				if gnStarsTotalP1 >= 1000 then
+					self:linear(0.1); self:diffusealpha(1);
 				else
-				self:diffusealpha(0.05);
+					self:diffusealpha(0.05);
 				end
-			end	
 		end"
 		/>
-	</children>
-	</ActorFrame>
-
-	
-	</children>
-</ActorFrame>
-
-
-	</children>
-</ActorFrame>
+	</children></ActorFrame>
+	</children></ActorFrame>
+	</children></ActorFrame>

@@ -2,8 +2,6 @@
 loopCommand="%function(self)
 self:stoptweening();
 InitScreen('ScreenLogo');
-self:sleep(0.1);
-self:queuecommand('loop');
 end"><children>
 
 	<Layer

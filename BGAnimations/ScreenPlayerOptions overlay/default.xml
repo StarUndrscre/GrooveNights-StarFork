@@ -1,44 +1,37 @@
-F<ActorFrame InitCommand="%function(self)
-			if GAMESTATE:GetEnv('Vibrate') == 'On' then
-				self:vibrate();
-				end
-			end"> <children>
+<ActorFrame InitCommand="%function(self)
+	if GAMESTATE:GetEnv('Vibrate') == 'On' then
+		self:vibrate();
+	end
+end"> <children>
 <Layer Type="Quad"
 	OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions'); gnWasInOptions = gnWasInOptions + 1; end"
 />
-
-	
-
-		<ActorFrame InitCommand="x,SCREEN_CENTER_X+89;y,SCREEN_CENTER_Y-18;">
-			<children>
+	<ActorFrame InitCommand="x,SCREEN_CENTER_X+89;y,SCREEN_CENTER_Y-18;"><children>
 	<!--Total PlayTime-->
-			<BitmapText
-				Text=""
-				File="_eurostile blue glow"
-				Condition="PlayTimeEnabled()"
-				InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
-				GoCommand="%function(self)
+		<BitmapText
+			Text=""
+			File="_eurostile blue glow"
+			Condition="PlayTimeEnabled()"
+			InitCommand="@'diffuse,'..LabelColor()"
+			OnCommand="%function(self)
 				self:x(-112);
 				self:y(248);
 				self:zoom(0.6);
 				self:shadowlength(0);
 				self:horizalign('Right');
-					self:settext('Total PlayTime');
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Go');
-				end"
-			/>
+				self:settext('Total PlayTime');
+				self:queuecommand('Blink')
+			end"
+			BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
+		/>	
+
 	<!--Total PlayTime Variables-->
 			<BitmapText
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
-				UpdateCommand="%function(self)
-				self:stoptweening();
+				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				OnCommand="%function(self)
 				if gnPlaySec == nil then
 					gnPlaySec = 0;
 					gnPlayMin = 0;
@@ -68,40 +61,30 @@ F<ActorFrame InitCommand="%function(self)
 					else
 					gnPlayHourText = ''..gnPlayHour
 					end
-					
 				self:settext(gnPlayHourText..':'..gnPlayMinText..':'..gnPlaySecText);
-
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Update');
+				self:queuecommand('Blink')
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
+
 			/>
 	<!--Song Count-->
 			<BitmapText
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
-				UpdateCommand="%function(self)
-				self:stoptweening();
+				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				OnCommand="%function(self)
 				if gnSongCount == nil then
 					gnSongCount = 0;
-					end
-	
+				end
 				if gnSongCount == 1 then
 					self:settext('('..gnSongCount..' Song)');
-					else
+				else
 					self:settext('('..gnSongCount..' Songs)');
-					end
-					
-				self:sleep(1);
-				self:diffusealpha(0.5);
-				self:sleep(1);
-				self:diffusealpha(1);	
-				self:queuecommand('Update');
+				end
+				self:queuecommand('Blink')
 				end"
+				BlinkCommand="sleep,1;diffusealpha,0.5;sleep,1;diffusealpha,1;queuecommand,Blink"
 			/>
 			</children>
 		</ActorFrame>
@@ -110,25 +93,19 @@ F<ActorFrame InitCommand="%function(self)
 
 <!--Timer Recorder-->
 	<Layer Type="Quad"
-	InitCommand="diffusealpha,0;sleep,0.01;queuecommand,CountDown;"
-	CountDownCommand="%function(self)
-            self:stoptweening();
-            if PREFSMAN:GetPreference('MenuTimer') == 0 then
-                gnScreenPlayerOptionsTimer = 9999;
-                gnScreenSelectMusicTimer = 9999;
-            end
-            
+		OnCommand="%function(self) self:diffusealpha(0); self:sleep(0.01); if PREFSMAN:GetPreference('MenuTimer') == 0 then gnScreenPlayerOptionsTimer = 9999; gnScreenSelectMusicTimer = 9999; end self:queuecommand('CountDown') end"
+		CountDownCommand="%function(self)
+            self:stoptweening(); 
             gnScreenPlayerOptionsTimer = gnScreenPlayerOptionsTimer - 0.1;
-
             self:sleep(0.1);
             self:queuecommand('CountDown');
-            end"
+        end"
+		Condition="PREFSMAN:GetPreference('MenuTimer') == 1"
 	/>
-
 		<BitmapText
 			Text=""
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) self:addy(-300); self:queuecommand('loop'); end"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) self:addy(-300); end"
 			OnCommand="Zoom,1;DiffuseAlpha,0;"
 		/>
 
@@ -302,17 +279,16 @@ F<ActorFrame InitCommand="%function(self)
 	Font="_eurostile normal"
 	Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 	Text="@ScreenEndingGetDisplayName(PLAYER_1)"
-	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-177;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_1)..';diffusealpha,0;queuecommand,fadecheck;'"
-	fadecheckcommand="%function(self)
+	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-177;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_1)..';diffusealpha,0'"
+	OnCommand="%function(self)
 		if gnP1ShowName == nil then
 		gnP1ShowName = 0;
 		end
 		
 		if gnP1ShowName == 1 then
-		self:queuecommand('fadeokay');
+			self:sleep(0.4); self:linear(0.3); self:diffusealpha(0.8)
 		end
 	end"
-	fadeokaycommand="sleep,0.4;linear,0.3;diffusealpha,0.8;"
 	/>
 	
 	<Layer File="@'../../Graphics/NoAvatar/'..getNoAvatar(PLAYER_1)"
@@ -388,17 +364,16 @@ F<ActorFrame InitCommand="%function(self)
 	Font="_eurostile normal"
 	Condition="PROFILEMAN:IsPersistentProfile(PLAYER_2)"
 	Text="@ScreenEndingGetDisplayName(PLAYER_2)"
-	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-77;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_2)..';diffusealpha,0;queuecommand,fadecheck;'"
-	fadecheckcommand="%function(self)
+	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-77;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_2)..';diffusealpha,0'"
+	OnCommand="%function(self)
 		if gnP2ShowName == nil then
 		gnP2ShowName = 0;
 		end
 		
 		if gnP2ShowName == 1 then
-		self:queuecommand('fadeokay');
+			self:sleep(0.4); self:linear(0.3); self:diffusealpha(0.8)
 		end
 	end"
-	fadeokaycommand="sleep,0.4;linear,0.3;diffusealpha,0.8;"
 	/>
 	<Layer File="@'../../Graphics/NoAvatar/'..getNoAvatar(PLAYER_2)"
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
@@ -486,9 +461,8 @@ F<ActorFrame InitCommand="%function(self)
 				Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 				File="_eurostile blue glow"
 				InitCommand="x,80;horizalign,left;shadowlength,0;"
-				SpeedModChangedP1MessageCommand="queuecommand,Update"
-				RateModChangedMessageCommand="queuecommand,Update"
-				UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
+				SpeedModChangedP1MessageCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
+				RateModChangedMessageCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
 			/>
 			
 			<!--Blaze It P1 -->
@@ -496,29 +470,25 @@ F<ActorFrame InitCommand="%function(self)
 				File="_eurostile blue glow"
 				InitCommand="x,80"
 				OnCommand="horizalign,left;rainbow;shadowlength,0;"
-				SpeedModChangedP1MessageCommand="queuecommand,Update"
-				RateModChangedMessageCommand="queuecommand,Update"
-				UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
+				SpeedModChangedP1MessageCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
+				RateModChangedMessageCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"			/>
 			/>
-			
 			<!--No Scope P1 -->		
 			<BitmapText
 				File="_eurostile blue glow"
 				InitCommand="x,80"
 				OnCommand="horizalign,left;rainbow;shadowlength,0;"
-				SpeedModChangedP1MessageCommand="queuecommand,Update"
-				RateModChangedMessageCommand="queuecommand,Update"
-				UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
+				SpeedModChangedP1MessageCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
+				RateModChangedMessageCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
 			/>
 		</children></ActorFrame>
 
 <!--Easter Eggs P1 - ActorFrame positions all at once-->
 <ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			InitCommand="x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y+134;zoom,0.5;"
-			SpeedModChangedP1MessageCommand="sleep,0.01;queuecommand,Update"
-			RateModChangedMessageCommand="sleep,0.01;queuecommand,Update"
-			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X-200+10); end"
-><children>		
+			SpeedModChangedP1MessageCommand="%function(self) self:x(SCREEN_CENTER_X-200+10); end"
+			RateModChangedMessageCommand="%function(self) self:x(SCREEN_CENTER_X-200+10); end"
+=><children>		
 
 </children></ActorFrame>
 			
@@ -527,8 +497,8 @@ F<ActorFrame InitCommand="%function(self)
 			Text="Steps:"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode()"
 			File="_eurostile blue glow"
-			InitCommand="@'horizalign,left;shadowlength,0;zoom,0.5;diffuse,'..LabelColor()..';queuecommand,Go'"
-			GoCommand="%function(self)
+			InitCommand="@'horizalign,left;shadowlength,0;zoom,0.5;diffuse,'..LabelColor()"
+			OnCommand="%function(self)
 			self:x(SCREEN_CENTER_X-240);
 			self:y(SCREEN_CENTER_Y+150);
 			end"
@@ -543,9 +513,9 @@ F<ActorFrame InitCommand="%function(self)
 			self:zoom(0.5);
 			self:x(SCREEN_CENTER_X-200);
 			self:y(SCREEN_CENTER_Y+150);
-			self:queuecommand('Update');
 			end"
-			UpdateCommand="%function(self) self:stoptweening(); self:settext(GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription()); self:sleep(0.1); self:queuecommand('Update'); end"
+			CurrentStepsP1ChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) self:settext(GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription()); end"
 
 		/>
 
@@ -586,9 +556,8 @@ F<ActorFrame InitCommand="%function(self)
 			File="_eurostile blue glow"
 			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+118); self:maxwidth(140); end"
 			OnCommand="horizalign,left;zoom,0.5;"			
-			SpeedModChangedP2MessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_2)) end"
+			SpeedModChangedP2MessageCommand="%function(self) self:settext(DisplayBPM(PLAYER_2)) end"
+			RateModChangedMessageCommand="%function(self) self:settext(DisplayBPM(PLAYER_2)) end"
 		/>
 		<BitmapText
 			Text="Speed:"
@@ -605,19 +574,17 @@ F<ActorFrame InitCommand="%function(self)
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+134); end"
+			InitCommand="%function(self)  self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+134); u = self:GetWidth() end"
 			OnCommand="horizalign,left;zoom,0.5;"
-			SpeedModChangedP2MessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) u = self:GetWidth(); end"			
+			SpeedModChangedP2MessageCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) end"
+			RateModChangedMessageCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) end"
 		/>
 		
 <!--Easter Eggs P2 - ActorFrame positions all at once-->		
 <ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			InitCommand="x,SCREEN_CENTER_X+119;y,SCREEN_CENTER_Y+134;zoom,0.5;"
-			SpeedModChangedP2MessageCommand="sleep,0.05;queuecommand,Update"
-			RateModChangedMessageCommand="sleep,0.05;queuecommand,Update"
-			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X+119+u-10); end"
+			SpeedModChangedP2MessageCommand="%function(self) self:sleep(0.1); self:x(SCREEN_CENTER_X+119+u-10); end"
+			RateModChangedMessageCommand="%function(self) self:sleep(0.1); self:x(SCREEN_CENTER_X+119+u-10); end"
 ><children>	
 <!--Blaze It P2 -->
 		<BitmapText
@@ -625,9 +592,8 @@ F<ActorFrame InitCommand="%function(self)
 			File="_eurostile blue glow"
 			InitCommand="shadowlength,0;diffusealpha,0"
 			OnCommand="horizalign,left;rainbow;"
-			SpeedModChangedP2MessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_2, Actor = self }) end"
+			SpeedModChangedP2MessageCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_2, Actor = self }) end"
+			RateModChangedMessageCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_2, Actor = self }) end"
 		/>
 		
 <!--No Scope P2 -->		
@@ -636,9 +602,8 @@ F<ActorFrame InitCommand="%function(self)
 			File="_eurostile blue glow"
 			InitCommand="shadowlength,0;diffusealpha,0"
 			OnCommand="horizalign,left;rainbow;"
-			SpeedModChangedP2MessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_2, Actor = self }) end"
+			SpeedModChangedP2MessageCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_2, Actor = self }) end"
+			RateModChangedMessageCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_2, Actor = self }) end"
 		/>
 </children></ActorFrame>
 		
@@ -647,25 +612,25 @@ F<ActorFrame InitCommand="%function(self)
 			Text="Steps:"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode()"
 			File="_eurostile blue glow"
-			OnCommand="@'horizalign,left;shadowlength,0;zoom,0.5;diffuse,'..LabelColor()..';queuecommand,Go'"
-			GoCommand="%function(self)
-			self:x(SCREEN_CENTER_X+79);
-			self:y(SCREEN_CENTER_Y+150);
+			InitCommand="@'horizalign,left;shadowlength,0;zoom,0.5;diffuse,'..LabelColor()"
+				OnCommand="%function(self)
+				self:x(SCREEN_CENTER_X+79);
+				self:y(SCREEN_CENTER_Y+150);
 			end"
 		/>
 		<BitmapText
 			Text="Unknown"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode()"
 			File="_eurostile blue glow"
-			InitCommand="%function(self)
-			self:horizalign('left');
-			self:shadowlength(0);
-			self:zoom(0.5);
-			self:x(SCREEN_CENTER_X+119);
-			self:y(SCREEN_CENTER_Y+150);
-			self:queuecommand('Update');
+			OnCommand="%function(self)
+				self:horizalign('left');
+				self:shadowlength(0);
+				self:zoom(0.5);
+				self:x(SCREEN_CENTER_X+119);
+				self:y(SCREEN_CENTER_Y+150);
 			end"
-			UpdateCommand="%function(self) self:stoptweening(); self:settext(GAMESTATE:GetCurrentSteps(PLAYER_2):GetDescription()); self:sleep(0.1); self:queuecommand('Update'); end"
+			CurrentStepsP2ChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) self:settext(GAMESTATE:GetCurrentSteps(PLAYER_2):GetDescription()) end"
 		/>
 <!-- Determine Song Length-->
 		<BitmapText
@@ -690,14 +655,13 @@ F<ActorFrame InitCommand="%function(self)
 	<Layer
 			File="../../Graphics/PlayerReady"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-			OnCommand="@'diffuseshift;EffectColor1,'..PlayerColor(PLAYER_1)..';EffectColor2,'..PlayerAltColor(PLAYER_1)..';queuecommand,Start;'"
-			StartCommand="%function(self)
+			InitCommand="@'diffuseshift;EffectColor1,'..PlayerColor(PLAYER_1)..';EffectColor2,'..PlayerAltColor(PLAYER_1)"
+			OnCommand="%function(self)
 			self:diffusealpha(0);
 			self:x(SCREEN_CENTER_X-162); self:y(SCREEN_CENTER_Y+143); self:zoom(0.1);self:draworder(5);
-			self:queuecommand('loop');
 			end"
 			
-			loopcommand="%function(self)
+			gnExitCheckMessageCommand="%function(self)
 			self:stoptweening();
 			if gnP1Ready == 1 then
 				self:zoom(1); self:diffusealpha(0.9);
@@ -719,22 +683,18 @@ F<ActorFrame InitCommand="%function(self)
 					gnP1Sound = 0;
 					end
 				end
-			self:sleep(0.05);
-			self:queuecommand('loop');
 			end"
 		/>
 		
 	<Layer
 			File="../../Graphics/PlayerReady"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-			OnCommand="@'diffuseshift;EffectColor1,'..PlayerColor(PLAYER_2)..';EffectColor2,'..PlayerAltColor(PLAYER_2)..';queuecommand,Start;'"
-			StartCommand="%function(self)
+			InitCommand="@'diffuseshift;EffectColor1,'..PlayerColor(PLAYER_2)..';EffectColor2,'..PlayerAltColor(PLAYER_2)"
+			OnCommand="%function(self)
 			self:diffusealpha(0);
 			self:x(SCREEN_CENTER_X+157); self:y(SCREEN_CENTER_Y+143); self:zoom(0.1);self:draworder(5);
-			self:queuecommand('loop');
 			end"
-			
-			loopcommand="%function(self)
+			gnExitCheckMessageCommand="%function(self)
 			self:stoptweening();
 			if gnP2Ready == 1 then
 				self:zoom(1); self:diffusealpha(0.9);
@@ -756,8 +716,6 @@ F<ActorFrame InitCommand="%function(self)
 					gnP2Sound = 0;
 					end
 				end
-			self:sleep(0.05);
-			self:queuecommand('loop');
 			end"
 		/>
 </children></ActorFrame>

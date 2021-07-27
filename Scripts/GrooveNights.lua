@@ -216,19 +216,19 @@ gnZoomRatio = (SCREEN_WIDTH/640);
 gnAspectRatio = (SCREEN_WIDTH/SCREEN_HEIGHT);
 
 function VideoReduction()
-	if gnZoomRatio > 1 then
-		if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
-			return 0.95	
-		elseif gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
-			return 0.93
-		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-			return 0.97
-		elseif gnAspectRatio == 1.5 then
-			return 0.97
-		end
+if gnZoomRatio > 1 then
+	if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
+		return 0.95	
+	elseif gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+		return 0.93
+	elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+		return 0.97
+	elseif gnAspectRatio == 1.5 then
+		return 0.97
 	end
-	return 1
-	end
+end
+return 1
+end
 
 function VideoVertical()
 if gnZoomRatio > 1 then
@@ -245,45 +245,45 @@ return 0
 end
 
 function CourseHorizontal()
-	if gnZoomRatio > 1 then
-		if gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
-			return 137.1 * gnZoomRatio
-		elseif gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
-			return 80 * gnZoomRatio
-		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-			return 53 * gnZoomRatio
-		elseif gnAspectRatio ==1.5 then
-			return 36 * gnZoomRatio
-			end
+if gnZoomRatio > 1 then
+	if gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+		return 137.1 * gnZoomRatio
+	elseif gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
+		return 80 * gnZoomRatio
+	elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+		return 53 * gnZoomRatio
+	elseif gnAspectRatio ==1.5 then
+		return 36 * gnZoomRatio
 		end
-	return 0
 	end
-	
-	function HorizontalRecovery()
-	if gnZoomRatio > 1 then
-		if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 or gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
-			return 1
-		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-			return 1.2
-			end
+return 0
+end
+
+function HorizontalRecovery()
+if gnZoomRatio > 1 then
+	if gnAspectRatio > 1.7 and gnAspectRatio < 1.8 or gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+		return 1
+	elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+		return 1.2
 		end
-	return 0
 	end
-	
-	function PixelCorrection()
-	if gnZoomRatio > 1 then
-		if gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
-			return -2.91
-		elseif gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
-			return 0
-		elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
-			return 1
-		elseif gnAspectRatio == 1.5 then
-			return 1.65
-			end
+return 0
+end
+
+function PixelCorrection()
+if gnZoomRatio > 1 then
+	if gnAspectRatio > 2.3 and gnAspectRatio < 2.4 then
+		return -2.91
+	elseif gnAspectRatio > 1.7 and gnAspectRatio < 1.8 then
+		return 0
+	elseif gnAspectRatio > 1.55 and gnAspectRatio < 1.65 then
+		return 1
+	elseif gnAspectRatio == 1.5 then
+		return 1.65
 		end
-	return 0
 	end
+return 0
+end
 
 
 -- ===MENU AND SYSTEM NAMES===
@@ -303,7 +303,6 @@ function CourseHorizontal()
 		-- [PLAYER DIFFICULTIES]
 		-- Novice
 		function getTextNovice()
-		gnDifficulty = 0;
 		if CheckPlayerName('REEN')  or CheckPlayerName('SteveReen') then
 			return 'Based'
 			end
@@ -318,7 +317,6 @@ function CourseHorizontal()
 		
 		-- Easy
 		function getTextEasy()
-		gnDifficulty = 1;
 		if CheckPlayerName('REEN')  or CheckPlayerName('SteveReen') then
 			return 'Based'
 			end
@@ -333,7 +331,6 @@ function CourseHorizontal()
 		
 		-- Medium
 		function getTextMedium()
-		gnDifficulty = 2;
 		if CheckPlayerName('REEN')  or CheckPlayerName('SteveReen') then
 			return 'Based'
 			end
@@ -348,7 +345,6 @@ function CourseHorizontal()
 
 		-- Hard
 		function getTextHard()
-		gnDifficulty = 3;
 		if CheckPlayerName('REEN')  or CheckPlayerName('SteveReen') then
 			return 'Based'
 			end
@@ -363,7 +359,6 @@ function CourseHorizontal()
 		
 		-- Expert
 		function getTextExpert()
-		gnDifficulty = 4;
 		if CheckPlayerName('REEN')  or CheckPlayerName('SteveReen') then
 			return 'Based'
 			end
@@ -934,7 +929,6 @@ if not GAMESTATE:IsCourseMode() then
 		else
 		if steps:GetDifficulty() == DIFFICULTY_EDIT then 
 			gnNewDifficulty = steps:GetDescription()
-			gnDifficulty = 5
 			else
 			if steps:GetDifficulty() == DIFFICULTY_BEGINNER then 
 				gnNewDifficulty = getTextNovice()
