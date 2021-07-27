@@ -3,7 +3,7 @@ GrooveNights
 This is a modified version of the theme GrooveNights with bug fixes, Wine support, new features, and stuff ported over from other themes. This theme will only work with NotITG as of right now.
 # Features
 - Bug fixes
-- Added Discord RTC Support (Taken From Constant-Melody-X) 
+- Added Discord RPC Support (Taken From Constant-Melody-X) 
 - Added stitch, death, console, and pause overlay. (Taken From Constant-Melody-X and Simply Love NotITG v4.20)   
 - Added the OffsetPlot and Metamods support (Taken from Simply Love NotITG v4.20)
 - Added Player Positioning
@@ -12,7 +12,7 @@ This is a modified version of the theme GrooveNights with bug fixes, Wine suppor
 - Judgements can be easily added by putting them in the __Judgements__ folder (Taken From Constant-Melody-X) 
 - Added more judgements
 - Recreated some of GN's graphics to be hi-res
-- Added Wine support
+- Added Wine support **(NOTE: This branch does not include wine, switch to the wine branch)**
 - And more
 # Credits
 This theme modification wouldn't have been possible without 
