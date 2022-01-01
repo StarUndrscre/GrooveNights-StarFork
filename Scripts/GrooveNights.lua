@@ -915,41 +915,27 @@ function StaminaMod()
 	return t
 end
 
-
-
-
-
 -- Difficulty Value
 function GetCurrentSongDifficulty( pn )
-local steps = GAMESTATE:GetCurrentSteps(pn)
-gnNewDifficulty = "";
-if not GAMESTATE:IsCourseMode() then
-	if steps == nil then 
-		return ""
+	local gnDifficulty = 
+	{
+		[0] = 'Novice',
+		'Easy',
+		'Medium',
+		'Hard',
+		'Expert',
+		'Edit'
+	}
+	if not GAMESTATE:IsCourseMode() then 
+		local step = GAMESTATE:GetCurrentSteps(pn)
+		if step == nil then
+			return ''
+		elseif gnDifficulty[ step:GetDifficulty() ] == nil then 
+			return ''
 		else
-		if steps:GetDifficulty() == DIFFICULTY_EDIT then 
-			gnNewDifficulty = steps:GetDescription()
-			else
-			if steps:GetDifficulty() == DIFFICULTY_BEGINNER then 
-				gnNewDifficulty = getTextNovice()
-				end
-			if steps:GetDifficulty() == DIFFICULTY_EASY then 
-				gnNewDifficulty = getTextEasy()
-				end
-			if steps:GetDifficulty() == DIFFICULTY_MEDIUM then 
-				gnNewDifficulty = getTextMedium()
-				end
-			if steps:GetDifficulty() == DIFFICULTY_HARD then 
-				gnNewDifficulty = getTextHard()
-				end
-			if steps:GetDifficulty() == DIFFICULTY_CHALLENGE then 
-				gnNewDifficulty = getTextExpert()
-				end
-			end
+			return gnDifficulty[ step:GetDifficulty() ]
 		end
 	end
-gnNewDifficulty = gnNewDifficulty
-return gnNewDifficulty
 end
 
 -- Difficulty Meter

@@ -382,9 +382,10 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			Type="BitmapText"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:horizalign('right'); self:maxwidth(67); self:shadowlength(0); self:zoom(0.55); self:x(93+97); self:y(-22); self:draworder(10000); end"
-			CurrentStepsP1ChangedMessageCommand="%SetFromDisplaySongLength"
-			CurrentStepsP2ChangedMessageCommand="%SetFromDisplaySongLength"
-			OnCommand="%SetFromDisplaySongLength"		
+			OnCommand="queuecommand,Ready"
+			ChangeCommand="%SetFromDisplaySongLength"
+			CurrentStepsP1ChangedMessageCommand="queuecommand,Change"
+			CurrentStepsP2ChangedMessageCommand="queuecommand,Change"
 		/>
 <!-- Determine Song Location-->
 		<BitmapText

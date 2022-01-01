@@ -503,7 +503,11 @@ function DisplaySongLength()
 	local ratio = 1/RateMod
         local seconds = GetGlobal('TotalTimeSeconds')
         local minutes = GetGlobal('TotalTimeMinutes')
-
+		
+		if seconds == 'xx' or minutes == 'xx' then 
+			return 'xx:xx'
+		end
+		
         if not seconds and not minutes then return "" end
 
         if minutes == "01" and seconds == "45.00" then return "Patched" end
