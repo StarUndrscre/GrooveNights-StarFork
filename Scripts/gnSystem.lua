@@ -599,7 +599,11 @@ local function PlayfieldMods(Params)
 end
 
 local function FGMods(Params)
-	gnFGMod = Params.Value
+	if Params.Value == false then 
+		gnFGMod = 'Off'
+	else
+		gnFGMod = Params.Value
+	end
 end
 
 RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 201, GroupID = 2 }, CONSTMELODY.Get.Judgments() )
