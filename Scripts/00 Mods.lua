@@ -73,7 +73,7 @@
 -- Redefine these in Theme.lua if other values are desired.
 
 -- Used with GoTo option for PlayerOptions and with Summary screen. These can return either functions or strings.
-	screenList = { TitleMenu = 'ScreenTitleMenu' , SelectMusic = 'SelectMusic' , PlayerOptions = 'PlayerOptions' , Stage = 'Stage' , Gameplay = 'Gameplay' , Evaluation = 'Evaluation' , NameEntry = 'NameEntry' , Summary = 'ScreenTitleMenu' , Ending = 'ScreenEndingNormal' }
+	screenList = { TitleMenu = ScreenTitleBranch() , SelectMusic = 'SelectMusic' , PlayerOptions = 'PlayerOptions' , Stage = 'Stage' , Gameplay = 'Gameplay' , Evaluation = 'Evaluation' , NameEntry = 'NameEntry' , Summary = ScreenTitleBranch() , Ending = 'ScreenEndingNormal' }
 	function ScreenList(str) if type(screenList[str]) == 'function' then return screenList[str]() else return screenList[str] end end
 
 -- Judgment tween commands.

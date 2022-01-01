@@ -654,6 +654,8 @@ function SetFromDisplayScrollSpeed( Actor, pn )
 end
 
 function SetFromDisplaySongLength( Actor )
+	RegisterGlobal('TotalTimeMinutes', SCREENMAN:GetTopScreen():GetChild('TotalTime'))
+	RegisterGlobal('TotalTimeSeconds', SCREENMAN:GetTopScreen():GetChild('TotalTime'))
     Actor:settext(DisplaySongLength())
 end
 
@@ -910,4 +912,8 @@ function PlayerPosP2()
 	else
 		return "SCREEN_CENTER_X+160"
 	end
+end
+
+function ThemeManager:Reload()
+	GAMESTATE:DelayedGameCommand('reloadtheme')
 end

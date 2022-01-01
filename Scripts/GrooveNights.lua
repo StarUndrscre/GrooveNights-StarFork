@@ -970,7 +970,7 @@ end
 
 -- Song Directory
 function SSMSongLocText( actor )
-   Trace( "SSMSongLocText" )
+   -- Trace( "SSMSongLocText" )
    local song = GAMESTATE:GetCurrentSong();
    local text = ""
    if song then
