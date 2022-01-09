@@ -890,7 +890,7 @@ function EnableQuickPlayMenuOnTitle()
 	t.LayoutType = 'ShowAllInRow'
 	t.OneChoiceForAllPlayers = true
 	t.Choices = { "Off", "On" }
-	t.LoadSelections = function(self, list) local title = PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle; if title == nil then list[1] = true; return end; list[title + 1] = true end
+	t.LoadSelections = function(self, list) local title = PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle; if title == nil then list[2] = true; return end; list[title + 1] = true end
 	t.SaveSelections = function(self, list)
 		if list[1] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 0 end
 		if list[2] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 1 end
