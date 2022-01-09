@@ -7,16 +7,6 @@ local melody = CONSTMELODY
 
     local _themename = string.sub(THEME:GetPath(2,'','_blank.png'),9)
     melody.ThemeName = string.sub(_themename,1,string.find(_themename,'/')-1)
-    melody.GetWindowTitle = function()
-        if FUCK_EXE then
-            local ver_str,ver_num = melody.GetBuildVersion()
-            return "Constant Melody X - NotITG " .. ver_str ..' ('.. GAMESTATE:GetVersionDate() ..')'
-        else
-            return "Constant Melody X - OpenITG"
-        end
-    end
-
-    melody.RandomBG = 1
 
     local Modulo = function(a,b) return (a - math.floor(a/b)*b) end
     local Moduloop = function(a,min,max)
@@ -160,61 +150,6 @@ local melody = CONSTMELODY
         return v_num >= melody.BuildVersions[build]
     end
 
--- Profile
-
-    melody.Profile = {}
-    melody.Profile.Profile = function(pn)
-        if not PROFILEMAN then return {} end
-        if pn == 0 then return PROFILEMAN:GetMachineProfile():GetSaved()
-        else return PROFILEMAN:GetProfile(pn-1):GetSaved() end
-    end
-    melody.Profile.Get = function()
-        if not melody.Profile.Profile(0) then return {} end
-        if not melody.Profile.Profile(0).Melody then
-            melody.Profile.Profile(0).Melody = {
-                -- Defaults
-                Options_ScreenStageOptions=false,
-                Options_EvaluationMusic=true,
-                Options_SelectMusicPony=true,
-                Options_ProgressBar=false,
-
-                -- Private
-                BorderlessWindowed=false,
-            }
-        end
-        return melody.Profile.Profile(0).Melody
-    end
-    melody.Profile.Set = function(t)
-        if t then melody.Profile.Profile(0).Melody = t; end
-        PROFILEMAN:SaveMachineProfile()
-    end
-    melody.Profile.__call = function(s,...)
-        return melody.Profile.Profile(arg[1])
-    end
-    setmetatable(melody.Profile,melody.Profile)
-
--- Gameplay
-
-    melody.Gameplay = {}
-    melody.Gameplay.ComboTween = function(self)
-        if melody.Profile.Get().Options_DefaultComboTween then
-            local combo=self:GetZoom(); 
-            local newZoom=scale(combo,50,3000,0.8,1.8);
-            self:zoom(0.7*newZoom);
-            self:linear(0.05); 
-            self:zoom(0.7*newZoom);
-        else
-            self:zoom(0.5);
-            self:zoomx(1.3);
-            self:decelerate(0.25/GAMESTATE:GetCurBPS());
-            self:zoomx(0.5);
-        end
-    end
-    melody.Gameplay.Failed = {0,0}
-    melody.Gameplay.BongoCat = false
-    melody.Gameplay.BongoCatInput = {{0,0,0,0},{0,0,0,0}}
-
-
 -- Get Functions
 
     melody.Get = {}
@@ -316,121 +251,9 @@ local melody = CONSTMELODY
         end
         return n
     end
-
--- Extra Options
-    melody.ExtraOptions = {
-        EnableScreenStageOptions = function()
-            local t = OptionRowBase('ScreenStageOptions')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = { "Enable", "Disable" }
-            t.LoadSelections = function(self, list) if melody.Profile.Get().Options_ScreenStageOptions then list[1] = true else list[2] = true end end
-            t.SaveSelections = function(self, list)
-                melody.Profile.Get().Options_ScreenStageOptions = list[1];
-            end
-            return t
-        end,
-        EnableDefaultFail = function()
-            local t = OptionRowBase('DefaultFail')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = { "Enable", "Disable" }
-            t.LoadSelections = function(self, list) if melody.Profile.Get().Options_DefaultFail then list[1] = true else list[2] = true end end
-            t.SaveSelections = function(self, list)
-                if not CONSTMELODY.MinimumVersion('V3.1') then
-                    SCREENMAN:SystemMessage('V3 below detected! Disabling DefaultFail')
-                    list[1] = false
-                    list[2] = true
-                end
-                melody.Profile.Get().Options_DefaultFail = list[1];
-            end
-            return t
-        end,
-        FailOption_Choices = {'Off','Random'},
-        FailOption = function()
-            local t = OptionRowBase('FailOption')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = melody.ExtraOptions.FailOption_Choices
-            t.LoadSelections = function(self, list)
-                if not CONSTMELODY.MinimumVersion('V3.1') or not FUCK_EXE then
-                    list[1] = true
-                else
-                    if not melody.Profile.Get().Options_FailOption then list[1]=true; return end
-                    for i=1, table.getn(self.Choices) do
-                        if melody.Profile.Get().Options_FailOption == i then
-                            list[i] = true
-                            return
-                        end
-                    end
-                end
-            end
-            t.SaveSelections = function(self, list)
-                for i=1, table.getn(self.Choices) do
-                    if list[i] then melody.Profile.Get().Options_FailOption = i; break end
-                end
-                stitch('lua.death').Switch( melody.Profile.Get().Options_FailOption )
-            end
-            return t
-        end,
-        ColorfulEvaluation = function()
-            local t = OptionRowBase('ColorfulEvaluation')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = { "Enable", "Disable" }
-            t.LoadSelections = function(self, list) if melody.Profile.Get().Options_ColorfulEvaluation then list[1] = true else list[2] = true end end
-            t.SaveSelections = function(self, list)
-                melody.Profile.Get().Options_ColorfulEvaluation = list[1];
-            end
-            return t
-        end,
-        EvaluationMusic = function()
-            local t = OptionRowBase('EvaluationMusic')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = { "Enable", "Disable" }
-            t.LoadSelections = function(self, list) if melody.Profile.Get().Options_EvaluationMusic then list[1] = true else list[2] = true end end
-            t.SaveSelections = function(self, list)
-                melody.Profile.Get().Options_EvaluationMusic = list[1];
-            end
-            return t
-        end,
-        DefaultComboTween = function()
-            local t = OptionRowBase('DefaultComboTween')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = { "Enable", "Disable" }
-            t.LoadSelections = function(self, list) if melody.Profile.Get().Options_DefaultComboTween then list[1] = true else list[2] = true end end
-            t.SaveSelections = function(self, list)
-                melody.Profile.Get().Options_DefaultComboTween = list[1];
-            end
-            return t
-        end,
-        SelectMusicPony = function()
-            local t = OptionRowBase('SelectMusicPony')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = { "Enable", "Disable" }
-            t.LoadSelections = function(self, list) if melody.Profile.Get().Options_SelectMusicPony then list[1] = true else list[2] = true end end
-            t.SaveSelections = function(self, list)
-                melody.Profile.Get().Options_SelectMusicPony = list[1];
-            end
-            return t
-        end,
-        ProgressBar = function()
-            local t = OptionRowBase('ProgressBar')
-            t.OneChoiceForAllPlayers = true
-            t.Choices = { "Enable", "Disable" }
-            t.LoadSelections = function(self, list) if melody.Profile.Get().Options_ProgressBar then list[1] = true else list[2] = true end end
-            t.SaveSelections = function(self, list)
-                melody.Profile.Get().Options_ProgressBar = list[1];
-            end
-            return t
-        end
-    }
--- Break Time
-    melody.BreakTime = {}
-    melody.BreakTime.Songs = {}
-    melody.BreakTime.Choice_Index = 1
-    melody.BreakTime.Playing_Index = 1
-
-    melody.BreakTime.Paused = false
 -- Overlay
     melody.Overlay = {}
-    melody.Overlay.Last_Seen_Screen = ''
+    melody.Overlay.Last_Seen_Screen = ''    
 -- Discord RPC
     melody.RPC = {}
     melody.RPC.Connected = false
@@ -460,43 +283,3 @@ local melody = CONSTMELODY
             External:add_buffer(1,{1,6})
         end
     end
--- Card Display
-    melody.Card = {}
-    melody.Card[1] = {}
-    melody.Card[1].Icon = nil
-    melody.Card[1].Text = nil
-    melody.Card[1].Position = { SCREEN_CENTER_X-(SCREEN_WIDTH*160/640) , SCREEN_BOTTOM - 13 }
-    melody.Card[2] = {}
-    melody.Card[2].Icon = nil
-    melody.Card[2].Text = nil
-    melody.Card[2].Position = { SCREEN_CENTER_X+(SCREEN_WIDTH*160/640) , SCREEN_BOTTOM - 13 }
-    -- it was too long
-    melody.Card.Initialize_Text = function(self,pn)
-        -- shadowlength,0;horizalign,left;vertalign,bottom;zoom,0.4;ztest,1
-        self:shadowlength(0)
-        self:horizalign(pn==1 and 'left' or 'right')
-        self:vertalign('bottom')
-        self:zoom(0.4)
-        self:ztest(1)
-
-        -- Might consider removing card display at all??????
-
-        -- useless, any screensystemlayer actors can't be grabbed.
-        -- melody.Card[pn].Text = self
-    end
-    melody.Card.Initialize_Icon = function(self,pn)
-        -- DrawOrder,311;zoom,0.8
-        self:draworder(311)
-        self:zoom(0.8)
-
-        melody.Card[pn].Icon = self
-    end
--- MISC
-    melody.ScreenSelectPlayModeNITG = {}
-    melody.ScreenSelectPlayModeNITG.Choice = 1
-    melody.ScreenTitleMenu = {}
-    melody.ScreenTitleMenu.Choice = 1
-    melody.Chegg = false
-    melody.IsEditPlaying = false
-    melody.Garbage = {} -- Incase I got too lazy
--- 

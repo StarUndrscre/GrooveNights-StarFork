@@ -1,7 +1,7 @@
 <ActorFrame><children>
     <Layer
         File="../Graphics/ScreenOptions more/moreexit"
-        InitCommand="x,SCREEN_CENTER_X-101+HorizontalRecovery()+1-40-13;y,SCREEN_CENTER_Y+112+40-56-18+12-17;croptop,.57;cropbottom,.1"
+        InitCommand="x,SCREEN_CENTER_X-101+1-40-13;y,SCREEN_CENTER_Y+112+40-56-18+12-17;croptop,.57;cropbottom,.1"
         OnCommand="%function(self) self:diffuse(1,1,1,0.5); 
             gnSelectedRow=0
             gnTotalRows=1

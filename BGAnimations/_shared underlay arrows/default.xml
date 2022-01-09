@@ -1,7 +1,7 @@
 <ActorFrame><children>
 	<AutoActor
 		File="arrow"
-		InitCommand="x,SCREEN_LEFT+114+CourseHorizontal();y,SCREEN_CENTER_Y-70;zoom,0.5"
+		InitCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y-70;zoom,0.5"
 		OnCommand="addx,-200;decelerate,0.5;addx,200"
 		MenuLeftP1MessageCommand="playcommand,Blink"
 		MenuLeftP2MessageCommand="playcommand,Blink"
@@ -11,7 +11,7 @@
 	/>
 	<AutoActor
 		File="arrow"
-		InitCommand="x,SCREEN_RIGHT-113-CourseHorizontal();y,SCREEN_CENTER_Y-70;RotationY,180;zoom,0.5"
+		InitCommand="x,SCREEN_CENTER_X+207;y,SCREEN_CENTER_Y-70;RotationY,180;zoom,0.5"
 		OnCommand="addx,200;decelerate,0.5;addx,-200"
 		MenuRightP1MessageCommand="playcommand,Blink"
 		MenuRightP2MessageCommand="playcommand,Blink"

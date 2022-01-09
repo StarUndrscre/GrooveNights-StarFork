@@ -81,36 +81,36 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEnding'); end
 	/>
 	
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_EASY)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_EASY) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*0"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and IsPlayerProfileAvailable(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and IsPlayerProfileAvailable(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and IsPlayerProfileAvailable(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_CHALLENGE)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_CHALLENGE) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*3"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and IsPlayerProfileAvailable(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
 
 
 		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and IsPlayerProfileAvailable(PLAYER_1) and GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and IsPlayerProfileAvailable(PLAYER_1) and GAMESTATE:IsCourseMode()"		/>
 
 	
 	
 
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_EASY)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_EASY) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*0"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and IsPlayerProfileAvailable(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and IsPlayerProfileAvailable(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and IsPlayerProfileAvailable(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_CHALLENGE)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_CHALLENGE) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*3"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and IsPlayerProfileAvailable(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
 
 		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and IsPlayerProfileAvailable(PLAYER_2) and GAMESTATE:IsCourseMode()"		/>
 		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
-Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:IsCourseMode()"		/>
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and IsPlayerProfileAvailable(PLAYER_2) and GAMESTATE:IsCourseMode()"		/>
 </children> </ActorFrame>
 </children> </ActorFrame>
 
@@ -118,9 +118,10 @@ Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(
 
 	
 <!-- Achievements for Player 1-->	
-<ActorFrame Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+<ActorFrame Condition="IsPlayerProfileAvailable(PLAYER_1) and gnZoomRatio == 1"
 			InitCommand="%function(self)
-			self:x(SCREEN_LEFT-58+(HorizontalRecovery()*12));
+			--self:x(SCREEN_LEFT-58+(HorizontalRecovery()*12));
+			self:x(SCREEN_LEFT-58);
 			self:y(SCREEN_BOTTOM-140);
 			self:zoomx(0.9);
 			self:zoomy(0.88);
@@ -811,10 +812,11 @@ Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(
 
 
 <!-- Achievements for Player 2-->	
-<ActorFrame Condition="PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+<ActorFrame Condition="IsPlayerProfileAvailable(PLAYER_2) and gnZoomRatio == 1 "
 			InitCommand="%function(self)
 			self:hidden(0);
-			self:x(SCREEN_RIGHT-204-(CourseHorizontal()*2)+(HorizontalRecovery()*11));
+			-- self:x(SCREEN_RIGHT-204-(CourseHorizontal()*2)+(HorizontalRecovery()*11));
+			self:x(SCREEN_RIGHT-204);
 			self:y(SCREEN_BOTTOM-140);
 			self:zoomx(0.9);
 			self:zoomy(0.88);

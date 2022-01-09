@@ -5,8 +5,15 @@ function ScreenTitleBranch()
 	gnCustomBG = 'No';
 	gnScreenSelectMusicTimer = gnDefaultSSM;
 	gnScreenPlayerOptionsTimer = gnDefaultSPO;
-	if GAMESTATE:GetCoinMode() == COIN_MODE_HOME then return "ScreenTitleMenu" end
-	if GAMESTATE:IsEventMode() then return "ScreenEventMenu" end
+	if GAMESTATE:GetCoinMode() == COIN_MODE_HOME then 
+		local quickplay = PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle
+		if quickplay == nil or quickplay == 1 then
+			return "ScreenTitleMenuNITG"
+		end
+		return "ScreenTitleMenu"
+	elseif GAMESTATE:IsEventMode() then 
+		return "ScreenEventMenu" 
+	end
 	return "ScreenTitleJoin"
 end
 

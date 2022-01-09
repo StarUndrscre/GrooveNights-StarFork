@@ -73,7 +73,7 @@
 -- Redefine these in Theme.lua if other values are desired.
 
 -- Used with GoTo option for PlayerOptions and with Summary screen. These can return either functions or strings.
-	screenList = { TitleMenu = ScreenTitleBranch() , SelectMusic = 'SelectMusic' , PlayerOptions = 'PlayerOptions' , Stage = 'Stage' , Gameplay = 'Gameplay' , Evaluation = 'Evaluation' , NameEntry = 'NameEntry' , Summary = ScreenTitleBranch() , Ending = 'ScreenEndingNormal' }
+	screenList = { TitleMenu = ScreenTitleBranch() , SelectMusic = 'SelectMusic' , PlayerOptions = 'PlayerOptions' , Stage = 'Stage' , Gameplay = 'Gameplay' , Evaluation = 'Evaluation' , NameEntry = 'NameEntry' , Summary = 'Summary' , Ending = ScreenTitleBranch() }
 	function ScreenList(str) if type(screenList[str]) == 'function' then return screenList[str]() else return screenList[str] end end
 
 -- Judgment tween commands.
@@ -148,7 +148,7 @@ function Diffuse(self,c,n) if not c[4] then c[4] = 1 end if n == 1 then self:dif
 function ApplyMod(mod,pn,f) local m = mod if m then if f then m = f .. '% ' .. m end GAMESTATE:ApplyGameCommand('mod,'..m,pn) end end
 function CheckMod(pn,mod) return mod and GAMESTATE:PlayerIsUsingModifier(pn,mod) end
 --function SummaryBranch() ForceSongAndSteps() if not scoreIndex then scoreIndex = 1 end if scoreIndex <= table.getn(AllScores) then return ScreenList('Summary') else scoreIndex = 1 return ScreenList('Ending') end end
-function SummaryBranch() ForceSongAndSteps() if not scoreIndex then scoreIndex = 1 end if scoreIndex <= table.getn(AllScores) then return ScreenList('Summary') else scoreIndex = 1 if gnSongCount < 1 then return ScreenList('TitleMenu') else return ScreenList('Ending') end end end
+function SummaryBranch() ForceSongAndSteps() if not scoreIndex then scoreIndex = 1 end if scoreIndex <= table.getn(AllScores) then return ScreenList('Summary') else scoreIndex = 1 if gnSongCount < 1 then return ScreenTitleBranch() else return ScreenTitleBranch() end end end
 function Clock(val) local t = GlobalClock:GetSecsIntoEffect() if val then t = t - val end return t end
 --function Clock(val) local t = 0 if val then t = t - val end return t end
 function MusicClock() return Screen():GetSecsIntoEffect() end
@@ -562,6 +562,9 @@ function AddScoreToListFromEval()
 	end
 end  
 
+-- Just in case
+ModCustom = { LifeBar = {1,1}, JudgmentFont = {1,1}, Compare = {1,1}, Measure = {1,1} }
+
 ------------------------
 -- Capturing Functions
 ------------------------
@@ -652,10 +655,11 @@ end
 
 function CaptureJudgment() for pn = 1, 2 do if Player(pn) then for i,v in ipairs(judgmentList) do local j = Screen():GetChild(v .. 'P' .. pn) if j then _G[v][pn] = j:GetText() end end end end end
 
+-- TODO: find out why Difficulty doesnt exist in ScreenSelectMusicCourse
 function CaptureMeter()
 	for pn = 1, 2 do if Player(pn) then
 		s = GAMESTATE:GetCurrentSteps(pn-1)
-		if s then Difficulty[pn] = s:GetDifficulty() else Difficulty[pn] = Screen():GetChild('MeterP'.. pn):GetChild('Difficulty'):GetText() end
+		if s then Difficulty[pn] = s:GetDifficulty() else local diff = Screen():GetChild('MeterP'.. pn):GetChild('Difficulty') if diff ~= nil then Difficulty[pn] = diff:GetText() else Difficulty[pn] = '' end end
 		for i=0,5 do if DifficultyToThemedString(i) == Difficulty[pn] or string.upper(DifficultyToThemedString(i)) == Difficulty[pn] then Difficulty[pn] = i break end end
 		Meter[pn] = Screen():GetChild('MeterP'.. pn):GetChild('Meter'):GetText()
 	end end

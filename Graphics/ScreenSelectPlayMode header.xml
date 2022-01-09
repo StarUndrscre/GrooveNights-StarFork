@@ -13,7 +13,7 @@
 	<BitmapText
 		Text=""
 		File="_eurostile blue glow"
-		InitCommand="%function(self) self:x(self:GetWidth()/2) self:y(20); gnChoice = 2; gnChoiceTween = 0.05; gnZoom1 = 0.7; gnZoom3 = 0.7; gnZoom4 = 0.7; gnMaxZoom = 0.6; gnMinZoom = 0.4; self:sleep(0.1); end"
+		InitCommand="%function(self) self:x(self:GetWidth()/2) self:y(20); gnChoice = 2; end"
 	/>
 		
 <!--Custom Option Select-->

@@ -1,87 +1,87 @@
 <ActorFrame InitCommand="%function(self)
-if GAMESTATE:GetEnv('Vibrate') == 'On' then
-	self:vibrate();
+	if GAMESTATE:GetEnv('Vibrate') == 'On' then
+		self:vibrate();
 	end
 end"> <children>
 
 <!--Background Easter Eggs-->
 	<Layer File="@'../../Graphics/NoBackground/'..getNoBackground()..'Background.png'"
-	InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0.6,0.6,0.6,1;queuecommand,Grandpa;"
-	GrandpaCommand="%function(self)
-	if GAMESTATE:GetEnv('Vibrate') == 'On' then
-		self:vibrate();
-		end
-	if GAMESTATE:GetEnv('Konami') == 'On' then
-		self:rainbow();
-		end
-	end"
+		InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0.6,0.6,0.6,1;queuecommand,Grandpa;"
+		GrandpaCommand="%function(self)
+			if GAMESTATE:GetEnv('Vibrate') == 'On' then
+				self:vibrate();
+			end
+			if GAMESTATE:GetEnv('Konami') == 'On' then
+				self:rainbow();
+			end
+		end"
 	/>
 
 
 <!--Hide Backgrounds-->
 	<Layer File="hidebg" Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2)"
-	InitCommand="zoomx,20+SCREEN_WIDTH/2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X-(SCREEN_WIDTH/4)+10;y,SCREEN_CENTER_Y;faderight,0.07;queuecommand,ModIt;"
-	ModItCommand="%function(self)
-		for getModP1=0, 100, 5 do
-			if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..(getModP1/1000)..'% cross') then 
-				hideBGp1 = getModP1;
-				break
+		InitCommand="zoomx,20+SCREEN_WIDTH/2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X-(SCREEN_WIDTH/4)+10;y,SCREEN_CENTER_Y;faderight,0.07;queuecommand,ModIt;"
+		ModItCommand="%function(self)
+			for getModP1=0, 100, 5 do
+				if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..(getModP1/1000)..'% cross') then 
+					hideBGp1 = getModP1;
+					break
 				end
 			end
-		if hideBGp1 == nil then
-		hideBGp1 = 0;
-		end
-		self:diffusealpha(hideBGp1/100);
-	end"
+			if hideBGp1 == nil then
+				hideBGp1 = 0;
+			end
+			self:diffusealpha(hideBGp1/100);
+		end"
 	/>
 	<Layer File="hidebg" Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:IsHumanPlayer(PLAYER_2)"
-	InitCommand="zoomx,20+SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X-(SCREEN_WIDTH/4)+10;y,SCREEN_CENTER_Y;faderight,0.07;queuecommand,ModIt;"
-	ModItCommand="%function(self)
-		for getModP1=0, 100, 5 do
-			if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..(getModP1/1000)..'% cross') then 
-				hideBGp1 = getModP1;
-				break
+		InitCommand="zoomx,20+SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X-(SCREEN_WIDTH/4)+10;y,SCREEN_CENTER_Y;faderight,0.07;queuecommand,ModIt;"
+		ModItCommand="%function(self)
+			for getModP1=0, 100, 5 do
+				if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..(getModP1/1000)..'% cross') then 
+					hideBGp1 = getModP1;
+					break
 				end
 			end
-		if hideBGp1 == nil then
-		hideBGp1 = 0;
-		end
-		self:diffusealpha(hideBGp1/100);
-	end"
+			if hideBGp1 == nil then
+				hideBGp1 = 0;
+			end
+			self:diffusealpha(hideBGp1/100);
+		end"
 	/>
 	
 	<Layer File="hidebg" Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and GAMESTATE:IsHumanPlayer(PLAYER_1)"
-	InitCommand="zoomx,20+SCREEN_WIDTH/2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X+(SCREEN_WIDTH/4)-10;y,SCREEN_CENTER_Y;fadeleft,0.07;queuecommand,ModIt;"
-	ModItCommand="%function(self)
-		hideBGp2 = 0;
-		for getModP2=0, 100, 5 do
-			if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..(getModP2/1000)..'% cross') then 
-				hideBGp2 = getModP2;
-				break
+		InitCommand="zoomx,20+SCREEN_WIDTH/2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X+(SCREEN_WIDTH/4)-10;y,SCREEN_CENTER_Y;fadeleft,0.07;queuecommand,ModIt;"
+		ModItCommand="%function(self)
+			hideBGp2 = 0;
+			for getModP2=0, 100, 5 do
+				if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..(getModP2/1000)..'% cross') then 
+					hideBGp2 = getModP2;
+					break
 				end
 			end
-		if hideBGp2 == nil then
-		hideBGp2 = 0;
-		end
-		self:diffusealpha(hideBGp2/100);
-	end"
+			if hideBGp2 == nil then
+				hideBGp2 = 0;
+			end
+			self:diffusealpha(hideBGp2/100);
+		end"
 	/>
 	
 	<Layer File="hidebg" Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:IsHumanPlayer(PLAYER_1)"
-	InitCommand="zoomx,20+SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;fadeleft,0.07;queuecommand,ModIt;"
-	ModItCommand="%function(self)
-		hideBGp2 = 0;
-		for getModP2=0, 100, 5 do
-			if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..(getModP2/1000)..'% cross') then 
-				hideBGp2 = getModP2;
-				break
+		InitCommand="zoomx,20+SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;fadeleft,0.07;queuecommand,ModIt;"
+		ModItCommand="%function(self)
+			hideBGp2 = 0;
+			for getModP2=0, 100, 5 do
+				if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..(getModP2/1000)..'% cross') then 
+					hideBGp2 = getModP2;
+					break
 				end
 			end
-		if hideBGp2 == nil then
-		hideBGp2 = 0;
-		end
-		self:diffusealpha(hideBGp2/100);
-	end"
+			if hideBGp2 == nil then
+				hideBGp2 = 0;
+			end
+			self:diffusealpha(hideBGp2/100);
+		end"
 	/>
 	
 <!--Default Stuff-->
@@ -190,7 +190,7 @@ end"> <children>
 	/>	
 	<ActorFrame
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:GetPlayMode()==PLAY_MODE_REGULAR and GAMESTATE:GetCurrentSteps(PLAYER_1):GetDifficulty()==DIFFICULTY_BEGINNER"
-		OnCommand="x,SCREEN_CENTER_X-160-CourseHorizontal()/1.5;y,SCREEN_CENTER_Y+40;zoom,1.2;rotationx,-20"
+		OnCommand="@'x,'..PlayerPosP1()..';y,SCREEN_CENTER_Y+40;zoom,1.2;rotationx,-20'"
 		FOV="45"
 		VanishX="SCREEN_CENTER_X-160"
 		VanishY="SCREEN_CENTER_Y+40"
@@ -223,7 +223,7 @@ end"> <children>
 
 	<ActorFrame
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and GAMESTATE:GetPlayMode()==PLAY_MODE_REGULAR and GAMESTATE:GetCurrentSteps(PLAYER_2):GetDifficulty()==DIFFICULTY_BEGINNER"
-		OnCommand="x,SCREEN_CENTER_X+160+CourseHorizontal()/1.5;y,SCREEN_CENTER_Y+40;zoom,1.2;rotationx,-20"
+		OnCommand="@'x,'..PlayerPosP2()..';y,SCREEN_CENTER_Y+40;zoom,1.2;rotationx,-20'"
 		FOV="45"
 		VanishX="SCREEN_CENTER_X+160"
 		VanishY="SCREEN_CENTER_Y+40"

@@ -1,0 +1,9 @@
+<ActorFrame><children>
+    <Layer
+        File="Common normal"
+        Text="NOTE: Using an aspect ratio that isnt 4:3 can break some mod files"
+        InitCommand="zoom,0.5;horizalign,right;x,SCREEN_CENTER_X+75;y,SCREEN_CENTER_Y+120"
+
+    />
+    <Layer File="@THEME:GetPath(EC_BGANIMATIONS,'ScreenOptions','overlay')" />
+</children></ActorFrame>

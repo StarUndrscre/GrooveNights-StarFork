@@ -7,65 +7,50 @@
 	if GAMESTATE:GetEnv('Vibrate') == 'On' then
 		self:vibrate();
 	end
-	self:queuecommand('Ready')
-end"
-ReadyCommand="%function(self)
-			if gnZoomRatio > 1 then
-				if GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides() then
-					SCREENMAN:GetTopScreen():GetChild('PlayerP1'):addx(0-CourseHorizontal()/1.5);
-					end
-				if GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides() then
-					SCREENMAN:GetTopScreen():GetChild('PlayerP2'):addx(0+CourseHorizontal()/1.5);
-					end
-				if GAMESTATE:IsDemonstration() then
-					SCREENMAN:GetTopScreen():GetChild('PlayerP1'):addx(0+CourseHorizontal()/3.1);
-					SCREENMAN:GetTopScreen():GetChild('PlayerP2'):addx(0-CourseHorizontal()/3.1);
-					end
-				end
 end"> <children>
     
 <Layer Type="Quad"
-OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
+	OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
 />
 		
 	<!--Scrape the Player's Score-->
-		<BitmapText
+	<BitmapText
 		Condition="GAMESTATE:GetPlayMode() ~= PLAY_MODE_ONI"
 		Text=""
 		File="_eurostile blue glow"
 		InitCommand="%function(self)
-		self:x(SCREEN_CENTER_X);
-		self:y(SCREEN_CENTER_Y);
+			self:x(SCREEN_CENTER_X);
+			self:y(SCREEN_CENTER_Y);
 		end"
 		StepP1MessageCommand="%function(self)
-		gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
-		gnScoreP1 = string.gsub(gnScoreP1,'%%','');
-		gnScoreP1 = tonumber(gnScoreP1);
+			gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
+			gnScoreP1 = string.gsub(gnScoreP1,'%%','');
+			gnScoreP1 = tonumber(gnScoreP1);
 		end"
 		StepP2MessageCommand="%function(self)
-		gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
-		gnScoreP2 = string.gsub(gnScoreP2,'%%','');
-		gnScoreP2 = tonumber(gnScoreP2);
+			gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
+			gnScoreP2 = string.gsub(gnScoreP2,'%%','');
+			gnScoreP2 = tonumber(gnScoreP2);
 		end"
 		
 		ScreenTransitionMessageCommand="%function(self)
 			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-			gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
-			gnScoreP1 = string.gsub(gnScoreP1,'%%','');
-			gnScoreP1 = tonumber(gnScoreP1);
+				gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
+				gnScoreP1 = string.gsub(gnScoreP1,'%%','');
+				gnScoreP1 = tonumber(gnScoreP1);
 			end
 
 			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
-			gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
-			gnScoreP2 = string.gsub(gnScoreP2,'%%','');
-			gnScoreP2 = tonumber(gnScoreP2);
+				gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
+				gnScoreP2 = string.gsub(gnScoreP2,'%%','');
+				gnScoreP2 = tonumber(gnScoreP2);
 			end
 		end"
-		/>
+	/>
 
 
 		
-		<ActorFrame InitCommand="x,409+CourseHorizontal();y,222;">
+		<ActorFrame InitCommand="x,SCREEN_CENTER_X+89">
 			<children>
 	<!--Total PlayTime-->
 			<BitmapText
@@ -75,7 +60,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 				InitCommand="@'diffuse,'..LabelColor()"
 				OnCommand="%function(self)
 				self:x(-112);
-				self:y(248);
+				self:y(SCREEN_BOTTOM-10);
 				self:zoom(0.6);
 				self:shadowlength(0);
 				self:horizalign('Right');
@@ -87,7 +72,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				OnCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
+				OnCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:y(SCREEN_BOTTOM-10); self:queuecommand('Update'); self:horizalign('left'); end"
 				UpdateCommand="%function(self)
 				gnPlaySec = gnPlaySec + 1;
 				if gnPlaySec >= 60 then
@@ -125,7 +110,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:y(SCREEN_BOTTOM-10); self:horizalign('left'); end"
 				OnCommand="%function(self)
 				self:stoptweening();
 				if gnSongCount == nil then
@@ -145,14 +130,14 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 <!-- Crowns -->
 <ActorFrame Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2)"><children>
 <Layer File="winning"
-	InitCommand="diffusealpha,0;x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,-30"
+	InitCommand="diffusealpha,0;x,SCREEN_CENTER_X-(SCREEN_WIDTH*296/640)-9;y,SCREEN_CENTER_Y-111;zoom,0.5;rotationz,-30"
 	OnCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
 	StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
 	StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
 	UpdateCommand="%function(self) if gnScoreP1 >= gnScoreP2 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
 />
 <Layer File="winning"
-	InitCommand="diffusealpha,0;x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,30"
+	InitCommand="diffusealpha,0;x,SCREEN_CENTER_X+(SCREEN_WIDTH*296/640)+7;y,SCREEN_CENTER_Y-111;zoom,0.5;rotationz,30"
 	OnCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
 	StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
 	StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
@@ -255,7 +240,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 		HideGameplayTopFrameMessageCommand="playcommand,TweenOff"
 		> <children>
 		
-		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X-264-CourseHorizontal()+(13*HorizontalRecovery());y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
+		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X-(SCREEN_WIDTH*264/640);y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
 			<Actor
 				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty icons')"
 				OnCommand="animate,0;playcommand,Update"
@@ -291,7 +276,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 			/>
 		</children></ActorFrame>
 		
-		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X-264-CourseHorizontal()+(13*HorizontalRecovery());y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
+		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X-(SCREEN_WIDTH*264/640);y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
 			<Actor
 				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty icons')"
 				OnCommand="animate,0;playcommand,Update"
@@ -317,7 +302,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 			/>
 		</children></ActorFrame>
 		
-		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X+263+CourseHorizontal()-(13*HorizontalRecovery());y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
+		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X+(SCREEN_WIDTH*263/640);y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
 			<Actor
 				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty icons')"
 				OnCommand="zoomx,-1;animate,0;playcommand,Update"
@@ -353,7 +338,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 			/>
 		</children></ActorFrame>
 		
-		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X+263+CourseHorizontal()-(13*HorizontalRecovery());y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
+		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X+(SCREEN_WIDTH*263/640);y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
 			<Actor
 				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty icons')"
 				OnCommand="animate,0;rotationy,180;"
@@ -407,25 +392,25 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 	
 	<!-- Easter Eggs -->
 	<!--Summer Rain, I made this chart so I don't need to credit myself (oops)-->
-	<ActorFrame Condition="EasterEggSummerRain()" InitCommand="addy,-(12*HorizontalRecovery());zoom,gnZoomRatio;"><children>
+	<ActorFrame Condition="EasterEggSummerRain()"><children>
 	<Layer
 	File="easter_eggs/rainnear"
-	OnCommand="x,320;y,240;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-1.00;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
+	OnCommand="x,320*gnScaleWidth;y,240*gnScaleHeight;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-1.00;ZoomToWidth,640*gnScaleWidth;ZoomToHeight,480*gnScaleHeight;diffusealpha,0;linear,1;diffusealpha,1;"
 	/>
 
 	<Layer
 	File="easter_eggs/rainmed"
-	OnCommand="x,320;y,240;rotationz,5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.80;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
+	OnCommand="x,320*gnScaleWidth;y,240*gnScaleHeight;rotationz,5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.80;ZoomToWidth,640*gnScaleWidth;ZoomToHeight,480*gnScaleHeight;diffusealpha,0;linear,1;diffusealpha,1;"
 	/>
 
 	<Layer
 	File="easter_eggs/rainfar"
-	OnCommand="x,320;y,240;rotationz,-5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.6;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
+	OnCommand="x,320*gnScaleWidth;y,240*gnScaleHeight;rotationz,-5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.6;ZoomToWidth,640*gnScaleWidth;ZoomToHeight,480*gnScaleHeight;diffusealpha,0;linear,1;diffusealpha,1;"
 	/>
 
 	<Layer
 	File="easter_eggs/rainClouds"
-	OnCommand="x,320;y,240;diffusealpha,0;linear,1.000;diffusealpha,1;"
+	OnCommand="x,320*gnScaleWidth;y,240*gnScaleHeight;zoomx,1*gnScaleWidth;zoomy,1*gnScaleHeight;diffusealpha,0;linear,1.000;diffusealpha,1;"
 	/>
 
 	</children></ActorFrame>
@@ -438,97 +423,97 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 	<ActorFrame Condition="EasterEggSanta()"> <children>
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+64+CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP1()-96;y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+128+CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP1()-32;y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+192+CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;rotationz,-180;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP1()+32;y,SCREEN_CENTER_Y-125;rotationz,-180;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+256+CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP1()+96;y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 		<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-64-CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP2()-96;y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-128-CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;rotationz,180;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP2()-32;y,SCREEN_CENTER_Y-125;rotationz,180;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-192-CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP2()+32;y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-256-CourseHorizontal()/3;y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,PlayerPosP2()+96;y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+64+32+CourseHorizontal();y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X-224;y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+128+32+CourseHorizontal();y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+192+32+CourseHorizontal();y,SCREEN_CENTER_Y-125;rotationz,-180;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X-96;y,SCREEN_CENTER_Y-125;rotationz,-180;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_LEFT+256+32+CourseHorizontal();y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X-32;y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 		<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-64-32-CourseHorizontal();y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X+32;y,SCREEN_CENTER_Y-125;rotationz,-90;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-128-32-CourseHorizontal();y,SCREEN_CENTER_Y-125;rotationz,180;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X+96;y,SCREEN_CENTER_Y-125;rotationz,180;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-192-32-CourseHorizontal();y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X+160;y,SCREEN_CENTER_Y-125;diffuseblink;effectcolor1,0,1,0,0.5;effectcolor2,1,0,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
 	<layer
 		File="easter_eggs/receptor"
-		OnCommand="x,SCREEN_RIGHT-256-32-CourseHorizontal();y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
+		OnCommand="x,SCREEN_CENTER_X+224;y,SCREEN_CENTER_Y-125;rotationz,90;diffuseblink;effectcolor1,1,0,0,0.5;effectcolor2,0,1,0,0.5;effectclock,bgm;effectperiod,2"
 		Condition="GAMESTATE:PlayerUsingBothSides()"
 	/>
 	
@@ -550,84 +535,84 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 	
 	
 	<!--Frost: Credit to Puurokulho and his Napolese chart-->
-	<ActorFrame Condition="EasterEggFrost()" InitCommand="addx,-CourseHorizontal();addy,-(12*HorizontalRecovery());zoom,gnZoomRatio;"> <children>
+	<ActorFrame Condition="EasterEggFrost()"><children>
 
 	<!-- Dicks -->
 
 		<Layer
 			File="easter_eggs/ice.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.07;diffusealpha,0;croptop,0.9;fadetop,0.1;sleep,0;linear,1;diffusealpha,0.5;linear,4.5;croptop,0;linear,0.1;fadetop,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.07*gnZoomRatio*gnScaleHeight;diffusealpha,0;croptop,0.9;fadetop,0.1;sleep,0;linear,1;diffusealpha,0.5;linear,4.5;croptop,0;linear,0.1;fadetop,0"
 		/>
 
 	<!-- 1 -->
 		<Layer
 			File="easter_eggs/line1.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200;zoom,1;diffusealpha,0;sleep,0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;sleep,0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line1.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 2 -->
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 3 -->
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 4 -->
 
 		<Layer
 			File="easter_eggs/line4.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line4.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 5 -->
 
 		<Layer
 			File="easter_eggs/line5.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line5.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 6 -->
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-------------------- ADDFDAFADFADADFADFADFAD -------------------->
@@ -635,72 +620,72 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 	<!-- 7 -->
 		<Layer
 			File="easter_eggs/line1.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80;zoom,1;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line1.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80;zoom,1;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 8 -->
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 9 -->
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 10 -->
 
 		<Layer
 			File="easter_eggs/line4.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line4.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 11 -->
 
 		<Layer
 			File="easter_eggs/line5.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line5.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 12 -->
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-------------------- ADDFDAFADFADADFADFADFAD -------------------->
@@ -708,108 +693,108 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 	<!-- 13 -->
 		<Layer
 			File="easter_eggs/line1.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40;zoom,1;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line1.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40;zoom,1;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 14 -->
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 15 -->
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 16 -->
 
 		<Layer
 			File="easter_eggs/line4.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line4.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 17 -->
 
 		<Layer
 			File="easter_eggs/line5.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line5.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 18 -->
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 19 -->
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line2.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 20 -->
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line3.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
 		/>
 
 	<!-- 21 -->
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220;zoom,1;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
 		/>
 
 		<Layer
 			File="easter_eggs/line6.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220;zoom,1;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;sleep,17.923"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220*gnScaleHeight;zoom,1*gnZoomRatio;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;sleep,17.923"
 		/>
 	</children> </ActorFrame>
 
@@ -1096,7 +1081,7 @@ StepP2MessageCommand="%function(self)
 	/>		
 
 	</children></ActorFrame>	
-	<ActorFrame Condition="gnFGMod == 'Misty'" InitCommand="sleep,0.1;x,CourseHorizontal()" ><children>		
+	<ActorFrame Condition="gnFGMod == 'Misty'" InitCommand="sleep,0.1;x,gnScaleWidth" ><children>		
 <ActorFrame	InitCommand="%function(self)
 			self:diffusealpha(0);
 			self:linear(0.2);
@@ -1105,10 +1090,10 @@ StepP2MessageCommand="%function(self)
 			self:zoom(1*gnZoomRatio);
 			end"
 			ShifterCommand="%function(self)
-			self:x(640);
-			self:y(240);
+			self:x(640*gnScaleWidth);
+			self:y(240*gnScaleHeight);
 			self:linear(30);
-			self:addx(-1280);
+			self:addx(-1280*gnScaleWidth);
 			self:queuecommand('Shifter');
 			end">
 	<children>
@@ -1160,9 +1145,9 @@ StepP2MessageCommand="%function(self)
 			end"
 			ShifterCommand="%function(self)
 				self:x(0);
-				self:y(240);
+				self:y(240*gnScaleHeight);
 				self:linear(30);
-				self:addx(1280);
+				self:addx(1280*gnScaleWidth);
 				self:queuecommand('Shifter');
 			end"
 ><children>
@@ -1218,17 +1203,17 @@ StepP2MessageCommand="%function(self)
 		<layer
 			File="clear.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
-			InitCommand="diffusealpha,0;sleep,1;x,160+(CourseHorizontal()/3);y,240;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
+			InitCommand="diffusealpha,0;sleep,1;x,160*gnScaleWidth;;y,240*gnScaleHeight;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
 		/>
 		<layer
 			File="clear.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
-			InitCommand="diffusealpha,0;sleep,1;x,480+(CourseHorizontal()/0.6);y,240;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
+			InitCommand="diffusealpha,0;sleep,1;x,480*gnScaleWidth;;y,240*gnScaleHeight;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
 		/>
 		<layer
 			File="step.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
-			InitCommand="diffusealpha,0;sleep,1;x,160+(CourseHorizontal()/3);y,240;playcommand,Checker;"
+			InitCommand="diffusealpha,0;sleep,1;x,160*gnScaleWidth;y,240*gnScaleHeight;playcommand,Checker;"
 
 			CheckerCommand="%function(self)
 				if MistAlpha >= 0.65 then
@@ -1244,7 +1229,7 @@ StepP2MessageCommand="%function(self)
 		<layer
 			File="step.png"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
-			InitCommand="diffusealpha,0;x,480+(CourseHorizontal()/0.6);y,240;playcommand,Checker;"
+			InitCommand="diffusealpha,0;x,480*gnScaleWidth;y,240*gnScaleHeight;playcommand,Checker;"
 			CheckerCommand="%function(self)
 				if MistAlpha >= 0.65 then
 					self:linear(0.5);
@@ -1288,15 +1273,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats2');
@@ -1312,15 +1297,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats');
@@ -1352,15 +1337,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats2');
@@ -1376,15 +1361,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats');
@@ -1416,15 +1401,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats2');
@@ -1440,15 +1425,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats');
@@ -1480,15 +1465,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats2');
@@ -1504,8 +1489,8 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
@@ -1542,15 +1527,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats2');
@@ -1566,15 +1551,15 @@ StepP2MessageCommand="%function(self)
 				catsX = 1020;
 				self:rotationy(180);
 				end
-			self:x(catsX);
-			self:y(catsY);
+			self:x(catsX*gnScaleWidth);
+			self:y(catsY*gnScaleHeight);
 			self:linear(7);
 			if catsDir == 1 then
 				catsDir = 2;
-				self:addx(1300+CourseHorizontal()*2);
+				self:addx(1300*gnScaleWidth);
 				else
 				catsDir = 1;
-				self:addx(-1300-CourseHorizontal()*2);
+				self:addx(-1300*gnScaleWidth);
 				end
 			self:sleep(1);
 			self:queuecommand('Runcats');
@@ -1585,7 +1570,7 @@ StepP2MessageCommand="%function(self)
 			
 		<layer
 			Type="Quad"
-			InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,640*gnZoomRatio;diffusealpha,0;rainbow;"
+			InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomto,SCREEN_WIDTH,SCREEN_HEIGHT;diffusealpha,0;rainbow;"
 			
 			StepP1MessageCommand="%function(self)
 					if gnFGMod == 'Nyan Cat' then
@@ -1623,8 +1608,7 @@ StepP2MessageCommand="%function(self)
 </ActorFrame>
 	
 <!-- Popcorn -->
-<ActorFrame Condition="gnFGMod == 'Popcorn'" InitCommand="x,CourseHorizontal()*1" 
-><children>
+<ActorFrame Condition="gnFGMod == 'Popcorn'"><children>
 		<ActorFrame><children>
 			<Layer
 				File="blank.png"
@@ -1644,7 +1628,7 @@ StepP2MessageCommand="%function(self)
 			/>
 
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						popTimer = 0;
 						popTimer2 = 0;
@@ -1661,8 +1645,8 @@ StepP2MessageCommand="%function(self)
 			if popTimer == 1 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -1723,16 +1707,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P1Switch = 1;
@@ -1750,7 +1734,7 @@ StepP2MessageCommand="%function(self)
 
 
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP1MessageCommand="playcommand,Update0"
@@ -1758,8 +1742,8 @@ StepP2MessageCommand="%function(self)
 			if popTimer == 2 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -1820,16 +1804,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P2Switch = 1;
@@ -1847,7 +1831,7 @@ StepP2MessageCommand="%function(self)
 
 
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP1MessageCommand="playcommand,Update0"
@@ -1855,8 +1839,8 @@ StepP2MessageCommand="%function(self)
 			if popTimer == 3 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -1917,16 +1901,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P3Switch = 1;
@@ -1944,7 +1928,7 @@ StepP2MessageCommand="%function(self)
 			
 
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP1MessageCommand="playcommand,Update0"
@@ -1952,8 +1936,8 @@ StepP2MessageCommand="%function(self)
 			if popTimer == 4 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2009,21 +1993,21 @@ StepP2MessageCommand="%function(self)
 					if P4Switch == 0 then
 					Rotit = (100*(math.random(-6,6)));
 					Xit = (math.random(-2,2)*((10*math.random(-9,9))+(1*math.random(-9,9))));
-					Yit = (-1*(10+(10*math.random(5,9))+(1*math.random(5,9))));
+					Yit = (-1*(10+(10*math.random(5,9))+(1*math.random(5,9)))*gnScaleHeight);
 					
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P4Switch = 1;
@@ -2041,7 +2025,7 @@ StepP2MessageCommand="%function(self)
 
 
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP1MessageCommand="playcommand,Update0"
@@ -2049,7 +2033,7 @@ StepP2MessageCommand="%function(self)
 			if popTimer == 5 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
 				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
@@ -2111,16 +2095,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P5Switch = 1;
@@ -2138,7 +2122,7 @@ StepP2MessageCommand="%function(self)
 
 
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP1MessageCommand="playcommand,Update0"
@@ -2146,8 +2130,8 @@ StepP2MessageCommand="%function(self)
 			if popTimer == 6 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2208,16 +2192,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P6Switch = 1;
@@ -2234,7 +2218,7 @@ StepP2MessageCommand="%function(self)
 			</children> </ActorFrame>
 			
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						popTimer2 = 0;
 						popTimer2 = 0;
@@ -2251,9 +2235,9 @@ StepP2MessageCommand="%function(self)
 			if popTimer2 == 1 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:addx(320);
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:addx(320*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2314,16 +2298,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P1Switch2 = 1;
@@ -2341,7 +2325,7 @@ StepP2MessageCommand="%function(self)
 
 
 			<ActorFrame InitCommand="%function(self)
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP2MessageCommand="playcommand,Update0"
@@ -2349,9 +2333,9 @@ StepP2MessageCommand="%function(self)
 			if popTimer2 == 2 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:addx(320);
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:addx(320*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2412,16 +2396,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P2Switch2 = 1;
@@ -2440,7 +2424,7 @@ StepP2MessageCommand="%function(self)
 
 			<ActorFrame InitCommand="%function(self)
 						
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP2MessageCommand="playcommand,Update0"
@@ -2448,9 +2432,9 @@ StepP2MessageCommand="%function(self)
 			if popTimer2 == 3 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:addx(320);
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:addx(320*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2511,16 +2495,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P3Switch2 = 1;
@@ -2539,7 +2523,7 @@ StepP2MessageCommand="%function(self)
 
 			<ActorFrame InitCommand="%function(self)
 						
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP2MessageCommand="playcommand,Update0"
@@ -2547,9 +2531,9 @@ StepP2MessageCommand="%function(self)
 			if popTimer2 == 4 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:addx(320);
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:addx(320*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2610,16 +2594,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P4Switch2 = 1;
@@ -2638,7 +2622,7 @@ StepP2MessageCommand="%function(self)
 
 			<ActorFrame InitCommand="%function(self)
 						
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP2MessageCommand="playcommand,Update0"
@@ -2646,9 +2630,9 @@ StepP2MessageCommand="%function(self)
 			if popTimer2 == 5 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:addx(320);
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:addx(320*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2709,16 +2693,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P5Switch2 = 1;
@@ -2737,7 +2721,7 @@ StepP2MessageCommand="%function(self)
 
 			<ActorFrame InitCommand="%function(self)
 						
-						self:x(2000)
+						self:x(2000*gnScaleWidth)
 						self:y(SCREEN_CENTER_Y)
 						end"
 			StepP2MessageCommand="playcommand,Update0"
@@ -2745,9 +2729,9 @@ StepP2MessageCommand="%function(self)
 			if popTimer2 == 6 then
 				self:diffusealpha(1);
 				self:zoom(0.1);
-				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9)));
-				self:addx(320);
-				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9)));
+				self:x(-100+(100*math.random(3))+(10*math.random(9))+(1*math.random(9))*gnScaleWidth);
+				self:addx(320*gnScaleWidth);
+				self:y(10+(100*math.random(2))+(10*math.random(7))+(1*math.random(9))*gnScaleHeight);
 				self:decelerate(0.25);
 				self:zoom((math.random(2))+(0.1*math.random(9))+(0.01*math.random(9)));
 				self:sleep(0.001);
@@ -2808,16 +2792,16 @@ StepP2MessageCommand="%function(self)
 					self:diffusealpha(1);
 					self:rotationz(Rotit);
 					self:decelerate(0.2);
-					self:addx(Xit);
-					self:addy(Yit);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(Yit*gnScaleHeight);
 					self:rotationz(0);
 					self:accelerate(0.2);
 					
 					Rotit = (Rotit * (-1));
 					
 					self:rotationz(Rotit);
-					self:addx(Xit);
-					self:addy(600);
+					self:addx(Xit*gnScaleWidth);
+					self:addy(600*gnScaleHeight);
 					self:sleep(0.001);
 					self:diffusealpha(0);
 					P6Switch2 = 1;

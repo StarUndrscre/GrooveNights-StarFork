@@ -1,0 +1,10 @@
+<ActorFrame><children>
+	<BitampText
+		Text="Classic ITG (old menu)"
+		File="_eurostile normal"
+		InitCommand="zoom,0.8;horizalign,center;shadowlength,0;"
+		GainFocusCommand="%function(self) self:y(20); self:hidden(0); self:finishtweening(); gnChoice = 1; MESSAGEMAN:Broadcast('gnChoiceChanged'); self:diffusealpha(0); self:linear(0.5); self:diffusealpha(1); end"
+		LoseFocusCommand="hidden,1"
+		OffCommand="%function(self) if gnChoice == 2 then self:linear(0.3); self:diffusealpha(0) end end"
+	/>
+</children></ActorFrame>

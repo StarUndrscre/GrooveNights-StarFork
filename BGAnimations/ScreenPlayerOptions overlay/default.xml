@@ -6,7 +6,7 @@ end"> <children>
 <Layer Type="Quad"
 	OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions'); gnWasInOptions = gnWasInOptions + 1; end"
 />
-	<ActorFrame InitCommand="x,SCREEN_CENTER_X+89;y,SCREEN_CENTER_Y-18;"><children>
+	<ActorFrame InitCommand="x,SCREEN_CENTER_X+89"><children>
 	<!--Total PlayTime-->
 		<BitmapText
 			Text=""
@@ -15,7 +15,7 @@ end"> <children>
 			InitCommand="@'diffuse,'..LabelColor()"
 			OnCommand="%function(self)
 				self:x(-112);
-				self:y(248);
+				self:y(SCREEN_BOTTOM-10);
 				self:zoom(0.6);
 				self:shadowlength(0);
 				self:horizalign('Right');
@@ -30,7 +30,7 @@ end"> <children>
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:y(SCREEN_BOTTOM-10); self:horizalign('left'); end"
 				OnCommand="%function(self)
 				if gnPlaySec == nil then
 					gnPlaySec = 0;
@@ -72,7 +72,7 @@ end"> <children>
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:horizalign('left'); end"
+				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:y(SCREEN_BOTTOM-10); self:horizalign('left'); end"
 				OnCommand="%function(self)
 				if gnSongCount == nil then
 					gnSongCount = 0;
@@ -177,8 +177,8 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	OnCommand="@'diffuse,'..BackgroundColor()..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
-			self:y(SCREEN_CENTER_Y-194); 
+			self:x(-68); 
+			self:y(46); 
 			self:diffusealpha(1); 
 			self:draworder(1000);
 			end"	
@@ -188,8 +188,8 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	OnCommand="@'diffuse,'..FrameColor()..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
-			self:y(SCREEN_CENTER_Y-194); 
+			self:x(-68); 
+			self:y(46); 
 			self:diffusealpha(1); 
 			self:draworder(1000);
 			end"	
@@ -199,8 +199,8 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	OnCommand="@'diffuse,'..BackgroundColor()..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
-			self:y(SCREEN_CENTER_Y-194); 
+			self:x(-68); 
+			self:y(46); 
 			self:diffusealpha(1); 
 			self:draworder(-1000);
 			end"	
@@ -218,8 +218,8 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 	OnCommand="@'diffuse,'..BackgroundColor()..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
-			self:y(SCREEN_CENTER_Y-95); 
+			self:x(-68); 
+			self:y(145); 
 			self:diffusealpha(1); 
 			self:draworder(1000);
 			end"	
@@ -229,8 +229,8 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 	OnCommand="@'diffuse,'..FrameColor()..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
-			self:y(SCREEN_CENTER_Y-95); 
+			self:x(-68); 
+			self:y(145); 
 			self:diffusealpha(1); 
 			self:draworder(1000);
 			end"	
@@ -240,8 +240,8 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 	OnCommand="@'diffuse,'..BackgroundColor()..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
-			self:y(SCREEN_CENTER_Y-95); 
+			self:x(-68); 
+			self:y(145); 
 			self:diffusealpha(1); 
 			self:draworder(-1000);
 			end"	
@@ -257,7 +257,7 @@ end"> <children>
 	<Layer File="../../Graphics/avatars/p1avatar"
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197); self:diffusealpha(1); self:zoom(0);
+			self:x(-184); self:y(43); self:diffusealpha(1); self:zoom(0);
 			a1Width = self:GetWidth(); 
 			a1Height = self:GetHeight(); 
 			if a1Width >= a1Height then 
@@ -279,7 +279,7 @@ end"> <children>
 	Font="_eurostile normal"
 	Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 	Text="@ScreenEndingGetDisplayName(PLAYER_1)"
-	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-177;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_1)..';diffusealpha,0'"
+	InitCommand="@'horizalign,center;draworder,1000;x,-183;y,63;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_1)..';diffusealpha,0'"
 	OnCommand="%function(self)
 		if gnP1ShowName == nil then
 		gnP1ShowName = 0;
@@ -295,7 +295,7 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-198); self:diffusealpha(1); self:zoom(0);
+			self:x(-184) self:y(42); self:diffusealpha(1); self:zoom(0);
 			a1Width = self:GetWidth(); 
 			a1Height = self:GetHeight(); 
 			if a1Width >= a1Height then 
@@ -316,14 +316,14 @@ end"> <children>
 	<Layer File="../AvatarFrame B.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
+	self:x(-184); self:y(43);
 	end"
 	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
 	/>
 	<Layer File="../AvatarFrame.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
+	self:x(-184); self:y(43);
 	end"
 	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
 	/>
@@ -341,7 +341,7 @@ end"> <children>
 	<Layer File="../../Graphics/avatars/p2avatar"
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98); self:diffusealpha(1); self:zoom(0);
+			self:x(-184); self:y(142); self:diffusealpha(1); self:zoom(0);
 			a2Width = self:GetWidth(); 
 			a2Height = self:GetHeight();
 			if a2Width >= a2Height then 
@@ -364,7 +364,7 @@ end"> <children>
 	Font="_eurostile normal"
 	Condition="PROFILEMAN:IsPersistentProfile(PLAYER_2)"
 	Text="@ScreenEndingGetDisplayName(PLAYER_2)"
-	InitCommand="@'horizalign,center;draworder,1000;x,SCREEN_CENTER_X-503-CourseHorizontal()+(0*HorizontalRecovery());y,SCREEN_CENTER_Y-77;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_2)..';diffusealpha,0'"
+	InitCommand="@'horizalign,center;draworder,1000;x,-183;y,163;zoom,0.5;shadowlength,0;maxwidth,120;Diffuse,'..PlayerColor(PLAYER_2)..';diffusealpha,0'"
 	OnCommand="%function(self)
 		if gnP2ShowName == nil then
 		gnP2ShowName = 0;
@@ -379,7 +379,7 @@ end"> <children>
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 	NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98); self:diffusealpha(1); self:zoom(0);
+			self:x(-184); self:y(142); self:diffusealpha(1); self:zoom(0);
 			a2Width = self:GetWidth(); 
 			a2Height = self:GetHeight();
 			if a2Width >= a2Height then 
@@ -400,14 +400,14 @@ end"> <children>
 	<Layer File="../AvatarFrame B.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
+	self:x(-184); self:y(142);
 	end"
 	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
 	/>
 	<Layer File="../AvatarFrame.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
+	self:x(-184); self:y(142);
 	end"
 	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
 	/>
