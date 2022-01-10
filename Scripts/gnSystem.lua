@@ -901,7 +901,7 @@ function EnableQuickPlayMenuOnTitle()
 end
 
 function PlayerPosP1()
-	if gnPlayerPositioning == nil or gnPlayerPositioning == 0 then 
+	if gnPlayerPositioning == nil or gnPlayerPositioning == false then 
 		return SCREEN_CENTER_X-(SCREEN_WIDTH*160/640)
 	else
 		return SCREEN_CENTER_X-160
@@ -909,7 +909,7 @@ function PlayerPosP1()
 end
 
 function PlayerPosP2()
-	if gnPlayerPositioning == nil or gnPlayerPositioning == 0 then 
+	if gnPlayerPositioning == nil or gnPlayerPositioning == false then 
 		return SCREEN_CENTER_X+(SCREEN_WIDTH*160/640)
 	else
 		return SCREEN_CENTER_X+160
