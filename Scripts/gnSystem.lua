@@ -109,7 +109,7 @@ function InitScreen(scn)
 		end	
 		gnScreenSelectMusic = false;
 		gnWasInOptions = 0;
-		gnPlayerPositioning = false
+		gnPlayerPositioning = 0
 	end
 
 	if scn == 'ScreenSelectPlayMode' then
@@ -859,14 +859,36 @@ function ComboShowLeadingZeroes()
 end
 
 function PlayerPositioning()
+	-- hide 4:3 option when using a 4:3 aspect ratio
+	-- kinda messy but it works
+	local choices = {}
+	if gnZoomRatio == 1 then 
+		choices = { "Regular", "Centered"}
+	else
+		choices = { "Regular", "4:3", "Centered"}
+	end
 	local t = OptionRowBase('PlayerPositioning')
 	t.LayoutType = 'ShowAllInRow'
 	t.OneChoiceForAllPlayers = true
-	t.Choices = { "Regular", "4:3" }
-	t.LoadSelections = function(self, list) if gnPlayerPositioning == nil or gnPlayerPositioning == false then list[1] = true else list[2] = true end end
+	t.Choices = choices
+	t.LoadSelections = function(self, list) 
+		if gnPlayerPositioning == nil or gnPlayerPositioning == 0 then 
+			list[1] = true 
+			return 
+		elseif table.getn(choices) == 3 then
+			list[gnPlayerPositioning + 1] = true
+		elseif gnPlayerPositioning == 2 then 
+			list[3] = true
+		end
+	end
 	t.SaveSelections = function(self, list)
-		if list[1] then gnPlayerPositioning = false; end
-		if list[2] then gnPlayerPositioning = true; end
+		if list[1] then gnPlayerPositioning = 0
+		elseif table.getn(choices) == 3 then
+			if list[2] then gnPlayerPositioning = 1 
+			elseif list[3] then gnPlayerPositioning = 2 
+			end
+		elseif list[2] then gnPlayerPositioning = 2
+		end
 	end
 	return t
 end
@@ -894,25 +916,27 @@ function EnableQuickPlayMenuOnTitle()
 	t.SaveSelections = function(self, list)
 		if list[1] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 0 end
 		if list[2] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 1 end
-		if list[3] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 2 end
-		if list[4] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 3 end
 	end
 	return t
 end
 
+
+-- 0 = Regular; 1 = 4:3; 2 = Centered
 function PlayerPosP1()
-	if gnPlayerPositioning == nil or gnPlayerPositioning == false then 
-		return SCREEN_CENTER_X-(SCREEN_WIDTH*160/640)
-	else
-		return SCREEN_CENTER_X-160
+	local choices = {[0] = SCREEN_CENTER_X-(SCREEN_WIDTH*160/640), [1] = SCREEN_CENTER_X-160, [2] = SCREEN_CENTER_X }
+	if choices[gnPlayerPositioning] == nil then 
+		return choices[0]
+	else 
+		return choices[gnPlayerPositioning]
 	end
 end
 
 function PlayerPosP2()
-	if gnPlayerPositioning == nil or gnPlayerPositioning == false then 
-		return SCREEN_CENTER_X+(SCREEN_WIDTH*160/640)
-	else
-		return SCREEN_CENTER_X+160
+	local choices = { [0] = SCREEN_CENTER_X+(SCREEN_WIDTH*160/640), [1] = SCREEN_CENTER_X+160, [2] = SCREEN_CENTER_X }
+	if choices[gnPlayerPositioning] == nil then 
+		return choices[0]
+	else 
+		return choices[gnPlayerPositioning]
 	end
 end
 

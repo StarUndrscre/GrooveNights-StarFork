@@ -12,6 +12,17 @@ end"> <children>
 <Layer Type="Quad"
 	OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
 />
+	<Layer
+		Type="Quad"
+		Condition="gnPlayerPositioning == 2 and GAMESTATE:GetNumSidesJoined() == 2"
+		OnCommand="hidden,1;queuecommand,Ready"
+		ReadyCommand="%function(self)
+			SCREENMAN:GetTopScreen():GetChild('PlayerP1'):GetChild('Judgment'):x(-180)
+			SCREENMAN:GetTopScreen():GetChild('PlayerP1'):GetChild('Combo'):x(-180)
+			SCREENMAN:GetTopScreen():GetChild('PlayerP2'):GetChild('Judgment'):x(180)
+			SCREENMAN:GetTopScreen():GetChild('PlayerP2'):GetChild('Combo'):x(180)
+		end"
+	/>
 		
 	<!--Scrape the Player's Score-->
 	<BitmapText
