@@ -295,12 +295,12 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			Condition="GAMESTATE:IsCourseMode()"
 			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,-221;y,-167;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top'"
 			OnCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_1) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
-			/>
+		/>
 		<Layer Type="Quad"
 			Condition="GAMESTATE:IsCourseMode()"
 			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,71;y,-167;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top'"
 			OnCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_2) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
-			/>
+		/>
 		</children></ActorFrame>	
 
 				<!--<Layer 
@@ -551,8 +551,13 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 							self:settext(getTextHard());
 							self:queuecommand('ColourHard');
 						elseif gnGetDifficultyP1 == 'Expert' then
-							self:settext(getTextExpert());
-							self:queuecommand('ColourExpert');
+							if SlumpageCheck(PLAYER_1) then 
+								self:settext(getTextSlumpage())
+								self:queuecommand('ColourSlumpage')
+							else
+								self:settext(getTextExpert());
+								self:queuecommand('ColourExpert');
+							end
 						elseif gnGetDifficultyP1 ~= '' then
 							if SlumpageCheck(PLAYER_1) then 
 								self:settext(getTextSlumpage())
@@ -949,8 +954,13 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 							self:settext(getTextHard());
 							self:queuecommand('ColourHard');
 						elseif gnGetDifficultyP2 == 'Expert' then
-							self:settext(getTextExpert());
-							self:queuecommand('ColourExpert');
+							if SlumpageCheck(PLAYER_2) then 
+								self:settext(getTextSlumpage())
+								self:queuecommand('ColourSlumpage')
+							else
+								self:settext(getTextExpert());
+								self:queuecommand('ColourExpert');
+							end
 						elseif gnGetDifficultyP2 ~= '' then
 							if SlumpageCheck(PLAYER_2) then 
 								self:settext(getTextSlumpage())
