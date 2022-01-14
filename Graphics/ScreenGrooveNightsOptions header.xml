@@ -1,7 +1,7 @@
 <ActorFrame>
 	<children>
 		<BitmapText
-			Text="GROOVENIGHTS OPTIONS"
+			Text="GrooveNights Options"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:x(self:GetWidth()/2); self:shadowlength(0); end"
 		/>

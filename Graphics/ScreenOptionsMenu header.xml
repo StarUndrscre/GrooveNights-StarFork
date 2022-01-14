@@ -3,7 +3,7 @@
 		<BitmapText
 			Text="@getTextServiceOptionsTitle()"
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  gnP1Ready = 0; gnP2Ready = 0; gnTotalDone = 0; self:x(self:GetWidth()/2) self:shadowlength(0) end"
+			InitCommand="%function(self) InCenterImage = false; gnP1Ready = 0; gnP2Ready = 0; gnTotalDone = 0; self:x(self:GetWidth()/2) self:shadowlength(0) end"
 			
 			
 		/>

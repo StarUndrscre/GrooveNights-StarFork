@@ -159,15 +159,32 @@ local melody = CONSTMELODY
             -- Manually insert stuffs here
             local t = {
                 'Default',
-                'itg2hd',
-                'splatoon2',
-                'njsrt',
-                'tmday',
-                'tmnight',
-                'wp',
-                'groovenights',
-                'thatquestionsucks',
-                'japanese'
+                'Chromatic',
+                'Deco',
+                'Droidiga',
+                'FP',
+                'Gameplay',
+                'Glow ITG',
+                'GrooveNights HD',
+                'Groovy',
+                'ITG2',
+                'Konigsberg',
+                'Love',
+                'Mariokart',
+                'Negative ITG',
+                'Neon',
+                'Nulshock',
+                'Outer Limits',
+                'OutFox',
+                'Quantify',
+                'Shooters',
+                'sm-ssc',
+                'Tatics',
+                'Technique',
+                'VCR',
+                'Voltex',
+                'Wellbut',
+                'Wonder Parade'
             }
             return t
         end

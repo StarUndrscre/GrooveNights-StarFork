@@ -2,11 +2,10 @@
     File="MessageFrame" 
     InitCommand="@'diffuse,'..FrameColor()..'queuecommand,GlobalClock'" 
     GlobalClockMessageCommand="%function(self) if not GlobalClock then GlobalClock = self; self:effectperiod(1000000) end end" 
-    MessageSoundMessageCommand="%function(self)	if SCREENMAN:GetTopScreen() ~= nil and SOUND ~= nil then
-			if SCREENMAN:GetTopScreen():GetName() ~= 'ScreenCenterImage' then
-				local Path = THEME:GetPath( EC_SOUNDS, 'gnSystemMessage', 'sound' ); 
-				SOUND:PlayOnce(Path); 
-			end
+    MessageSoundMessageCommand="%function(self)
+		if SOUND ~= nil and InCenterImage ~= true then
+			local Path = THEME:GetPath( EC_SOUNDS, 'gnSystemMessage', 'sound' ); 
+			SOUND:PlayOnce(Path); 
 		end
 	end"
 />
