@@ -24,7 +24,7 @@ FailOverlay = 2
 EditorShowSongTitle=true
 
 -- Keybind for game pausing
-EnableGameplayPause=true
+EnableGameplayPause=false
 GameplayPauseKeybind='p'
 
 -- Debug: Lua heap viewer
@@ -36,8 +36,10 @@ layout:
         QwertyUS
         QwertyUK
         QwertyNO
+        QwertzSwissFR
+        QwertzSwissDE
 
-    You can add more in /Overlay/lua/keyboard.lua
+    You can add more in /(theme)/lua/layout.lua
 
 console:
     Hold ctrl+<key> to open the console
