@@ -86,9 +86,9 @@ function ModLines()
 	local lines = {}
 	for GroupID,GroupName in pairs(ModGroups) do 
 		PrefTable = GetProfilePref(GroupName)
-		Trace("YOLO " .. GroupName)		
+        -- Trace(GroupName)			
 		for ModName,ModValue in pairs(ModsTable) do
-			Trace("SWAG " .. ModName)
+            -- Trace(ModName)
 			if ModValue.Params.GroupID == GroupID then
 				if PrefTable == nil or PrefTable[ModName] then -- if the mod is enabled, (also default to enabled if there's nothing in the profile)
 					if ModValue.Params.LineNumber then table.insert(lines, ModValue.Params.LineNumber) end
