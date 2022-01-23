@@ -515,8 +515,9 @@ end"> <children>
 			self:y(SCREEN_CENTER_Y+150);
 			end"
 			CurrentStepsP1ChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription()); end"
-
+			UpdateCommand="%function(self) self:settext(GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription()); if SlumpageCheck(PLAYER_1) then self:queuecommand('Slumpage') else self:queuecommand('NormalSteps') end end"
+			SlumpageCommand="diffuseshift;EffectColor1,#FF0000;EffectColor2,#FF5555;effectclock,bgm"
+			NormalStepsCommand="stopeffect;diffuse,1,1,1,1"
 		/>
 
 <!-- Determine Song Length-->
@@ -590,7 +591,7 @@ end"> <children>
 		<BitmapText
 			Text="Blaze It!"
 			File="_eurostile blue glow"
-			InitCommand="shadowlength,0;diffusealpha,0"
+			InitCommand="shadowlength,0;diffusealpha,0;x,20"
 			OnCommand="horizalign,left;rainbow;"
 			SpeedModChangedP2MessageCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_2, Actor = self }) end"
 			RateModChangedMessageCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_2, Actor = self }) end"
@@ -600,7 +601,7 @@ end"> <children>
 		<BitmapText
 			Text="No Scope!"
 			File="_eurostile blue glow"
-			InitCommand="shadowlength,0;diffusealpha,0"
+			InitCommand="shadowlength,0;diffusealpha,0;x,20"
 			OnCommand="horizalign,left;rainbow;"
 			SpeedModChangedP2MessageCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_2, Actor = self }) end"
 			RateModChangedMessageCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_2, Actor = self }) end"
@@ -630,7 +631,9 @@ end"> <children>
 				self:y(SCREEN_CENTER_Y+150);
 			end"
 			CurrentStepsP2ChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(GAMESTATE:GetCurrentSteps(PLAYER_2):GetDescription()) end"
+			UpdateCommand="%function(self) self:settext(GAMESTATE:GetCurrentSteps(PLAYER_2):GetDescription()) if SlumpageCheck(PLAYER_2) then self:queuecommand('Slumpage') else self:queuecommand('NormalSteps') end end"
+			SlumpageCommand="diffuseshift;EffectColor1,#FF0000;EffectColor2,#FF5555;effectclock,bgm"
+			NormalStepsCommand="stopeffect;diffuse,1,1,1,1"
 		/>
 <!-- Determine Song Length-->
 		<BitmapText
