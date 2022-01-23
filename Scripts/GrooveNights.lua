@@ -176,6 +176,10 @@ gnAspectRatio = (SCREEN_WIDTH/SCREEN_HEIGHT);
 gnScaleWidth = (SCREEN_WIDTH / 640)
 gnScaleHeight = (SCREEN_HEIGHT/ 480)
 
+function gnScaleFOV(fov) 
+	return 360 / math.pi * math.atan(math.tan(math.pi * (1 / (360 / fov))) * SCREEN_WIDTH / SCREEN_HEIGHT * 0.75) 
+end
+
 -- ===MENU AND SYSTEM NAMES===
 -- The following are elements of the game that you can change to
 -- give it your own custom feel, you can also add conditions so
