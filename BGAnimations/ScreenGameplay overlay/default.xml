@@ -1212,17 +1212,17 @@ StepP2MessageCommand="%function(self)
 	><children>
 	
 		<layer
-			File="clear.png"
+			File="clear"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 			InitCommand="diffusealpha,0;sleep,1;x,160*gnScaleWidth;;y,240*gnScaleHeight;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
 		/>
 		<layer
-			File="clear.png"
+			File="clear"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 			InitCommand="diffusealpha,0;sleep,1;x,480*gnScaleWidth;;y,240*gnScaleHeight;linear,0.5;diffusealpha,1;sleep,4;linear,0.5;diffusealpha,0;"
 		/>
 		<layer
-			File="step.png"
+			File="step"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 			InitCommand="diffusealpha,0;sleep,1;x,160*gnScaleWidth;y,240*gnScaleHeight;playcommand,Checker;"
 
@@ -1238,7 +1238,7 @@ StepP2MessageCommand="%function(self)
 				end"
 			/>
 		<layer
-			File="step.png"
+			File="step"
 			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 			InitCommand="diffusealpha,0;x,480*gnScaleWidth;y,240*gnScaleHeight;playcommand,Checker;"
 			CheckerCommand="%function(self)
