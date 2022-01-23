@@ -44,9 +44,15 @@ end"><children>
 		File="TitleScreen0003.png"
 		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,2;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-2;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-20;zoom,0;linear,0.1;zoom,1;"
 	/>
-		<Layer
-		File="TitleScreen0001.png"
+	<Layer
+		File="TitleScreen0001"
 		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,4;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-4;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-40;addy,20;zoom,0;linear,0.1;zoom,1;"
+		Condition="FUCK_EXE == nil"
+	/>
+	<Layer
+		File="TitleScreen0001nitg"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,4;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-4;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-40;addy,20;zoom,0;linear,0.1;zoom,1;"
+		Condition="FUCK_EXE == true"
 	/>
 	</children></Layer>
 
