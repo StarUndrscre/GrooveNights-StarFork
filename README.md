@@ -1,15 +1,18 @@
 GrooveNights
 ============
-This is a modified version of the theme GrooveNights with bug fixes, Wine support, new features, and stuff ported over from other themes. This theme will only work with NotITG as of right now.
+This is a modified version of GrooveNights with bug fixes, Wine support, new features, and stuff ported over from other themes. This theme will only work with NotITG as of right now.
 # Features
 - Bug fixes
 - Added Discord RPC Support (Taken From Constant-Melody-X) 
 - Added stitch, death, console, and pause overlay. (Taken From Constant-Melody-X and Simply Love NotITG v4.20)   
 - Added the OffsetPlot and Metamods support (Taken from Simply Love NotITG v4.20)
-- Added Player Positioning
-- Added 3:2 and 21:9 support
+- Added Player Positioning 
+  - Regular - Normal Player Positioning (scaled with screen width)
+  - 4:3 - for modfiles that expect the player to be in a 4:3 aspect ratio position (hidden for 4:3 and might also screw up some modfiles) 
+  - Centered
+- Much better widescreen support (removed hardcoded values)
 - Fixed custom mods (JudgeSkin, etc.) only applying to one player and also being reset randomly.
-- Judgements can be easily added by putting them in the __Judgements__ folder (Taken From Constant-Melody-X) 
+- Judgements can be easily added by putting them in the __Judgements__ folder (Taken From Constant-Melody-X) (Only for NITG)
 - Added more judgements
 - Recreated some of GN's graphics to be hi-res
 - Added Wine support
@@ -23,5 +26,5 @@ This theme modification wouldn't have been possible without
 Most judgements were taken from Simply Love GOODER, but I also added some more
 - GrooveNights judgement and Held/Dropped text --MattMayuga
 - Glow ITG, Negative ITG, and OutFox judgement from Stepmania Outfox
-- Shooters judgement --FMS_Cat
+- Shooters judgement --0b5vr
 
