@@ -860,7 +860,6 @@ end
 
 function PlayerPositioning()
 	-- hide 4:3 option when using a 4:3 aspect ratio
-	-- kinda messy but it works
 	local choices = {}
 	if gnZoomRatio == 1 then 
 		choices = { "Regular", "Centered"}
@@ -916,6 +915,8 @@ function EnableQuickPlayMenuOnTitle()
 	t.SaveSelections = function(self, list)
 		if list[1] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 0 end
 		if list[2] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 1 end
+		if list[3] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 2 end
+		if list[4] then PROFILEMAN:GetMachineProfile():GetSaved().gnQuickPlayMenuOnTitle = 3 end
 	end
 	return t
 end
