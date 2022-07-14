@@ -1,0 +1,31 @@
+<ActorFrame><children>
+    <Layer
+        File="../Graphics/ScreenOptions more/moreexit"
+        InitCommand="x,SCREEN_CENTER_X-101+1-40-13;y,SCREEN_CENTER_Y+112+40-56-18+12-17;croptop,.57;cropbottom,.1"
+        OnCommand="%function(self) self:diffuse(1,1,1,0.5); 
+            gnSelectedRow=0
+            gnTotalRows=1
+        end"
+        StepP1UpPressMessageCommand="%function(self) 
+            gnSelectedRow = gnSelectedRow + 1 
+            if gnSelectedRow == gnTotalRows then
+                self:queuecommand('ExitRowSelected')
+            elseif gnSelectedRow > gnTotalRows then
+                gnSelectedRow = 0
+                self:queuecommand('ExitRowDeselected')
+            end
+        end"
+        StepP1DownPressMessageCommand="%function(self) 
+            gnSelectedRow = gnSelectedRow + 1 
+            if gnSelectedRow == gnTotalRows then
+                self:queuecommand('ExitRowSelected')
+            elseif gnSelectedRow > gnTotalRows then
+                gnSelectedRow = 0
+                self:queuecommand('ExitRowDeselected')
+            end
+        end"
+        ExitRowSelectedCommand="diffuse,0.53,0.71,0.84,1;pulse;effectclock,bgm;effectmagnitude,0.9,1,1"
+        ExitRowDeselectedCommand="diffuse,1,1,1,0.5;stopeffect"
+    />
+    <Layer File="@THEME:GetPath(EC_BGANIMATIONS,'ScreenOptions','overlay')" />
+</children></ActorFrame>

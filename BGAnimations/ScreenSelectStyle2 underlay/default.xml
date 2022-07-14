@@ -1,0 +1,77 @@
+<ActorFrame InitCommand="%function(self)
+	if GAMESTATE:GetEnv('Vibrate') == 'On' then
+		self:vibrate();
+	end
+end"><children>
+	<Layer 
+		Type="Quad"
+		OnCommand="draworder,-1000;diffuse,0,0,0,0.35;zoomx,640*gnZoomRatio;zoomy,373;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+2;"
+	/>
+	<Layer
+		Class="AutoActor" 
+		File="../ScreenWithMenuElements underlay/back"
+	/>
+	<Layer
+		Class="AutoActor" 
+		File="../_shared underlay arrows"
+	/>
+	<Layer Class="ActorFrame" InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-76.5"
+		gnChoiceChangedMessageCommand="%function(self)
+			 MESSAGEMAN:Broadcast('Show'..gnChoice); 
+		end"
+	><children>
+		<ActorFrame><children>
+			<Layer
+				File="video_1player" 
+				ReadyCommand="zoom,0.835;glow,0,0,0,1;diffusealpha,1;linear,0.1;glow,1,1,1,0.25;sleep,0.001;diffusealpha,1;linear,0.1;glow,0,0,0,0"
+				OffCommand="linear,0.3;diffusealpha,0"
+				Show0MessageCommand="hidden,1;"
+				Show1MessageCommand="hidden,1;"
+				Show2MessageCommand="stoptweening;hidden,0;queuecommand,Ready;"				
+			/>
+			<Layer
+				File="video_2player" 
+				InitCommand="hidden,1;zoom,0.835;"
+				ReadyCommand="glow,0,0,0,1;diffusealpha,1;linear,0.1;glow,1,1,1,0.25;sleep,0.001;diffusealpha,1;linear,0.1;glow,0,0,0,0" 
+				OffCommand="linear,0.3;diffusealpha,0"
+				Show0MessageCommand="hidden,1;"
+				Show1MessageCommand="hidden,0;queuecommand,Ready;"
+				Show2MessageCommand="hidden,1;"
+			/>
+			<Layer
+				File="video_double" 
+				InitCommand="hidden,1;zoom,0.835;"
+				ReadyCommand="glow,0,0,0,1;diffusealpha,1;linear,0.1;glow,1,1,1,0.25;sleep,0.001;diffusealpha,1;linear,0.1;glow,0,0,0,0" 
+				OffCommand="linear,0.3;diffusealpha,0"
+				Show0MessageCommand="hidden,0;queuecommand,Ready;"
+				Show1MessageCommand="hidden,1;"
+				Show2MessageCommand="hidden,1;"
+			/>
+		</children></ActorFrame>
+	</children></Layer>
+	<Layer
+		Class="AutoActor" 
+		File="previewframe"
+		InitCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffuse,'..FrameColor()..';'"
+	/>
+	<Layer Class="AutoActor" 
+		File="explanation frame B" 
+		OnCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-11;diffuse,'..BackgroundColor()..';'" 
+		MadeChoiceP1MessageCommand="playcommand,GoOff"
+		MadeChoiceP2MessageCommand="playcommand,GoOff"
+	/>
+	<Layer Class="AutoActor" 
+		File="explanation frame F" 
+		OnCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-11;diffuse,'..FrameColor()..';'" 
+		MadeChoiceP1MessageCommand="playcommand,GoOff"
+		MadeChoiceP2MessageCommand="playcommand,GoOff"
+	/>
+	<Layer
+		Class="AutoActor" 
+		File="../ScreenWithMenuElements underlay/fore"
+	/>	
+	<Layer 
+		File="../../Graphics/Screen divider frame"
+		InitCommand="x,SCREEN_CENTER_X+5;y,SCREEN_CENTER_Y;"
+	/>
+</children></ActorFrame>

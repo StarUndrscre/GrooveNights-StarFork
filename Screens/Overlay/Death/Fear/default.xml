@@ -1,0 +1,4 @@
+	<ActorFrame Name="Fear"><children>
+		<Layer Type="Quad" />
+		<Layer File="fear" />
+	</children></ActorFrame>

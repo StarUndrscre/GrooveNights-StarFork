@@ -1,0 +1,74 @@
+<ActorFrame>
+<children>
+<Layer
+File="../../Graphics/Common fallback banner"
+OnCommand="scaletoclipped,210,66;ztest,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-134;"
+/>
+
+<Layer
+File="../ScreenWithMenuElements underlay"
+/>
+
+<Layer
+File="name entry banner mask"
+OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-134;zbuffer,1;blend,noeffect;"
+OffCommand=""
+/>
+
+<Layer
+File="name entry BGA score frame B"
+OnCommand="@'x,SCREEN_CENTER_X-223;y,SCREEN_CENTER_Y-115;zoom,0.9;diffuse,'..BackgroundColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+/>
+
+<Layer
+File="name entry BGA score frame F"
+OnCommand="@'x,SCREEN_CENTER_X-223;y,SCREEN_CENTER_Y-115;zoom,0.9;diffuse,'..FrameColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+/>
+
+<Layer
+File="name entry BGA score frame B"
+OnCommand="@'x,SCREEN_CENTER_X+223;y,SCREEN_CENTER_Y-115;zoom,0.9;diffuse,'..BackgroundColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+/>
+
+<Layer
+File="name entry BGA score frame F"
+OnCommand="@'x,SCREEN_CENTER_X+223;y,SCREEN_CENTER_Y-115;zoom,0.9;diffuse,'..FrameColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+/>
+
+<Layer
+File="name entry BGA list frame B"
+OnCommand="@'x,SCREEN_CENTER_X-157;y,SCREEN_CENTER_Y+106;diffuse,'..BackgroundColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+/>
+
+<Layer
+File="name entry BGA list frame F"
+OnCommand="@'x,SCREEN_CENTER_X-157;y,SCREEN_CENTER_Y+106;diffuse,'..FrameColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+/>
+
+<Layer
+File="name entry BGA list frame B"
+OnCommand="@'x,SCREEN_CENTER_X+156;y,SCREEN_CENTER_Y+106;diffuse,'..BackgroundColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+/>
+
+<Layer
+File="name entry BGA list frame F"
+OnCommand="@'x,SCREEN_CENTER_X+156;y,SCREEN_CENTER_Y+106;diffuse,'..FrameColor()..';'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+/>
+</children>
+</ActorFrame>

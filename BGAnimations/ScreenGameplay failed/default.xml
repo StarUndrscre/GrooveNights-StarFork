@@ -1,0 +1,26 @@
+<ActorFrame OnCommand="%function(self)
+if GAMESTATE:GetEnv('Vibrate') == 'On' then
+	self:vibrate();
+	end
+end"> <children>
+	
+	<ActorFrame OnCommand="sleep,0.4;linear,0.2;addx,-75;linear,0.2;addx,-75;">
+	<children>
+	<Layer
+		File="GameOver0001"
+		OnCommand="queuecommand,Screen;x,SCREEN_CENTER_X+100;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;accelerate,0.4;y,SCREEN_CENTER_Y-50;decelerate,0.2;rotationz,-10;addy,-70;accelerate,0.2;addy,105;linear,0.1;rotationz,0;addy,25;sleep,1.5;accelerate,0.1;addx,20;decelerate,0.1;addx,20;accelerate,0.4;addx,-SCREEN_WIDTH/2-20;"
+		ScreenCommand="%function(self) InitScreen('ScreenGameplayFailed'); end"
+	/>
+	</children>
+	</ActorFrame>
+	
+	<ActorFrame OnCommand="sleep,1.4;linear,0.2;addx,67;linear,0.2;addx,66;">
+	<children>
+	<Layer
+		File="GameOver0002"
+		OnCommand="hibernate,1;x,SCREEN_CENTER_X-100;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;accelerate,0.4;y,SCREEN_CENTER_Y-50;decelerate,0.2;rotationz,10;addy,-70;accelerate,0.2;addy,105;linear,0.1;rotationz,0;addy,25;sleep,0.5;accelerate,0.1;addx,-20;decelerate,0.1;addx,-20;accelerate,0.4;addx,SCREEN_WIDTH/2+20;"
+	/>
+	</children>
+	</ActorFrame>
+
+	</children> </ActorFrame>

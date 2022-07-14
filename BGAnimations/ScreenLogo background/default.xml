@@ -1,0 +1,81 @@
+﻿<ActorFrame InitCommand="sleep,0.1;queuecommand,loop;"
+loopCommand="%function(self)
+self:stoptweening();
+InitScreen('ScreenLogo');
+end"><children>
+
+	<Layer
+		File="BGVid.avi"
+		OnCommand="@'diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;diffuse,'..FrameColor()..';queuecommand,Authenticate;'"
+		AuthenticateCommand="%function(self)
+		GAMESTATE:SetEnv('Santa','Off');
+		GAMESTATE:SetEnv('Frost','Off');
+		GAMESTATE:SetEnv('Blizzard','Off');
+		GAMESTATE:SetEnv('Rain','Off');
+		GAMESTATE:SetEnv('Wag','Off');
+		GAMESTATE:SetEnv('AngryGrandpa','Off');
+		GAMESTATE:SetEnv('Konami','Off');
+		gnScreenEdit = false;
+		gnScreenEnd = true;
+		gnDummy = MachineIsUsingGrooveNights();
+		gnP1Ready = 0;
+		gnP2Ready = 0;
+			gnPlaySec = 0;
+			gnPlayMin = 0;
+			gnPlayHour = 0;
+			gnSongCount = 0;
+			gnOldPlaySec = 0;
+			gnOldPlayMin = 0;
+			gnOldPlayHour = 0;
+			gnOldSongCount = 0;
+		gnStatFrequencyP1 = getMaxStatFrequency();
+		gnStatFrequencyP2 = getMaxStatFrequency();
+		end"
+	/>
+	
+	<!-- Home Mode Interface -->
+	<Layer Class="ActorFrame" Condition="GAMESTATE:GetCoinMode()==COIN_MODE_HOME"><children>
+	<ActorFrame InitCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;"><children>
+		<Layer
+		File="TitleScreen0002.png"
+		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0.5;linear,0.1;zoom,0.8;"
+	/></children></ActorFrame>
+		<Layer
+		File="TitleScreen0003.png"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,2;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-2;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-20;zoom,0;linear,0.1;zoom,1;"
+	/>
+	<Layer
+		File="TitleScreen0001"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,4;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-4;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-40;addy,20;zoom,0;linear,0.1;zoom,1;"
+		Condition="FUCK_EXE == nil"
+	/>
+	<Layer
+		File="TitleScreen0001nitg"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,4;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-4;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-40;addy,20;zoom,0;linear,0.1;zoom,1;"
+		Condition="FUCK_EXE == true"
+	/>
+	</children></Layer>
+
+	<!-- All Other Mode Interface -->
+	<Layer Class="ActorFrame" Condition="GAMESTATE:GetCoinMode()~=COIN_MODE_HOME" InitCommand="y,60;"><children>
+	<ActorFrame InitCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;"><children>
+		<Layer
+		File="TitleScreen0002.png"
+		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0.5;linear,0.1;zoom,0.8;"
+	/></children></ActorFrame>
+		<Layer
+		File="TitleScreen0003.png"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,2;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-2;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-20;zoom,0;linear,0.1;zoom,1;"
+	/>
+		<Layer
+		File="TitleScreen0001.png"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,4;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-4;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-40;addy,20;zoom,0;linear,0.1;zoom,1;"
+	/>
+	</children></Layer>
+
+	
+	<Layer
+		File="BGVid.avi"
+		OnCommand="@'diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;diffuse,'..FrameColor()..';blend,add;'"
+	/>
+</children></ActorFrame>

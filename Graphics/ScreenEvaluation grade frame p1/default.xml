@@ -1,0 +1,406 @@
+<ActorFrame InitCommand="%function(self)
+self:queuecommand('Calculate');
+end"
+
+CalculateCommand="%function(self)
+--TODO make this nicer
+gnDummy = SameThingDifferentPlayer();
+gnJudgeTotal = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText());
+
+gnJumpsNumber = SCREENMAN:GetTopScreen():GetChild('JumpsTextP'..gnPlayerCount):GetText();
+i = string.find(gnJumpsNumber,'/');
+gnJumpsNumber = string.gsub(string.sub(gnJumpsNumber,1,i-1),'%s','');
+gnJumpsNumber = tonumber(gnJumpsNumber);
+
+gnJumpsTotal = SCREENMAN:GetTopScreen():GetChild('JumpsTextP'..gnPlayerCount):GetText();
+i = string.find(gnJumpsTotal,'/');
+gnJumpsTotal = string.gsub(string.sub(gnJumpsTotal,i+1),'%s','');
+gnJumpsTotal = tonumber(gnJumpsTotal);
+
+gnHoldsNumber = SCREENMAN:GetTopScreen():GetChild('HoldsTextP'..gnPlayerCount):GetText();
+i = string.find(gnHoldsNumber,'/');
+gnHoldsNumber = string.gsub(string.sub(gnHoldsNumber,1,i-1),'%s','');
+gnHoldsNumber = tonumber(gnHoldsNumber);
+
+gnHoldsTotal = SCREENMAN:GetTopScreen():GetChild('HoldsTextP'..gnPlayerCount):GetText();
+i = string.find(gnHoldsTotal,'/');
+gnHoldsTotal = string.gsub(string.sub(gnHoldsTotal,i+1),'%s','');
+gnHoldsTotal = tonumber(gnHoldsTotal);
+
+gnMinesNumber = SCREENMAN:GetTopScreen():GetChild('MinesTextP'..gnPlayerCount):GetText();
+i = string.find(gnMinesNumber,'/');
+gnMinesNumber = string.gsub(string.sub(gnMinesNumber,1,i-1),'%s','');
+gnMinesNumber = tonumber(gnMinesNumber);
+
+gnMinesTotal = SCREENMAN:GetTopScreen():GetChild('MinesTextP'..gnPlayerCount):GetText();
+i = string.find(gnMinesTotal,'/');
+gnMinesTotal = string.gsub(string.sub(gnMinesTotal,i+1),'%s','');
+gnMinesTotal = tonumber(gnMinesTotal);
+
+gnHandsNumber = SCREENMAN:GetTopScreen():GetChild('HandsTextP'..gnPlayerCount):GetText();
+i = string.find(gnHandsNumber,'/');
+gnHandsNumber = string.gsub(string.sub(gnHandsNumber,1,i-1),'%s','');
+gnHandsNumber = tonumber(gnHandsNumber);
+
+gnHandsTotal = SCREENMAN:GetTopScreen():GetChild('HandsTextP'..gnPlayerCount):GetText();
+i = string.find(gnHandsTotal,'/');
+gnHandsTotal = string.gsub(string.sub(gnHandsTotal,i+1),'%s','');
+gnHandsTotal = tonumber(gnHandsTotal);
+
+gnRollsNumber = SCREENMAN:GetTopScreen():GetChild('RollsTextP'..gnPlayerCount):GetText();
+i = string.find(gnRollsNumber,'/');
+gnRollsNumber = string.gsub(string.sub(gnRollsNumber,1,i-1),'%s','');
+gnRollsNumber = tonumber(gnRollsNumber);
+
+gnRollsTotal = SCREENMAN:GetTopScreen():GetChild('RollsTextP'..gnPlayerCount):GetText();
+i = string.find(gnRollsTotal,'/');
+gnRollsTotal = string.gsub(string.sub(gnRollsTotal,i+1),'%s','');
+gnRollsTotal = tonumber(gnRollsTotal);
+
+local Path = getSystemSound('gnJudgeBar', '0');
+SOUND:PlayOnce(Path);
+end"> <children>
+	<Layer File="base frame B" InitCommand="@'diffuse,'..BackgroundColor()..';'"/>
+	<Layer File="base frame F" InitCommand="@'diffuse,'..FrameColor()..';'"/>
+	<!-- +7s are for 4:3, will need to make them +6s if using widescreen -->
+	<Layer Type="ActorFrame" OnCommand="x,5;y,-114"> <children>
+		<Layer File="../Combo 1000milestone/arrowswoosh" OnCommand="diffuse,1,1,1,0;x,109;y,0;queuecommand,Bling"
+		BlingCommand="%function(self)
+		self:sleep(0.1/2+0.5);
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:addy(6);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addy(17*3);
+		self:addx(-16);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(0);
+		end"
+		/>
+		<Layer File="../Combo 1000milestone/arrowswoosh" OnCommand="diffuse,1,1,1,0;x,111;y,7;queuecommand,Bling"
+		BlingCommand="%function(self)
+		self:sleep(0.2/2+0.5);
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:addy(6+17);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addy(17*3);
+		self:addx(-16);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(0);
+		end"
+		/>
+		<Layer File="../Combo 1000milestone/arrowswoosh" OnCommand="diffuse,1,1,1,0;x,110;y,7;queuecommand,Bling"
+		BlingCommand="%function(self)
+		self:sleep(0.3/2+0.5);
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:addy(6+34);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addy(17*3);
+		self:addx(-16);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(0);
+		end"
+		/>
+		<Layer File="Judgment0001"	OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.1/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffuse,51/255,153/255,204/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(0.1/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '1');
+		SOUND:PlayOnce(Path);
+		end"/>
+		
+		<Layer File="Judgment0002"	OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.2/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,221/255,166/255,1/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(0.2/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '2');
+		SOUND:PlayOnce(Path);
+		end"/>
+		
+		<Layer File="Judgment0003"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.3/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffuse,1/255,204/255,51/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(0.3/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '3');
+		SOUND:PlayOnce(Path);
+		end"/>
+		
+		<Layer File="Judgment0004"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.4/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffuse,127/255,127/255,255/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(0.4/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '4');
+		SOUND:PlayOnce(Path);
+		end"/>
+		
+		<Layer File="Judgment0005"	OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.5/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffuse,245/255,147/255,49/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(0.5/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '5');
+		SOUND:PlayOnce(Path);
+		end"/>
+		
+		<Layer File="Judgment0006"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.6/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffuse,255/255,63/255,63/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:accelerate(0.5);
+		self:sleep(0.6/2);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '6');
+		SOUND:PlayOnce(Path);
+		end"/>
+		
+	</children> </Layer>
+	<Layer Type="ActorFrame" OnCommand="x,4;y,-18"> <children>
+		<Layer File="Judgment0007"		OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.7/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(0.7/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(gnJumpsNumber / gnJumpsTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnJumpsNumber / gnJumpsTotal) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '7');
+		SOUND:PlayOnce(Path);
+		end"/>
+
+		<Layer File="Judgment0008"		OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.8/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(0.8/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(gnHoldsNumber / gnHoldsTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnHoldsNumber / gnHoldsTotal) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '8');
+		SOUND:PlayOnce(Path);
+		end"/>
+
+		<Layer File="Judgment0009"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.9/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;" 
+		calculatecommand="%function(self)
+		self:sleep(0.9/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(gnMinesNumber / gnMinesTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnMinesNumber / gnMinesTotal) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '9');
+		SOUND:PlayOnce(Path);
+		end"/>
+
+		<Layer File="Judgment0010"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,1/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		self:sleep(1/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(gnHandsNumber / gnHandsTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnHandsNumber / gnHandsTotal) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '10');
+		SOUND:PlayOnce(Path);
+		end"/>
+
+		<Layer File="Judgment0011"		OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,1.1/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;" 
+		calculatecommand="%function(self)
+		self:sleep(1.1/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(gnRollsNumber / gnRollsTotal * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnRollsNumber / gnRollsTotal) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '11');
+		SOUND:PlayOnce(Path);
+		end"/>
+
+		<Layer File="Judgment0012"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,1.2/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"  
+		calculatecommand="%function(self)
+		self:sleep(1.2/2);
+		self:accelerate(0.5);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnPlayerCount):GetText()) / 10000 * 121);
+		if gnJudgeText >= 121 then gnJudgeText = 121; self:rainbow(); end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
+		self:zoomx(gnJudgeText);
+		self:queuecommand('SFX');
+		end"
+		SFXCommand="%function(self)
+		local Path = getSystemSound('gnJudgeBar', '12');
+		SOUND:PlayOnce(Path);
+		end"/>
+
+	</children> </Layer>
+</children> </ActorFrame>
+
