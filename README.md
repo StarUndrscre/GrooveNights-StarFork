@@ -8,6 +8,7 @@ Added features:
 - Option to skip from mode select to song wheel with Play Mods settings
 - New death screen (star plush jumpscare)
 - Removal of "Tournament mode" text
+- other stuff i kinda forgor lol
 
 TODO:
 - Make banners fit into 418x164 and not cropped (i have attempted this and it turns out i do not have the mental capacity to do it)
